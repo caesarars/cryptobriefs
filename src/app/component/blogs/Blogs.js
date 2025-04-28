@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import "./Blogs.css";
+import Loading from '../loading/Loading';
 
 
 const Blogs = () => {
     const [blogs ,setBlogs] = useState([])
     const [isLoading ,setIsLoading] = useState(false)
     const navigate = useRouter();
+    const [isClicked , setIsClicked] = useState(false)
 
     const getBlogs = async () => {
         setIsLoading(true)
@@ -80,8 +82,10 @@ const Blogs = () => {
                                     {getFirstSecion}
                                   </p>
                                   <p className='date_custom' >{new Date(item.created_at).toLocaleString()}</p>
-                                  <a className='btn btn-glow' >
-                                    <Link href={`/blog/${item.slug}`}>Read more</Link>
+                                  <a className='btn btn-glow' onClick={() => setIsClicked(true)}>
+                                    <Link href={`/blog/${item.slug}`}>
+                                      { isClicked ? <span>Loading...</span>: <span>Read more</span>}
+                                    </Link>
                                   </a>
                               </div>
                           </div>

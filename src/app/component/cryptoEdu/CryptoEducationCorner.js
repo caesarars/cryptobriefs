@@ -1,10 +1,14 @@
 'use client'
 
 import "./CryptoEducationCorner.css"
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Loading from "../loading/Loading";
 
 const CryptoEducationCorner = () => {
-    const navigate = useRouter()
+
+    const [isClicked , setIsClicked] = useState(false)
+    
     const cryptoTips = [
         {
           title: "Blockchain 101: Understanding the Basics",
@@ -42,9 +46,9 @@ const CryptoEducationCorner = () => {
                   <div className="content_blog_edu">
                     <p className="title_blog_edu">{tip.title}</p>
                     <p className="">{tip.description}</p>
-                    <button className="btn btn-warning general-font" onClick={() => navigate(tip.link)}>
-                      Read More →
-                    </button>
+                    <a className="btn btn-warning general-font" href={tip.link} onClick={() => setIsClicked(true)}>
+                      {isClicked ? "Loading..." : "Read More"}
+                    </a>
                   </div>
                 </div>
               </div>
