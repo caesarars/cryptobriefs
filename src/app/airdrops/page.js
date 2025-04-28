@@ -7,8 +7,8 @@ export const metadata = {
     description: "Stay updated with CryptoBriefs – your go-to source for airdrops, cryptocurrency news, education, and trending market insights.",
     keywords: ["Crypto News", "Cryptocurrency Updates", "Bitcoin", "Ethereum", "Web3", "Crypto Trends", "Blockchain News"],
     openGraph: {
-      title: "CryptoBriefs - Latest Crypto News and Insights",
-      description: "Explore the latest crypto news, education, and market trends on CryptoBriefs.",
+      title: "CryptoBriefs - Latest Airdrops Coin",
+      description: "Stay updated with CryptoBriefs – your go-to source for airdrops, cryptocurrency news, education, and trending market insights.",
       url: "https://cryptobriefs.net/airdrops",
       siteName: "CryptoBriefs",
       images: [
