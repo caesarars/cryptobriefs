@@ -14,14 +14,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Crypto Briefs",
-  description: "Latest Airdrops, Blogs, and News about Crypto!",
+  title: 'CryptoBriefs - Stay Updated on Crypto',
+  description: 'Latest updates on Bitcoin, Ethereum, Altcoins, and Web3 News.',
+  icons: {
+    icon: '/favicon.jpg',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
+      <link rel="icon" href="/favicon.jpg" sizes="any" />
+
       <link
           href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap"
           rel="stylesheet"
