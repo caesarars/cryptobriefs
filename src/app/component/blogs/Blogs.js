@@ -113,9 +113,9 @@ const Blogs = () => {
                       </div> 
                       )
                   })}
-                    <button className='btn btn-glow' style={{backgroundColor:"#6a1b9a" , color:"white"}} onClick={()=>navigate('/blogs')} >
+                    <a className='btn btn-glow' style={{backgroundColor:"#6a1b9a" , color:"white"}} href="/blogs" >
                       Find More Articles &nbsp; <FontAwesomeIcon icon={faArrowRight}/> 
-                    </button>
+                    </a>
                   </div>
                 </div>           
             </>
