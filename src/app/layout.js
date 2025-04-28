@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
-      <Analytics/>
       <link rel="icon" href="/favicon.ico" sizes="any" />
 
       <link
@@ -36,6 +35,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Navbar />
         {children}
+        <Analytics/>
       </body>
     </html>
   );
