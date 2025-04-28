@@ -1,12 +1,15 @@
+'use client'
+
 import ListAirdrops from "./ListAirdrops";
 
-export const metadata = {
+export async function generateMetadata() { 
+    return {
     title: "CryptoBriefs - Latest Airdrops Coin",
     description: "Stay updated with CryptoBriefs – your go-to source for airdrops, cryptocurrency news, education, and trending market insights.",
     keywords: ["Crypto News", "Cryptocurrency Updates", "Bitcoin", "Ethereum", "Web3", "Crypto Trends", "Blockchain News"],
     openGraph: {
       title: "CryptoBriefs - Latest Airdrops Coin",
-      description: "Stay updated with CryptoBriefs – your go-to source for airdrops, cryptocurrency news, education, and trending market insights.",
+      description: "Explore the latest crypto news, education, and market trends on CryptoBriefs.",
       url: "https://cryptobriefs.net/airdrops",
       siteName: "CryptoBriefs",
       images: [
@@ -27,7 +30,8 @@ export const metadata = {
     alternates: {
       canonical: "https://cryptobriefs.net/airdrops",
     },
-  };
+  }
+}
 
 const Airdrops = () => {
     return (
