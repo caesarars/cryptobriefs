@@ -1,5 +1,3 @@
-'use client'
-
 import ListAirdrops from "./ListAirdrops";
 
 export const metadata = {
