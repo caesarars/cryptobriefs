@@ -2,6 +2,35 @@
 
 import ListAirdrops from "./ListAirdrops";
 
+export const metadata = {
+    title: "CryptoBriefs - Latest Airdrops Coin",
+    description: "Stay updated with CryptoBriefs – your go-to source for airdrops, cryptocurrency news, education, and trending market insights.",
+    keywords: ["Crypto News", "Cryptocurrency Updates", "Bitcoin", "Ethereum", "Web3", "Crypto Trends", "Blockchain News"],
+    openGraph: {
+      title: "CryptoBriefs - Latest Crypto News and Insights",
+      description: "Explore the latest crypto news, education, and market trends on CryptoBriefs.",
+      url: "https://cryptobriefs.net/airdrops",
+      siteName: "CryptoBriefs",
+      images: [
+        {
+          url: "https://cryptobriefs.net/og-image.jpg", // Ganti ke image OG kamu
+          width: 1200,
+          height: 630,
+          alt: "CryptoBriefs OG Image",
+        },
+      ],
+      type: "website",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+    },
+    alternates: {
+      canonical: "https://cryptobriefs.net/airdrops",
+    },
+  };
+
 const Airdrops = () => {
     return (
         <>
