@@ -1,6 +1,47 @@
+// app/blog/[slug]/page.js
+
 import { notFound } from 'next/navigation';
 import "./BlogDetail.css"
 import { Suspense } from 'react';
+
+export async function generateMetadata({ params }) {
+    const slug = params.slug;
+    const blog = await getBlog(slug);
+  
+    if (!blog) {
+      return {
+        title: 'Blog Not Found | CryptoBriefs',
+        description: 'This blog post could not be found.',
+      };
+    }
+  
+    const cleanTitle = blog.title.replace(/<\/?[^>]+(>|$)/g, "");
+    const cleanContent = blog.content ? getContentText(JSON.parse(blog.content)) : "";
+  
+    return {
+      title: `${cleanTitle} | CryptoBriefs`,
+      description: cleanContent.slice(0, 160) || 'Read the latest insights on CryptoBriefs.',
+      openGraph: {
+        title: `${cleanTitle} | CryptoBriefs`,
+        description: cleanContent.slice(0, 160),
+        images: [
+          {
+            url: blog.imageUrl || '/default-og-image.jpg',
+            width: 1200,
+            height: 630,
+            alt: cleanTitle,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${cleanTitle} | CryptoBriefs`,
+        description: cleanContent.slice(0, 160),
+        images: [blog.imageUrl || '/default-og-image.jpg'],
+      },
+    };
+  }
+  
 
 const getBlog = async (slug) => {
   try {
