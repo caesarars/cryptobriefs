@@ -1,0 +1,70 @@
+
+
+@media (max-width: 575px) {
+    .wrapper_form > input  {
+      width:480px; 
+    }
+  
+    .wrapper_form > textarea {
+        width: 480px;
+    }
+  
+  }
+  
+  @media (max-width: 430px) {
+    .wrapper_form > input  {
+      width:360px; 
+    }
+  
+    .wrapper_form > textarea {
+        width: 360px;
+    }
+  
+  }
+  
+  @media (max-width: 414px) {
+    .wrapper_form > input  {
+      width:360px; 
+    }
+  
+    .wrapper_form > textarea {
+        width: 360px;
+    }
+  
+  }
+  
+  @media (max-width: 390px) {
+      .wrapper_form > input  {
+        width:320px; 
+      }
+  
+      .wrapper_form > textarea {
+          width: 320px;
+      }
+  
+    }
+  
+    @media (max-width: 379px) {
+      .wrapper_form > input  {
+        width:300px; 
+      }
+  
+      .wrapper_form > textarea {
+          width: 300px;
+      }
+  
+    }
+  
+  .wrapper_form {
+      width: 720px;
+  }
+  
+  .contact_wrapper {
+      text-align: center;
+      color:black;
+  }
+
+  .feel_free {
+    margin: 0 auto;
+    width: 50%;
+  }

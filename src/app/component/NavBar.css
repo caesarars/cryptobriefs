@@ -1,0 +1,91 @@
+.wrapper_nav_3 {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #000000; /* Warna background */
+    color: white;
+    padding: 16px 24px;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.inter_font {
+    font-family: 'Inter', sans-serif;
+}
+
+
+@media (max-width: 991px) {
+
+    .wrapper_nav {
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+
+    .navbar-collapse {
+      position: relative;
+      z-index: 9999;
+      background-color: rgba(0, 0, 0, 0.99);
+      border-radius: 10px;
+    }
+  
+    .navbar-nav {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .nav-link {
+      color: #ddd !important;
+      font-size: 1.2rem;
+      padding: 0.5rem 0;
+    }
+  }
+  
+  
+
+@media (max-width: 720px) {
+
+    .wrapper_nav {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .navbar {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  
+    .navbar-toggler {
+      order: 2; /* pastikan toggle di kanan */
+    }
+  
+    .navbar-brand {
+      order: 1; /* brand tetap di kiri */
+      font-size: 1.5em;
+    }
+  
+    .navbar-collapse {
+      width: 100%;
+      margin-top: 10px;
+    }
+  
+    .navbar-nav {
+      text-align: center;
+      width: 100%;
+    }
+  }
+  
+
+  .navbar-toggler {
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-collapse {
+    transition: all 0.3s ease;
+    position: relative !important;
+    top: 0 !important;
+    margin-top: 1rem;  }
+
+
+    .nav-link:hover {
+        cursor: pointer;
+    }

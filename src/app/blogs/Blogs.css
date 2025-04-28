@@ -1,0 +1,16 @@
+.container_search {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto; /* Input & Select sama besar, Button auto */
+    gap: 10px; /* Spasi antar elemen */
+    align-items: center; /* Supaya sejajar tengah */
+}
+
+.wrapper_search {
+    width: 100%;
+}
+
+.wrapper_search button {
+    align-self: center; /* Force button sejajar tengah */
+    height: 100%; /* Biar pas tingginya */
+    margin-left: 24px;
+}

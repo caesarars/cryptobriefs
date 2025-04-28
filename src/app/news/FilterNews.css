@@ -1,0 +1,59 @@
+.wrapper_filter {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.search_input > input{
+    width: 360px;
+    color: black;
+    background-color: white;
+    border: none;
+}
+
+.coin_input, .sentiment_input {
+    width: 210px;
+}
+
+.container_select {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+}
+
+.container_select > select {
+    height: 32px;
+    background-color: white;
+    color: black;
+    border-radius: 8px;
+    border-color: grey;
+}
+
+@media (max-width: 768px) {  /* Saat layar lebih kecil dari 768px */
+    .wrapper_filter {
+        grid-template-columns: 1fr; /* Elemen ditumpuk */
+    }
+
+    .container_select {
+        flex-direction: column; /* Elemen dropdown jadi vertikal */
+        width: 100%;
+    }
+
+    .coin_input, .sentiment_input {
+        width: 100%;
+    }
+    .searchIcon{
+        display: none;
+    }
+    .search_input {
+        margin-bottom: 12px;
+    }
+}
+
+.searchIcon{
+    height: 14px;
+}

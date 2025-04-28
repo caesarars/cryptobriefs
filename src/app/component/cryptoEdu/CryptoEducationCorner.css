@@ -1,0 +1,92 @@
+.container_crypto_education {
+    background-color: #1E1B2E;
+    color: white;
+    border-radius: 16px;
+    padding: 8px;
+    width: 480px;     
+    height: 600px;
+    overflow: auto;
+}
+
+@media (max-width:1600px) {
+    .container_crypto_education{
+        width: 420px;
+        margin: 24px auto;
+    }
+   
+}
+
+@media (max-width:1440px) {
+    .container_crypto_education{
+        width: 360px;
+        margin: 24px auto;
+    }
+   
+}
+
+
+@media (max-width:800px) { 
+    .container_crypto_education {
+        width: 520px;
+        margin: 8px auto;
+
+    }
+}
+
+@media (max-width:720px) { 
+    .container_crypto_education {
+        width: 480px;
+        margin: 8px auto;
+
+    }
+}
+
+@media (max-width:560px) { 
+    .container_crypto_education {
+        width: 420px;
+        margin: 8px auto;
+    }
+}
+
+@media (max-width:430px) { 
+    .container_crypto_education {
+        width: 320px;
+        margin: 8px auto;
+    }
+}
+
+.image_edu_cover {
+    height: 100%;
+    width: 124px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.container_list_edu {
+    background-color: #1E1B2E;    
+    color: white;
+}
+
+.title_blog_edu {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.wrapper_blog_edu {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 3fr;
+    align-items: start;
+}
+
+@media (max-width: 500px) {
+    .wrapper_blog_edu {
+        grid-template-columns: 1fr; /* jadi 1 kolom */
+    }
+}
+
+.container_crypto_education:hover{
+    background-color: #1E1B2E;
+
+
+}

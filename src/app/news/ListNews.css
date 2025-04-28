@@ -1,0 +1,13 @@
+.container_news_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 20px;
+}
+
+.news-content {
+    padding: 8px;
+}
+
+.news-content > .title {
+    font-size: 18px;
+}

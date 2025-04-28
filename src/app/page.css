@@ -1,0 +1,32 @@
+.background_image_banner {
+    background-image: linear-gradient(to bottom, black, #6a1b9a), url('./assets/image/background2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+
+.wrapper {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    margin: 0 auto;
+}
+
+@media (max-width:1024px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+      }
+}
+
+@media (max-width:800px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width:720px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+    }
+}
