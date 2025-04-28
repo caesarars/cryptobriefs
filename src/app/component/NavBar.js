@@ -3,7 +3,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import "./Navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
