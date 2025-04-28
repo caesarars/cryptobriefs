@@ -33,7 +33,7 @@ const Blogs = () => {
     },[])
 
     const gotoDetail = (link) => { 
-        router.push('/blogs/'+link)
+        router.push('/blog/'+link)
     }
 
     const getContentText = (parsedContent) => {
@@ -67,7 +67,7 @@ const Blogs = () => {
                       const getFirstSecion = getContentText(parsedContent)
                       return (
                         <div key={index}>
-                            <Link href={`/blogs/${item.slug}`}>
+                            <Link href={`/blog/${item.slug}`}>
                                 <img className="image_main_card"
                                   src={item.imageUrl}
                                   alt={item.title}
@@ -96,7 +96,7 @@ const Blogs = () => {
                       return (
                       <div className="d-flex container_second_blog" key={index}> 
                         <div className="d-flex align-items-center">
-                            <Link href={`/blogs/${item.slug}`}>
+                            <Link href={`/blog/${item.slug}`}>
                                 <img className="image_non_main"
                                     src={item.imageUrl}
                                     alt={item.title}
