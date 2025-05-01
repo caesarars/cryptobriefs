@@ -8,6 +8,9 @@ import "./News.css";
 import { useRouter } from "next/navigation";
 
 
+const News = () => {
+
+
 const styles = {
     container: {
       width:"90%",
@@ -161,8 +164,6 @@ const styles = {
     noTrending: { fontSize: "14px", color: "#888" },
   }
 
-
-const News = () => {
 
     const [news, setNews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
