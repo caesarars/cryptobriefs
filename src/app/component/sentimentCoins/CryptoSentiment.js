@@ -149,12 +149,12 @@ export default function CryptoSentiment() {
                 </div>
 
                 <div className="d-flex justify-content-center flex-column align-items-center general-font p-3">
-                    <p style={{fontSize:"1.4em"}}>${coinPrice} 
-                        <Image 
-                            src={getCoinPath(coinFilter)} 
-                            alt="Bitcoin" 
-                            width={40} 
-                            height={40} /></p>
+                    <p style={{fontSize:"1.4em"}}>$ {coinPrice}
+                    <Image style={{marginLeft:"12px"}}
+                        src={getCoinPath(coinFilter)} 
+                        alt="Bitcoin" 
+                        width={40} 
+                        height={40} /></p>
                 </div>
 
                 <div className="input-group select-option general-font">
