@@ -119,7 +119,8 @@ const ListAirdrops = () => {
                                 <div className="card-body d-flex flex-column">
                                     <span>{getTemperatureBadge(airdrop.temperature)}</span>
                                     <h5 className="card-title mb-3 general-font">{airdrop.title}  </h5>
-                                    <p className="card-text"><strong>Action</strong> <br></br>{airdrop.action}</p>
+                                    <p className="card-text"><strong>Action</strong> <br></br>{airdrop.action ?? "-"}</p>
+                                    <p className="card-text"><strong>Desc</strong><br></br>{airdrop.shortDescription ?? "-"}</p>
                                     <p className="card-text">
                                         <span><strong>Published:</strong> <br></br>{formatPublishedDate(airdrop.publishedDate)}</span>
                                     </p>
