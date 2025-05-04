@@ -4,6 +4,7 @@ import HeroSection from "./component/heroSection/HeroSection";
 import News from "./component/newsFeeds/News";
 import CryptoSentiment from "./component/sentimentCoins/CryptoSentiment";
 import TrendingCoins from "./component/trendingCoins/TrendingCoins";
+import BriefSummary from "./component/brief/BriefSummary";
 import "./page.css"
 
 export const metadata = {
@@ -48,9 +49,10 @@ export default function Home({  }) {
        </div>
       </div>
       <div className="">
+        <BriefSummary/>
         <Blogs/>
         <News/>
-       </div>
+      </div>
     </>
    
   );

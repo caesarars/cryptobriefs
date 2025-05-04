@@ -1,0 +1,56 @@
+.markdown-summary {
+    font-size: 1.25em;
+}
+
+.link_article {
+    font-size: 1.2em;
+}
+
+.timelineContainer {
+    margin: 2rem 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .summary {
+    margin-bottom: 1rem;
+  }
+  
+  .timeline {
+    position: relative;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 2px solid #ccc;
+  }
+  
+  .timelineItem {
+    position: relative;
+    margin-bottom: 1.5rem;
+    font-size: 1.15rem;
+  }
+  
+  .timelineDot {
+    width: 12px;
+    height: 12px;
+    background: #0070f3;
+    border-radius: 50%;
+    position: absolute;
+    left: -28px;
+    top: 4px;
+  }
+  
+  .timelineContent a {
+    font-weight: bold;
+    color: #222;
+    text-decoration: none;
+  }
+  
+  .timelineContent a:hover {
+    text-decoration: underline;
+  }
+  
