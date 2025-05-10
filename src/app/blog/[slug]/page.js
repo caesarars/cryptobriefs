@@ -105,7 +105,7 @@ const BlogDetail = async (props) => {
               </header>
            </article>
 
-           <section itemProp="articleBody" className="general-font">
+           <section itemProp="articleBody" className="general-font p-2">
                 {(content.section || content.sections) 
                 ? (content.section ?? content.sections).map((section, index) => {
                     if (section.type === "subhead") {
