@@ -132,7 +132,7 @@ const BlogDetail = async (props) => {
                     } else {
                       return (
                         <>
-                          <p key={index} className="blog-paragraph-2 mb-2" dangerouslySetInnerHTML={{ __html:  getContentText(parsedContent) }} />
+                          <p key={index} className="blog-paragraph-2 mb-2" dangerouslySetInnerHTML={{ __html:  section.text }} />
                         </>
                         
                       );
