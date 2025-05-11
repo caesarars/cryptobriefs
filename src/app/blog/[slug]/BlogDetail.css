@@ -1,10 +1,17 @@
+.wrapper-blog-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+}
+
 .blog-detail-container {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     position: relative;
-    max-width: 920px;
     margin: auto;
+    width: 50%;
     background-color: white;
     font-family: Arial, Helvetica, sans-serif;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -73,6 +80,7 @@
     flex: 1;
     padding: 20px;
     margin-bottom: 20px;
+    width: 520px;
   }
    
 
@@ -86,4 +94,76 @@
   .blog-list-text {
     max-width: 80%;
     font-size: 18px;
+  }
+
+
+  .suggested-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+  /* Wrapper to handle the layout of the suggested blog cards */
+.wrapper_suggested_blog {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  @media (max-width:1495px) {
+    .suggested-blog-sidebar {
+        margin-left: 12px;
+        width: 320px;
+    }
+  }
+
+
+  @media (max-width:1494px) {
+    .suggested-blog-sidebar {
+        display: none;
+    }
+  }
+  
+  .suggested-blogs {
+    position: absolute;
+    z-index: 1001;
+    right: 42px;
+    width: 320px;
+    margin-top: 20px;
+}
+
+.suggested-blog-card {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    padding: 8px;
+  }
+
+
+.suggested-blog-card:hover {
+    transform: scale(1.03);
+  }
+  
+  /* Image styling */
+.suggested-blog-image {
+    width: 100%;  /* Set image width to fit sidebar */
+    height: 128px; /* Set image height for better aspect ratio */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+
+
+  /* Title of the suggested blog */
+.suggested-blog-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+
+  .btn-glow {
+    background: linear-gradient(135deg, #7234D9, #9f7aea);
+    color: #fff;
   }

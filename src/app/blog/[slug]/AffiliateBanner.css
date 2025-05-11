@@ -1,0 +1,30 @@
+.affiliate_banner_wrapper {
+    position: absolute;
+    top: 0px;
+    z-index: 1200;
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 8px;
+    pointer-events: auto;
+    margin-left: 36px;
+    top: 136px;
+  }
+  
+  .image_affiliate {
+    width: 320px;
+    height: auto;
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    margin-right: 20px;
+  }
+  
+  .image_affiliate:hover {
+    transform: scale(1.05);
+  }
+  
+  
+  @media (max-width:1594px) {
+    .image_affiliate {
+        display: none;
+    }
+  }
