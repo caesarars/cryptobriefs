@@ -124,7 +124,7 @@ const BlogDetail = async (props) => {
                         const cleanedText = text.replace(/^\d+\.\s*/, "");
                         return (
                           <li className="blog-list-text" key={idx}>
-                            <p dangerouslySetInnerHTML={{ __html: cleanedText }} />
+                            <p className="blog-paragraph-3" dangerouslySetInnerHTML={{ __html: cleanedText }} />
                           </li>
                         );
                       })}
