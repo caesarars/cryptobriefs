@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import './BlogDetail.css';
 import SuggestedBlog from './SuggestedBlog.js';
 import AffiliateBanner from "./AffiliateBanner.js"
+import ReactMarkdown from "react-markdown";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -124,7 +125,9 @@ const BlogDetail = async (props) => {
                         const cleanedText = text.replace(/^\d+\.\s*/, "");
                         return (
                           <li className="blog-list-text" key={idx}>
-                            <p className="blog-paragraph-3" dangerouslySetInnerHTML={{ __html: cleanedText }} />
+                            <p key={index} className="blog-paragraph-3 mb-2">
+                              <ReactMarkdown>{cleanedText}</ReactMarkdown>
+                            </p>
                           </li>
                         );
                       })}
@@ -132,7 +135,9 @@ const BlogDetail = async (props) => {
                   );
                 } else {
                   return (
-                    <p key={index} className="blog-paragraph-2 mb-2" dangerouslySetInnerHTML={{ __html: section.text }} />
+                    <p key={index} className="blog-paragraph-2 mb-2">
+                      <ReactMarkdown>{section.text}</ReactMarkdown>
+                    </p>
                   );
                 }
               })
