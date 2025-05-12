@@ -42,7 +42,7 @@ const CryptoEducationCorner = () => {
             >
               <div className="p-3">
                 <div className="wrapper_blog_edu">
-                  <img src={tip.image} className="image_edu_cover"/>
+                  <img loading="lazy" src={tip.image} className="image_edu_cover"/>
                   <div className="content_blog_edu">
                     <p className="title_blog_edu">{tip.title}</p>
                     <p className="">{tip.description}</p>

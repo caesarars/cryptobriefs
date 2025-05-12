@@ -110,6 +110,7 @@ const ListAirdrops = () => {
                                 }}
                             >
                                 <img 
+                                    loading="lazy"
                                     src={airdrop.image} 
                                     className="card-img-top" 
                                     alt={airdrop.title} 

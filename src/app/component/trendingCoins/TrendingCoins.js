@@ -62,7 +62,7 @@ const TrendingCoins = () => {
                         <div key={coin.id} className="p-2">
                             <div className="container_list_coin">
                                 <span style={{marginRight:"8px"}}>{++index}</span>
-                                <img src={coin.image} alt={coin.id} width={"32px"}/>
+                                <img loading="lazy" src={coin.image} alt={coin.id} width={"32px"}/>
                                 <p>{coin.symbol}</p>
                                 <p style={{textAlign:"right"}}>${formatPrice(coin.price)}</p>
                             </div>

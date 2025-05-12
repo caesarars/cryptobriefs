@@ -63,6 +63,7 @@ const News = () => {
                     <div key={index} style={styles.card}>
                     <a href={item.link} target="_blank" rel="noopener noreferrer">
                     <img
+                      loading="lazy"
                         src={item.image || imageDefault}
                         alt={item.title}
                         style={styles.image}

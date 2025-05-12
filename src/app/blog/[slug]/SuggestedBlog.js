@@ -10,6 +10,7 @@ const SuggestedBlog = ({ data }) => {
             <div key={val._id} className="suggested-blog-card">
               <img
                 src={val.imageUrl}
+                loading="lazy"
                 alt={val.title}
                 className="suggested-blog-image"
               />

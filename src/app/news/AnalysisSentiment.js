@@ -2,9 +2,7 @@
 
 import "./ListNews.css";
 
-const imageDefault = "https://firebasestorage.googleapis.com/v0/b/image-storing-project.appspot.com/o/cryptocurrency.jpg?alt=media&token=2ba8d0f2-434e-4b27-a702-44e7086e481a";
-
-const ListNews = ({ data }) => {
+const AnalysisSentiment = ({ data }) => {
 
   const formattedDate = (date) => {
     return new Date(date).toLocaleString("en-US", {
@@ -28,12 +26,13 @@ const ListNews = ({ data }) => {
   };
 
   return (
-    <div className="container_news_list pt-5 mb-5">
-      {data.length > 0 && data.map((news) => (
-        <p><strong>{news.title} - {news.sentiment}</strong></p>
-      ))}
+    <div className="container">
+        <div className="wrapper_sentiment">
+            <p>Bearish</p>
+            <p>Total</p>
+        </div>
     </div>
   );
 };
 
-export default ListNews;
+export default AnalysisSentiment;

@@ -71,6 +71,7 @@ const Blogs = () => {
                         <div key={index}>
                             <Link href={`/blog/${item.slug}`}>
                                 <img className="image_main_card"
+                                loading='lazy'
                                   src={item.imageUrl}
                                   alt={item.title}
                                   />
@@ -102,6 +103,7 @@ const Blogs = () => {
                         <div className="d-flex align-items-center">
                             <Link href={`/blog/${item.slug}`}>
                                 <img className="image_non_main"
+                                    loading='lazy'
                                     src={item.imageUrl}
                                     alt={item.title}
                                     />

@@ -5,6 +5,7 @@ import ListNews from "./ListNews";
 import FilterNews from "./FilterNews";
 import Loading from "../component/loading/Loading";
 import Pagination from "../blogs/Pagination";
+import AnalysisSentiment from "./AnalysisSentiment";
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -20,7 +21,7 @@ const News = () => {
           try {
             const query = {
               page,
-              limit: 10,
+              limit: 100,
               coins: filters.coin || "",
               sentiment: filters.sentiment || "",
               search: filters.search || "",
@@ -57,6 +58,7 @@ const News = () => {
     <>
       <div className="container mb-5">
         <FilterNews onHandleFilter={handleFilter} />
+        <AnalysisSentiment data={pagination.data}/>
         {loading ? <Loading /> : <ListNews data={news} />}
       </div>
       <Pagination 

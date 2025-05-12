@@ -17,15 +17,15 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const cleanTitle = blog.title.replace(/<\/?[^>]+(>|$)/g, "");
+  const cleanTitle = blog.title.replace(/<\/?[^>]+(>|$)/g, "").slice(0,60);
   const cleanContent = blog.content ? getContentText(JSON.parse(blog.content)) : "";
 
   return {
     title: `${cleanTitle} | CryptoBriefs`,
-    description: cleanContent.slice(0, 160) || 'Read the latest insights on CryptoBriefs.',
+    description: cleanContent.slice(0, 100) || 'Read the latest insights on CryptoBriefs.',
     openGraph: {
       title: `${cleanTitle} | CryptoBriefs`,
-      description: cleanContent.slice(0, 160),
+      description: cleanContent.slice(0, 100),
       images: [
         {
           url: blog.imageUrl || '/default-og-image.jpg',
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }) {
     twitter: {
       card: 'summary_large_image',
       title: `${cleanTitle} | CryptoBriefs`,
-      description: cleanContent.slice(0, 160),
+      description: cleanContent.slice(0, 100),
       images: [blog.imageUrl || '/default-og-image.jpg'],
     },
   };
@@ -96,14 +96,15 @@ const BlogDetail = async (props) => {
         <div className="main-content">
           <div className="blog-header">
             <img
+              loading='lazy'
               src={blog.imageUrl}
               alt={blog.title.replace(/<\/?[^>]+(>|$)/g, "")}
               className="blog-image-2"
             />
-          </div>
+          </div>  
           <article itemScope itemType="https://schema.org/Article" className="blog-content">
             <header className="mb-4">
-              <h2 className="blog-title-2">{blog.title.replace(/<\/?[^>]+(>|$)/g, "")}</h2>
+              <h1 className="blog-title-2">{blog.title.replace(/<\/?[^>]+(>|$)/g, "")}</h1>
               <time className="blog-meta-2">Published on {new Date(blog.created_at).toDateString()}</time>
             </header>
           </article>

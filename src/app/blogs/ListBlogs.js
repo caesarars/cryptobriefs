@@ -29,6 +29,7 @@ const ListBlogs = ({ blogs }) => {
           <div key={item._id} className="blog-card">
             <Link href={`/blog/${item.slug}`}>
                     <img
+                        loading="lazy"
                             src={item.imageUrl || "https://via.placeholder.com/400"} 
                             alt={item.title.replace(/<[^>]*>/g, "")} 
                             className="blog-image"
