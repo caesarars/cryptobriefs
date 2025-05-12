@@ -3,7 +3,7 @@ export async function GET() {
   
     let blogs = [];
     try {
-      const blogRes = await fetch("https://crypto-blog-backend.vercel.app/getAllBlogs", {
+      const blogRes = await fetch("https://crypto-blog-backend.vercel.app/getAllBlog", {
         cache: "no-store",
       });
   
