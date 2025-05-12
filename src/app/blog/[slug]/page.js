@@ -113,7 +113,6 @@ const BlogDetail = async (props) => {
               objectFit: "cover",
               borderRadius: "12px"
             }}
-            loading="lazy"
           />
         </div>
  
@@ -140,18 +139,18 @@ const BlogDetail = async (props) => {
                       {listOfText.map((text, idx) => {
                         const cleanedText = text.replace(/^\d+\.\s*/, "");
                         return (
-                            <p key={index} className="blog-paragraph-3 mb-2">
+                            <div key={idx} className="blog-paragraph-3 mb-2">
                               <ReactMarkdown>{cleanedText}</ReactMarkdown>
-                            </p>
+                            </div>
                         );
                       })}
                     </div>
                   );
                 } else {
                   return (
-                    <p key={index} className="blog-paragraph-2 mb-2">
+                    <div key={index} className="blog-paragraph-2 mb-2">
                       <ReactMarkdown>{section.text}</ReactMarkdown>
-                    </p>
+                    </div>
                   );
                 }
               })

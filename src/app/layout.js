@@ -1,23 +1,10 @@
 // app/layout.js
 
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Navbar from "./component/NavBar";
 import { Analytics } from "@vercel/analytics/react";
-
-// Load fonts as CSS variables
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  display: "swap",
-});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -44,7 +31,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
+      className={`${spaceGrotesk.variable}`}
     >
       <body>
         <Navbar />
