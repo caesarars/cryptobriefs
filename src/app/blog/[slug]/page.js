@@ -107,7 +107,7 @@ const BlogDetail = async (props) => {
             src={blog.imageUrl}
             alt="cover"
             fill
-            priority={false}
+            priority={true}
             sizes="(max-width: 768px) 100vw, 800px"
             style={{
               objectFit: "cover",
@@ -129,7 +129,7 @@ const BlogDetail = async (props) => {
               content.section.map((section, index) => {
                 if (section.type === "subhead") {
                   return (
-                    <h2 key={index} className="blog-subhead" style={{ marginTop: "41px" }}>
+                    <h2 key={index} className="blog-subhead">
                       {section.text.replace(/<[^>]*>/g, "")}
                     </h2>
                   );
