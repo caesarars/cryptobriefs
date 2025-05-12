@@ -1,6 +1,7 @@
 // app/blog/[slug]/page.js
 
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import './BlogDetail.css';
 import SuggestedBlog from './SuggestedBlog.js';
 import AffiliateBanner from "./AffiliateBanner.js"
@@ -95,11 +96,17 @@ const BlogDetail = async (props) => {
       <div className="blog-detail-container">
         <div className="main-content">
           <div className="blog-header">
-            <img
-              loading='lazy'
+            <Image
               src={blog.imageUrl}
-              alt={blog.title.replace(/<\/?[^>]+(>|$)/g, "")}
-              className="blog-image-2"
+              alt="cover"
+              width={800}
+              height={450}
+              className="custom-class"
+              style={{
+                borderRadius: '12px',
+                objectFit: 'cover',
+              }}
+              loading="lazy"
             />
           </div>  
           <article itemScope itemType="https://schema.org/Article" className="blog-content">
