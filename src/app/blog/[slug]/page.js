@@ -6,6 +6,7 @@ import './BlogDetail.css';
 import SuggestedBlog from './SuggestedBlog.js';
 import AffiliateBanner from "./AffiliateBanner.js"
 import ReactMarkdown from "react-markdown";
+import StructuredData from "./StructuredData";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -159,6 +160,7 @@ const BlogDetail = async (props) => {
             <SuggestedBlog data={suggestedBlogs} />
           </div>
         )}
+        <StructuredData blog={blog} />
     </div>
   );
 };
