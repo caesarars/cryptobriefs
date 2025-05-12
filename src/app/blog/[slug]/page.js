@@ -131,18 +131,16 @@ const BlogDetail = async (props) => {
                 } else if (section.type === "numbered-list") {
                   const listOfText = section.text.split("\n").filter(text => text.trim());
                   return (
-                    <ul key={index} className="blog-numbered-list">
+                    <div key={index} className="blog-numbered-list">
                       {listOfText.map((text, idx) => {
                         const cleanedText = text.replace(/^\d+\.\s*/, "");
                         return (
-                          <li className="blog-list-text" key={idx}>
                             <p key={index} className="blog-paragraph-3 mb-2">
                               <ReactMarkdown>{cleanedText}</ReactMarkdown>
                             </p>
-                          </li>
                         );
                       })}
-                    </ul>
+                    </div>
                   );
                 } else {
                   return (
