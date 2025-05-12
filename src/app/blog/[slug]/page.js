@@ -96,20 +96,22 @@ const BlogDetail = async (props) => {
       <AffiliateBanner />
       <div className="blog-detail-container">
         <div className="main-content">
-          <div className="blog-header">
-            <Image
-              src={blog.imageUrl}
-              alt="cover"
-              width={800}
-              height={450}
-              className="custom-class"
-              style={{
-                borderRadius: '12px',
-                objectFit: 'cover',
-              }}
-              loading="lazy"
-            />
-          </div>  
+        <div className="blog-header">
+          <Image
+            className="image_cover"
+            src={blog.imageUrl}
+            alt="cover"
+            fill
+            priority={false}
+            sizes="(max-width: 768px) 100vw, 800px"
+            style={{
+              objectFit: "cover",
+              borderRadius: "12px"
+            }}
+            loading="lazy"
+          />
+        </div>
+ 
           <article itemScope itemType="https://schema.org/Article" className="blog-content">
             <header className="mb-4">
               <h1 className="blog-title-2">{blog.title.replace(/<\/?[^>]+(>|$)/g, "")}</h1>

@@ -11,7 +11,7 @@
     justify-content: space-between;
     position: relative;
     margin: auto;
-    width: 50%;
+    width: 880px;
     background-color: white;
     font-family: Arial, Helvetica, sans-serif;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -20,12 +20,20 @@
     margin-bottom: 24px;
 }
 
+
 .blog-header {
-    width: 100%;
-    overflow: hidden;
-    border-radius: 10px;
-    margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Atur rasio sesuai keinginan */
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
 }
+
+.image_cover {
+  border-radius: 12px;
+}
+
 
 .blog-image-2 {
     width: 100%;
@@ -98,7 +106,6 @@
   }
 
   .blog-list-text {
-    max-width: 80%;
     font-size: 18px;
   }
 
@@ -172,4 +179,27 @@
   .btn-glow {
     background: linear-gradient(135deg, #7234D9, #9f7aea);
     color: #fff;
+  }
+
+  @media (max-width:420px) {
+    .blog-detail-container {
+      width: 320px;
+    }
+    .blog-title-2 {
+      font-size: 24px;
+    }
+
+    .blog-header {
+      width: 280px;
+    }
+    .blog-paragraph-2 {
+      font-size: 16px;
+      line-height: 28px;
+    }
+
+    .blog-paragraph-3 {
+      font-size: 16px;
+      line-height: 28px;
+    }
+   
   }
