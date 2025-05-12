@@ -21,13 +21,18 @@ export async function generateMetadata({ params }) {
 
   const cleanTitle = blog.title.replace(/<\/?[^>]+(>|$)/g, "").slice(0,60);
   const cleanContent = blog.content ? getContentText(JSON.parse(blog.content)) : "";
+  const canonicalUrl = `https://www.cryptobriefs.net/blog/${slug}`;
 
   return {
     title: `${cleanTitle} | CryptoBriefs`,
     description: cleanContent.slice(0, 100) || 'Read the latest insights on CryptoBriefs.',
+    alternates: {
+      canonical: canonicalUrl
+    },
     openGraph: {
       title: `${cleanTitle} | CryptoBriefs`,
       description: cleanContent.slice(0, 100),
+      url: canonicalUrl,
       images: [
         {
           url: blog.imageUrl || '/default-og-image.jpg',
