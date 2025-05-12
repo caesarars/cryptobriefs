@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: 'CryptoBriefs - Stay Updated on Crypto',
   description: 'Latest updates on Bitcoin, Ethereum, Altcoins, and Web3 News.',
+  manifest: "/manifest.json",
   alternates: {
     canonical: 'https://www.cryptobriefs.net',
   },
