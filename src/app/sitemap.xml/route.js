@@ -1,31 +1,37 @@
 export async function GET() {
     const baseUrl = "https://www.cryptobriefs.net";
   
-    const blogRes = await fetch(`https://crypto-blog-backend.vercel.app/getAllBlogs`);
-    const blogs = await blogRes.json(); // contoh response: [{ slug: 'ai-trading' }, ...]
+    let blogs = [];
+    try {
+      const blogRes = await fetch("https://crypto-blog-backend.vercel.app/getAllBlogs", {
+        cache: "no-store",
+      });
   
-    const staticRoutes = [
-      "",
-      "/about",
-      "/news",
-      "/blog",
-    ];
+      if (!blogRes.ok) {
+        throw new Error("Failed to fetch blog slugs");
+      }
   
+      blogs = await blogRes.json();
+    } catch (error) {
+      console.error("Sitemap fetch error:", error);
+      blogs = []; // fallback agar tidak crash saat build
+    }
+  
+    const staticRoutes = ["", "/about", "/news", "/blog"];
     const blogRoutes = blogs.map((b) => `/blog/${b.slug}`);
-  
     const allRoutes = [...staticRoutes, ...blogRoutes];
   
     const body = `<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-    ${allRoutes
-      .map(
-        (route) => `<url>
-      <loc>${baseUrl}${route}</loc>
-      <lastmod>${new Date().toISOString()}</lastmod>
-    </url>`
-      )
-      .join("\n")}
-  </urlset>`;
+    <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+      ${allRoutes
+        .map(
+          (route) => `<url>
+        <loc>${baseUrl}${route}</loc>
+        <lastmod>${new Date().toISOString()}</lastmod>
+      </url>`
+        )
+        .join("\n")}
+    </urlset>`;
   
     return new Response(body, {
       headers: {
