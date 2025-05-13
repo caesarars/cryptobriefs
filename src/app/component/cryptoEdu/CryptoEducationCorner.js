@@ -52,7 +52,7 @@ const CryptoEducationCorner = () => {
                   <div className="content_blog_edu">
                     <p className="title_blog_edu">{tip.title}</p>
                     <p className="">{tip.description}</p>
-                    <a className="btn btn-warning general-font" href={tip.link} onClick={() => setIsClicked(true)}>
+                    <a className="btn btn-warning general-font" href={tip.link}  onClick={() => setIsClicked(true)} aria-label={`Read more about ${tip.title} - ${tip.description}`}>
                       {isClicked ? "Loading..." : "Read More"}
                     </a>
                   </div>
