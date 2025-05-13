@@ -68,7 +68,7 @@ const Blogs = () => {
                       const getFirstSecion = getContentText(parsedContent)
                       return (
                         <div key={index}>
-                            <Link href={`/blog/${item.slug}`}>
+                            <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`} passHref>
                             <Image
                               src={item.imageUrl}
                               alt={item.title}
@@ -90,7 +90,7 @@ const Blogs = () => {
                                   </p>
                                   <p className='date_custom' >{new Date(item.created_at).toLocaleString()}</p>
                                   <a className='btn btn-glow' onClick={() => setIsClicked(true)}>
-                                    <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`}>
+                                    <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`} passHref>
                                       { isClicked ? <span>Loading...</span>: <span>Read more</span>}
                                     </Link>
                                   </a>
@@ -107,7 +107,7 @@ const Blogs = () => {
                       return (
                       <div className="d-flex container_second_blog" key={index}> 
                         <div className="d-flex align-items-center">
-                        <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`}>
+                        <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`} passHref>
                           <Image
                             src={item.imageUrl}
                             alt={item.title}
