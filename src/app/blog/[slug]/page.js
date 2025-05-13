@@ -54,7 +54,7 @@ export async function generateMetadata({ params }) {
 const getBlog = async (slug) => {
   try {
     const response = await fetch(`https://crypto-blog-backend.vercel.app/api/getBlogBySlug?slug=${slug}`, {
-      cache: 'no-store',
+      next: { revalidate: 3600 }
     });
     const data = await response.json();
     if (data.error) return null;
