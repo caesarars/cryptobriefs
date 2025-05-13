@@ -22,6 +22,13 @@
   transition: "transform 0.2s";
 }
 
+.link-clean {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 .image_main_card {
     width: 100%;
     object-fit: cover;
@@ -30,6 +37,7 @@
 }
 
 .newsTitle:hover{
+  font-weight: bold;
   cursor: pointer;
 }
 

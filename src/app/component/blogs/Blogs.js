@@ -84,11 +84,19 @@ const Blogs = () => {
                             </Link>
                               <div className="content_custom">
                                   <h1 className="newsTitle" onClick={()=>gotoDetail(item.slug)}>
-                                    {parsedContent.plain_title ?parsedContent.plain_title.replace(/<\/?[^>]+(>|$)/g, "") : parsedContent.title.replace(/<\/?[^>]+(>|$)/g, "") }</h1>
+                                  <Link
+                                    href={`/blog/${item.slug}`}
+                                    aria-label={`Read more about ${parsedContent.plain_title ?parsedContent.plain_title.replace(/<\/?[^>]+(>|$)/g, "") : parsedContent.title.replace(/<\/?[^>]+(>|$)/g, "") }`}
+                                    className="link-clean"
+                                  >
+                                    {parsedContent.plain_title ?parsedContent.plain_title.replace(/<\/?[^>]+(>|$)/g, "") : parsedContent.title.replace(/<\/?[^>]+(>|$)/g, "") }
+                                  </Link>
+                                  </h1>
                                   <p style={{textAlign:"justify", color:"black"}}>
                                     {getFirstSecion}
                                   </p>
                                   <p className='date_custom' >{new Date(item.created_at).toLocaleString()}</p>
+                                  
                                   <Link
                                       href={`/blog/${item.slug}`}
                                       aria-label={`Read more about ${item.title}`}
@@ -123,10 +131,14 @@ const Blogs = () => {
                             loading="lazy"
                           />
                         </Link>
-                            </div>
-                        <a className="link_element" onClick={()=>gotoDetail(item.slug)} aria-label={`Read more about ${item.title}`}>
+                        </div>
+                        <Link
+                            href={`/blog/${item.slug}`}
+                            className="link_element"
+                            aria-label={`Read more about ${item.title}`}
+                          >
                             {parsedContent.plain_title ?parsedContent.plain_title.replace(/<\/?[^>]+(>|$)/g, "") : parsedContent.title.replace(/<\/?[^>]+(>|$)/g, "")} 
-                        </a>
+                          </Link>
                       </div> 
                       )
                   })}
