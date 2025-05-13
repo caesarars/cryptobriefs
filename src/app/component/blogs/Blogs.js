@@ -83,7 +83,7 @@ const Blogs = () => {
                             />
                             </Link>
                               <div className="content_custom">
-                                  <h1 className="newsTitle" onClick={()=>gotoDetail(item.slug)}>
+                                  <h1 className="newsTitle">
                                   <Link
                                     href={`/blog/${item.slug}`}
                                     aria-label={`Read more about ${parsedContent.plain_title ?parsedContent.plain_title.replace(/<\/?[^>]+(>|$)/g, "") : parsedContent.title.replace(/<\/?[^>]+(>|$)/g, "") }`}
@@ -96,14 +96,6 @@ const Blogs = () => {
                                     {getFirstSecion}
                                   </p>
                                   <p className='date_custom' >{new Date(item.created_at).toLocaleString()}</p>
-                                  
-                                  <Link
-                                      href={`/blog/${item.slug}`}
-                                      aria-label={`Read more about ${item.title}`}
-                                      className="btn btn-glow"
-                                    >
-                                      {isClicked ? "Loading..." : "Read more"}
-                                    </Link>
                               </div>
                           </div>
                       )
