@@ -28,6 +28,12 @@ const CryptoEducationCorner = () => {
           image: "https://firebasestorage.googleapis.com/v0/b/image-storing-project.appspot.com/o/blog_crypto%2Filussmartcontract.jpg?alt=media&token=3c4e89ed-65c7-4f2f-9a57-a88554c31ff7",
           link: "/blog/smart-contracts-made-easy-your-fun-guide-to-blockchains-handy-helpers",
         },
+        {
+          title : "How to Build a Diversified Crypto Portfolio for the Web3 Era",
+          description: "We dive deeper into the Web3 revolution. ",
+          image : "https://firebasestorage.googleapis.com/v0/b/image-storing-project.appspot.com/o/blog_crypto%2FA%20high-resolution%20stock%20photo%20depicting%20a%20dreamy%20atmosphere.%20The%20image%20portrays%20a%20dynamic%2C%20futuristic%20digital%20artwork%20with%20a%20sleek%2C%20neon-lit%20digital%20landscape%20and%20a%20holographic%20dashboard%20displaying%20glowing%20crypto%20assets%20in%20a%203D%20grid.%20%20The%20o.jpg?alt=media&token=116f0b6a-e684-42e7-b1e5-1e5a423a36c9",
+          link: "/blog/how-to-build-a-diversified-crypto-portfolio-for-the-web3-era"
+        }
       ];
       
 
@@ -48,15 +54,13 @@ const CryptoEducationCorner = () => {
                     style={{ borderRadius: "10px", objectFit: "cover" }}
                   />
                   <div className="content_blog_edu">
-                    <h3 className="title_blog_edu">{tip.title}</h3>
-                    <p>{tip.description}</p>
                     <Link
                       href={tip.link}
-                      className="btn btn-warning general-font"
                       aria-label={`Read more about ${tip.title} - ${tip.description}`}
                     >
-                      {isClicked ? "Loading..." : "Read More"}
+                    <h3 className="title_blog_edu">{tip.title}</h3>
                     </Link>
+                    <p>{tip.description}</p>
                   </div>
                 </div>
               </div>
