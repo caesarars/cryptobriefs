@@ -3,6 +3,7 @@
 import "./CryptoEducationCorner.css"
 import { useState } from "react";
 import Image from 'next/image';
+import Link from 'next/link'
 
 const CryptoEducationCorner = () => {
 
@@ -35,30 +36,31 @@ const CryptoEducationCorner = () => {
        <p style={{ fontSize: "1.3em", fontWeight: "bold" }} className="p-2 space-title">Crypto Education Corner</p>
         <div className="container_list_edu">
           {cryptoTips.map((tip, index) => (
-            <div
-              key={index}
-              className="container_list_edu general-font"
-            >
+            <article key={tip.link} className="container_list_edu general-font">
               <div className="p-3">
                 <div className="wrapper_blog_edu">
-                <Image
+                  <Image
                     src={tip.image}
-                    alt={tip.title}
+                    alt={`Cover for ${tip.title}`}
                     width={124}
                     height={124}
                     className="image_edu_cover"
                     style={{ borderRadius: "10px", objectFit: "cover" }}
                   />
                   <div className="content_blog_edu">
-                    <p className="title_blog_edu">{tip.title}</p>
-                    <p className="">{tip.description}</p>
-                    <a className="btn btn-warning general-font" href={tip.link}  onClick={() => setIsClicked(true)} aria-label={`Read more about ${tip.title} - ${tip.description}`}>
+                    <h3 className="title_blog_edu">{tip.title}</h3>
+                    <p>{tip.description}</p>
+                    <Link
+                      href={tip.link}
+                      className="btn btn-warning general-font"
+                      aria-label={`Read more about ${tip.title} - ${tip.description}`}
+                    >
                       {isClicked ? "Loading..." : "Read More"}
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
