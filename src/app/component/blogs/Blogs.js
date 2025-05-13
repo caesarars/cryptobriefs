@@ -89,11 +89,13 @@ const Blogs = () => {
                                     {getFirstSecion}
                                   </p>
                                   <p className='date_custom' >{new Date(item.created_at).toLocaleString()}</p>
-                                  <a className='btn btn-glow' onClick={() => setIsClicked(true)}>
-                                    <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`} passHref>
-                                      { isClicked ? <span>Loading...</span>: <span>Read more</span>}
+                                  <Link
+                                      href={`/blog/${item.slug}`}
+                                      aria-label={`Read more about ${item.title}`}
+                                      className="btn btn-glow"
+                                    >
+                                      {isClicked ? "Loading..." : "Read more"}
                                     </Link>
-                                  </a>
                               </div>
                           </div>
                       )
