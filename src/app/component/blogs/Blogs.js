@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import "./Blogs.css";
-import Loading from '../loading/Loading';
 
 
 const Blogs = () => {
@@ -70,11 +69,18 @@ const Blogs = () => {
                       return (
                         <div key={index}>
                             <Link href={`/blog/${item.slug}`}>
-                                <img className="image_main_card"
-                                loading='lazy'
-                                  src={item.imageUrl}
-                                  alt={item.title}
-                                  />
+                            <Image
+                              src={item.imageUrl}
+                              alt={item.title}
+                              width={800} // bebas, sebagai estimasi default
+                              height={220} // karena di CSS kamu set height: 220px
+                              className="image_main_card"
+                              style={{
+                                objectFit: "cover",
+                                borderRadius: "16px",
+                              }}
+                              loading="lazy"
+                            />
                             </Link>
                               <div className="content_custom">
                                   <h1 className="newsTitle" onClick={()=>gotoDetail(item.slug)}>
@@ -84,7 +90,7 @@ const Blogs = () => {
                                   </p>
                                   <p className='date_custom' >{new Date(item.created_at).toLocaleString()}</p>
                                   <a className='btn btn-glow' onClick={() => setIsClicked(true)}>
-                                    <Link href={`/blog/${item.slug}`}>
+                                    <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`}>
                                       { isClicked ? <span>Loading...</span>: <span>Read more</span>}
                                     </Link>
                                   </a>
@@ -101,15 +107,22 @@ const Blogs = () => {
                       return (
                       <div className="d-flex container_second_blog" key={index}> 
                         <div className="d-flex align-items-center">
-                            <Link href={`/blog/${item.slug}`}>
-                                <img className="image_non_main"
-                                    loading='lazy'
-                                    src={item.imageUrl}
-                                    alt={item.title}
-                                    />
-                            </Link>
+                        <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`}>
+                          <Image
+                            src={item.imageUrl}
+                            alt={item.title}
+                            width={120}
+                            height={72}
+                            className="image_non_main"
+                            style={{
+                              objectFit: "cover",
+                              borderRadius: "8px",
+                            }}
+                            loading="lazy"
+                          />
+                        </Link>
                             </div>
-                        <a className="link_element" onClick={()=>gotoDetail(item.slug)}>
+                        <a className="link_element" onClick={()=>gotoDetail(item.slug)} aria-label={`Read more about ${item.title}`}>
                             {parsedContent.plain_title ?parsedContent.plain_title.replace(/<\/?[^>]+(>|$)/g, "") : parsedContent.title.replace(/<\/?[^>]+(>|$)/g, "")} 
                         </a>
                       </div> 

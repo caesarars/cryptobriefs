@@ -2,8 +2,7 @@
 
 import "./CryptoEducationCorner.css"
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Loading from "../loading/Loading";
+import Image from 'next/image';
 
 const CryptoEducationCorner = () => {
 
@@ -42,7 +41,14 @@ const CryptoEducationCorner = () => {
             >
               <div className="p-3">
                 <div className="wrapper_blog_edu">
-                  <img loading="lazy" src={tip.image} className="image_edu_cover"/>
+                <Image
+                    src={tip.image}
+                    alt={tip.title}
+                    width={124}
+                    height={124}
+                    className="image_edu_cover"
+                    style={{ borderRadius: "10px", objectFit: "cover" }}
+                  />
                   <div className="content_blog_edu">
                     <p className="title_blog_edu">{tip.title}</p>
                     <p className="">{tip.description}</p>

@@ -105,7 +105,7 @@ const BlogDetail = async (props) => {
           <Image
             className="image_cover"
             src={blog.imageUrl}
-            alt="cover"
+            alt={blog.title.replace(/<\/?[^>]+(>|$)/g, "")}
             fill
             priority={true}
             sizes="(max-width: 768px) 100vw, 800px"
