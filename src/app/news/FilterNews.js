@@ -1,102 +1,94 @@
+// Filename: FilterNews.js
+
 'use client';
 
-import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import "./FilterNews.css";
 
-const FilterNews = ({ onHandleFilter }) => {
-  const [search, setSearch] = useState("");
-  const [coin, setCoin] = useState("");
-  const [sentiment, setSentiment] = useState("");
-  const [filter, setFilter] = useState({});
+const FilterNews = ({ onHandleFilter, initialValues }) => {
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      onHandleFilter(filter);
-    }, 500);
-
-    return () => clearTimeout(delayDebounce);
-  }, [filter, onHandleFilter]);
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-    setFilter((prev) => ({
-      ...prev,
-      search: value,
-    }));
-  };
-
-  const handleEnter = (e) => {
-    if (e.key === "Enter") {
-      onHandleFilter(filter);
-    }
-  };
-
-  const handleSearchIcon = () => {
-    onHandleFilter(filter);
-  };
-
-  const handleCoins = (e) => {
-    const value = e.target.value;
-    setCoin(value);
-    setFilter((prev) => ({
-      ...prev,
-      coin: value,
-    }));
-  };
-
-  const handleSentiment = (e) => {
-    const value = e.target.value;
-    setSentiment(value);
-    setFilter((prev) => ({
-      ...prev,
-      sentiment: value,
-    }));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    onHandleFilter({ [name]: value });
   };
 
   return (
-    <div className="mt-5">
-      <div className="wrapper_filter">
-        <div className="input-group search_input">
-          <input style={{border:"0.5px solid grey" , borderRadius:"6px"}}
-            value={search}
-            className="p-2"
-            type="text"
-            placeholder="Search news"
-            onKeyDown={handleEnter}
-            onChange={handleSearch}
+    // Menggunakan Bootstrap grid system.
+    // gx-3 memberikan spasi horizontal yang sedikit lebih lebar antar elemen.
+    <div className="row gx-3 gy-3 align-items-center mt-4 mb-3">
+      
+      {/* Kolom untuk Input Pencarian */}
+      {/* Di layar kecil (mobile) akan mengambil lebar penuh (12), di layar besar 3 */}
+      <div className="col-12 col-md-6 col-lg-3">
+        <div className="input-group">
+          <input 
+            type="text" 
+            className="form-control" 
+            placeholder="Search news..." 
+            aria-label="Search news"
+            name="search"
+            value={initialValues.search}
+            onChange={handleInputChange}
           />
-          <div className="input-group-append searchIcon">
-            <button 
-              className="btn btn-outline-secondary" 
-              type="button" 
-              onClick={handleSearchIcon}
-            >
-              <FaSearch />
-            </button>
-          </div>
-        </div>
-
-        <div className="container_select">
-          <select className=" form-control" value={coin} onChange={handleCoins}>
-            <option value="">Select Coins</option>
-            <option value="BTC">Bitcoin</option>
-            <option value="ETH">Ethereum</option>
-            <option value="DOGE">Dogecoin</option>
-            <option value="XRP">Ripple</option>
-            <option value="BNB">Binance Coin</option>
-            <option value="DOT">Polkadot</option>
-          </select>
-
-          <select className=" form-control" value={sentiment} onChange={handleSentiment}>
-            <option value="">Select Sentiment</option>
-            <option value="bearish">Bearish</option>
-            <option value="bullish">Bullish</option>
-            <option value="neutral">Neutral</option>
-          </select>
+          <span className="input-group-text">
+            <FaSearch />
+          </span>
         </div>
       </div>
+
+      {/* Kolom untuk Filter Koin */}
+      <div className="col-6 col-md-6 col-lg-3">
+        <select 
+          className="form-select" 
+          aria-label="Select Coin"
+          name="coin"
+          value={initialValues.coin}
+          onChange={handleInputChange}
+        >
+          <option value="">All Coins</option>
+          <option value="BTC">Bitcoin</option>
+          <option value="ETH">Ethereum</option>
+          <option value="DOGE">Dogecoin</option>
+          <option value="XRP">Ripple</option>
+          <option value="BNB">Binance Coin</option>
+          <option value="DOT">Polkadot</option>
+        </select>
+      </div>
+      
+      {/* Kolom untuk Filter Sentimen */}
+      <div className="col-6 col-md-6 col-lg-3">
+        <select 
+          className="form-select" 
+          aria-label="Select Sentiment"
+          name="sentiment"
+          value={initialValues.sentiment}
+          onChange={handleInputChange}
+        >
+          <option value="">All Sentiments</option>
+          <option value="bullish">Bullish</option>
+          <option value="bearish">Bearish</option>
+          <option value="neutral">Neutral</option>
+        </select>
+      </div>
+
+      {/* Kolom untuk Sort By */}
+      <div className="col-12 col-md-6 col-lg-3">
+        {/* Menggunakan input-group agar label dan select terlihat menyatu dan rapi */}
+        <div className="input-group">
+            <span className="input-group-text fw-bold">Sort by:</span>
+            <select 
+                id="sort-select" 
+                className="form-select" 
+                name="sort" // ✅ PENTING: Tambahkan 'name' agar handler berfungsi
+                value={initialValues.sort} // ✅ Ganti defaultValue menjadi value agar konsisten
+                onChange={handleInputChange}
+            >
+                <option value="latest">Latest</option>
+                <option value="positive">Positive</option>
+                <option value="negative">Negative</option>
+            </select>
+        </div>
+    </div>
+
     </div>
   );
 };
