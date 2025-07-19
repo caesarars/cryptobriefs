@@ -33,7 +33,8 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${spaceGrotesk.variable}`}
     >
-      <body>
+      <body suppressHydrationWarning={true}
+        className="layout-body">
         <Navbar />
         {children}
         <Analytics />

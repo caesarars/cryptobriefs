@@ -1,24 +1,27 @@
-// components/Navbar.tsx
-'use client'; // <-- Penting karena ada interaksi klik!
+'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(prev => !prev);
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const toggleMenu = () => setMenuOpen(prev => !prev);
+
+  if (!mounted) return null; // ⛔ Hindari render sebelum hydration selesai
 
   return (
-    <nav className="navbar navbar-expand-lg px-4 py-3 wrapper_nav_3" style={{backgroundColor:"black", color:"white"}}>
+    <nav className="navbar navbar-expand-lg px-4 py-3 wrapper_nav_3" style={{ backgroundColor: "black", color: "white" }}>
       <div className="container-fluid wrapper_inside d-flex justify-content-between align-items-center">
         <Link href="/" className="navbar-brand fw-bold space-title text-white" style={{ fontSize: '2em' }}>
           Crypto Briefs
         </Link>
 
-        {/* Hamburger toggle button */}
         <button
           className="navbar-toggler text-white"
           type="button"
@@ -27,45 +30,27 @@ const Navbar = () => {
           aria-expanded={menuOpen}
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" />
         </button>
       </div>
 
-      {/* Collapse area */}
       <div
         className={`collapse navbar-collapse justify-content-end px-4 ${menuOpen ? 'show' : ''}`}
         id="navbarNav"
-        style={{
-          borderRadius: '10px',
-          marginTop: '0.5rem',
-        }}
+        style={{ borderRadius: '10px', marginTop: '0.5rem' }}
       >
         <ul className="navbar-nav general-font w-100 text-center">
-          <li className="nav-item">
-            <Link href="/" className="nav-link text-white">
-              Home
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/airdrops" className="nav-link text-white">
-              Airdrops
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/blogs" className="nav-link text-white">
-              Blog
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/news" className="nav-link text-white">
-              News
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/contact" className="nav-link text-white">
-              Contact
-            </Link>
-          </li>
+          {[
+            ['/', 'Home'],
+            ['/airdrops', 'Airdrops'],
+            ['/blogs', 'Blog'],
+            ['/news', 'News'],
+            ['/contact', 'Contact'],
+          ].map(([href, label]) => (
+            <li key={label} className="nav-item">
+              <Link href={href} className="nav-link text-white">{label}</Link>
+            </li>
+          ))}
         </ul>
       </div>
     </nav>

@@ -4,14 +4,14 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import './BlogDetail.css';
 import SuggestedBlog from './SuggestedBlog.js';
-import AffiliateBanner from "./AffiliateBanner.js"
+import AffiliateBanner from "./AffiliateBanner.js";
 import ReactMarkdown from "react-markdown";
 import StructuredData from "./StructuredData";
 
-export async function generateMetadata({ params }) {
-  const { slug } = await params;
+export async function generateMetadata({params}) {
+  const slug = params.slug;
   const blog = await getBlog(slug);
-
+  blog.formattedDate = new Date(blog.created_at).toUTCString()
   if (!blog) {
     return {
       title: 'Blog Not Found | CryptoBriefs',
@@ -19,15 +19,41 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const cleanTitle = blog.title.replace(/<\/?[^>]+(>|$)/g, "").slice(0,60);
-  const cleanContent = blog.content ? getContentText(JSON.parse(blog.content)) : "";
+  const cleanTitle = blog.title.replace(/<\/?[^>]+(>|$)/g, "").slice(0, 60);
   const canonicalUrl = `https://www.cryptobriefs.net/blog/${slug}`;
+
+  const isJSONContent = (content) => {
+    try {
+      const parsed = JSON.parse(content);
+      return parsed && (parsed.section || parsed.sections);
+    } catch (e) {
+      return false;
+    }
+  };
+
+  // 🔍 Helper untuk mengambil deskripsi awal
+  const getContentText = (parsedContent) => {
+    const contentSource = parsedContent?.section?.length
+      ? parsedContent.section
+      : parsedContent?.sections?.length
+      ? parsedContent.sections
+      : [];
+    const text = contentSource.length > 0 ? contentSource[0].text : "";
+    return text.replace(/<\/?[^>]+(>|$)/g, "");
+  };
+
+  let cleanContent = "";
+  if (isJSONContent(blog.content)) {
+    cleanContent = getContentText(JSON.parse(blog.content));
+  } else {
+    cleanContent = blog.content.replace(/\\n/g, '\n').slice(0, 200); // take markdown and make it readable
+  }
 
   return {
     title: `${cleanTitle} | CryptoBriefs`,
     description: cleanContent.slice(0, 100) || 'Read the latest insights on CryptoBriefs.',
     alternates: {
-      canonical: canonicalUrl
+      canonical: canonicalUrl,
     },
     openGraph: {
       title: `${cleanTitle} | CryptoBriefs`,
@@ -78,14 +104,13 @@ const getSuggestedBlogs = async (title) => {
   }
 };
 
-const getContentText = (parsedContent) => {
-  const contentSource = parsedContent?.section?.length
-    ? parsedContent.section
-    : parsedContent?.sections?.length
-    ? parsedContent.sections
-    : [];
-  const text = contentSource.length > 0 ? contentSource[0].text : "";
-  return text.replace(/<\/?[^>]+(>|$)/g, "");
+const isJSONContent = (content) => {
+  try {
+    const parsed = JSON.parse(content);
+    return parsed && (parsed.section || parsed.sections);
+  } catch (e) {
+    return false;
+  }
 };
 
 const BlogDetail = async (props) => {
@@ -93,7 +118,10 @@ const BlogDetail = async (props) => {
   const blog = await getBlog(slug);
 
   if (!blog) notFound();
-  const content = blog.content ? JSON.parse(blog.content) : { section: [] };
+
+  const isJSON = isJSONContent(blog.content);
+  const parsedContent = isJSON ? JSON.parse(blog.content) : null;
+
   const suggestedBlogs = await getSuggestedBlogs(blog.title);
 
   return (
@@ -101,31 +129,33 @@ const BlogDetail = async (props) => {
       <AffiliateBanner />
       <div className="blog-detail-container">
         <div className="main-content">
-        <div className="blog-header">
-          <Image
-            className="image_cover"
-            src={blog.imageUrl}
-            alt={blog.title.replace(/<\/?[^>]+(>|$)/g, "")}
-            fill
-            priority={true}
-            sizes="(max-width: 768px) 100vw, 800px"
-            style={{
-              objectFit: "cover",
-              borderRadius: "12px"
-            }}
-          />
-        </div>
- 
+          <div className="blog-header">
+            <Image
+              className="image_cover"
+              src={blog.imageUrl}
+              alt={blog.title.replace(/<\/?[^>]+(>|$)/g, "")}
+              fill
+              priority={true}
+              sizes="(max-width: 768px) 100vw, 800px"
+              style={{
+                objectFit: "cover",
+                borderRadius: "12px"
+              }}
+            />
+          </div>
+
           <article itemScope itemType="https://schema.org/Article" className="blog-content">
             <header className="mb-4">
               <h1 className="blog-title-2">{blog.title.replace(/<\/?[^>]+(>|$)/g, "")}</h1>
-              <time className="blog-meta-2">Published on {new Date(blog.created_at).toDateString()}</time>
+              <time className="blog-meta-2">
+                Published on {blog.created_at && blog.created_at.split('T')[0]}
+              </time>
             </header>
           </article>
 
           <section itemProp="articleBody" className="general-font p-2">
-            {content.section?.length ? (
-              content.section.map((section, index) => {
+            {isJSON && parsedContent?.section?.length ? (
+              parsedContent.section.map((section, index) => {
                 if (section.type === "subhead") {
                   return (
                     <h2 key={index} className="blog-subhead">
@@ -139,9 +169,9 @@ const BlogDetail = async (props) => {
                       {listOfText.map((text, idx) => {
                         const cleanedText = text.replace(/^\d+\.\s*/, "");
                         return (
-                            <div key={idx} className="blog-paragraph-3 mb-2">
-                              <ReactMarkdown>{cleanedText}</ReactMarkdown>
-                            </div>
+                          <div key={idx} className="blog-paragraph-3 mb-2">
+                            <ReactMarkdown>{cleanedText}</ReactMarkdown>
+                          </div>
                         );
                       })}
                     </div>
@@ -154,17 +184,21 @@ const BlogDetail = async (props) => {
                   );
                 }
               })
-            ) : null}
+            ) : (
+              // Jika bukan JSON, render langsung dengan ReactMarkdown
+              <div className="blog-paragraph-2">
+                <ReactMarkdown>{blog.content.replace(/\\n/g, '\n')}</ReactMarkdown>
+              </div>
+            )}
           </section>
         </div>
       </div>
-        {/* Suggested blogs section */}
-        {suggestedBlogs.length > 0 && (
-          <div className="suggested-blogs">
-            <SuggestedBlog data={suggestedBlogs} />
-          </div>
-        )}
-        <StructuredData blog={blog} />
+      {suggestedBlogs.length > 0 && (
+        <div className="suggested-blogs">
+          <SuggestedBlog data={suggestedBlogs} />
+        </div>
+      )}
+      <StructuredData blog={blog} />
     </div>
   );
 };
