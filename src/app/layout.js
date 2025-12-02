@@ -1,10 +1,12 @@
 // app/layout.js
 
-import { Space_Grotesk } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./globals.css";
-import Navbar from "./component/NavBar";
 import { Analytics } from "@vercel/analytics/react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Space_Grotesk } from "next/font/google";
+import Script from "next/script";
+import Navbar from "./component/NavBar";
+import "./globals.css";
+
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -33,6 +35,15 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${spaceGrotesk.variable}`}
     >
+      <head>
+        <Script
+          id="adsense-script"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1176519704673517"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body suppressHydrationWarning={true}
         className="layout-body">
         <Navbar />
