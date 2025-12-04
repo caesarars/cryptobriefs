@@ -43,6 +43,7 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <meta name="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1" content="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1" />
       </head>
       <body suppressHydrationWarning={true}
         className="layout-body">
