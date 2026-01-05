@@ -52,11 +52,30 @@ const News = () => {
         : new Date(a.published) - new Date(b.published); // Terlama duluan
     });
 
+    const LoadingSkeleton = () => {
+      return (
+        <>
+          <div className="news-skeleton-title"></div>
+          <div style={styles.grid}>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="news-skeleton-card">
+                <div className="news-skeleton-image"></div>
+                <div className="news-skeleton-content">
+                  <div className="news-skeleton-line-wide"></div>
+                  <div className="news-skeleton-line"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      );
+    };
+
     return (
         <div className="container pt-5 pb-3">
             <h1 className="pt-4 pb-3 space-title">Newsletter</h1>
             {isLoading ? (
-                <p style={styles.loadingText}>Loading news...</p>
+                <LoadingSkeleton />
             ) : (
                 <div style={styles.grid}>
                 {sortedNews.slice(0, visibleNews).map((item, index) => (

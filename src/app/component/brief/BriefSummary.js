@@ -3,16 +3,32 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import styles from "./BriefSummary.module.css";
 
 
 export default function BriefSummary() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-  
-    function splitSummary(summaryText) {
-      return summaryText.split(/(?=\d+\.\s)/g).map(p => p.trim()).filter(Boolean);
+
+    const LoadingBriefComponent = () => {
+      return (
+        <section className="mt-4">
+          <div className="container">
+            <div className={styles.skeletonTitle}></div>
+            <div className={styles.skeletonTimeline}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div className={styles.skeletonItem} key={i}>
+                  <div className={styles.skeletonDot} />
+                  <div className={styles.skeletonLines}>
+                    <div className={styles.skeletonLineWide} />
+                    <div className={styles.skeletonLine} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
     }
   
     useEffect(() => {
@@ -31,7 +47,7 @@ export default function BriefSummary() {
       fetchSummary();
     }, []);
   
-    if (loading) return <p>Loading brief...</p>;
+    if (loading) return LoadingBriefComponent()
     if (!data) return <p>No summary available.</p>;
   const formattedDate = new Date(data.date).toLocaleDateString();
 
@@ -48,20 +64,6 @@ export default function BriefSummary() {
                 </div>
             ))}
             </div>  }
-        
-
-        {/*<div className={styles.timeline}>
-        {data.articles.map((article, i) => (
-            <div className={styles.timelineItem} key={i}>
-            <div className={styles.timelineDot} />
-            <div className={styles.timelineContent}>
-                <a href={article.link} target="_blank" rel="noopener noreferrer">
-                {article.title}
-                </a>
-            </div>
-            </div>
-        ))} 
-        </div>*/}
         </div>
     </section>
   );

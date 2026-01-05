@@ -68,10 +68,42 @@ const Blogs = () => {
     getBlogs();
   }, []);
 
+  const LoadingSkeleton = () => {
+    return (
+      <>
+        <div className="container pt-2 pb-2 text-start">
+          <div className="skeletonTitle"></div>
+        </div>
+        <div className="container main_container">
+          <div className="main_card skeletonCard">
+            <div className="skeletonImageMain"></div>
+            <div className="skeletonContent">
+              <div className="skeletonLineWide"></div>
+              <div className="skeletonLine"></div>
+              <div className="skeletonLineShort"></div>
+            </div>
+          </div>
+          <div className="secondary_blog">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div className="d-flex container_second_blog skeletonCard" key={i}>
+                <div className="skeletonThumb"></div>
+                <div className="skeletonTextGroup">
+                  <div className="skeletonLineWide"></div>
+                  <div className="skeletonLineShort"></div>
+                </div>
+              </div>
+            ))}
+            <div className="skeletonButton"></div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <>
       {isLoading ? (
-        <p className="loadingText">Loading Blog...</p>
+        <LoadingSkeleton />
       ) : (
         <>
           <div className="container pt-2 pb-2 text-start">

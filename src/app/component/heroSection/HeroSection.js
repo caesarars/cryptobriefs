@@ -1,7 +1,7 @@
 'use client'
+import Link from "next/link";
 import { useEffect, useState } from 'react';
 import "./HeroSection.css";
-import Link from "next/link";
 
 const HeroSection = () => {
   const [mounted, setMounted] = useState(false);
@@ -14,14 +14,14 @@ const HeroSection = () => {
       <section className="text-white py-5">
         <div className="container text-center">
           <h4 className="display-6 fw-bold mb-4">
-            Your Friendly Guide to the Crypto Space
+            Understand Crypto in 60 Seconds a Day
           </h4>
           <p className="lead mb-4 subheadline glow-hover">
-            Explore the world of crypto with easy-to-follow news, tips, and guides made for everyone.
+            News sentiment, trends, and insights—without the noise.
           </p>
           <div className="d-flex justify-content-center gap-3 flex-wrap">
             <Link href="/blogs" className="btn btn-glow btn-lg">
-              Start Reading
+              Get Today’s Crypto Brief
             </Link>
           </div>
         </div>

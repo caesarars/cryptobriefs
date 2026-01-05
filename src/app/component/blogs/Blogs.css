@@ -255,7 +255,96 @@
     margin-top: 10px;
   }
 
-  .btn-glow {
-    background: linear-gradient(135deg, #7234D9, #9f7aea);
-    color: #fff;
+.btn-glow {
+  background: linear-gradient(135deg, #7234D9, #9f7aea);
+  color: #fff;
+}
+
+.skeletonTitle {
+  width: 180px;
+  height: 28px;
+  margin: 32px 0 16px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f1f2f4 25%, #e6e8ec 50%, #f1f2f4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonCard {
+  background-color: #ffffff !important;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.skeletonImageMain {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, #f1f2f4 25%, #e6e8ec 50%, #f1f2f4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonContent {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeletonLineWide,
+.skeletonLine,
+.skeletonLineShort {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f1f2f4 25%, #e6e8ec 50%, #f1f2f4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonLineWide {
+  width: 85%;
+}
+
+.skeletonLine {
+  width: 70%;
+}
+
+.skeletonLineShort {
+  width: 45%;
+}
+
+.skeletonThumb {
+  width: 120px;
+  height: 72px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f1f2f4 25%, #e6e8ec 50%, #f1f2f4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonTextGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  margin-left: 16px;
+  width: 100%;
+}
+
+.skeletonButton {
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f1f2f4 25%, #e6e8ec 50%, #f1f2f4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
   }
+  100% {
+    background-position: -200% 0%;
+  }
+}
