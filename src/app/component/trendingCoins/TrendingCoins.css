@@ -4,6 +4,7 @@
     border-radius: 16px;
     padding: 8px;
     width: 520px;     
+    max-width: 100%;
     height: 600px;
     overflow: auto;
 }
@@ -85,7 +86,37 @@
 
     .container_list_coin,
     .coin_header {
-        grid-template-columns: 20px 1.1fr 0.8fr 80px 64px;
+        grid-template-columns: 18px minmax(0, 1fr) minmax(0, 0.8fr) 56px;
+        column-gap: 8px;
+    }
+
+    .coin_header span:nth-child(4) {
+        display: none;
+    }
+
+    .sparkline {
+        display: none;
+    }
+
+    .coin_header {
+        font-size: 0.75rem;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .coin_symbol {
+        font-size: 0.85rem;
+    }
+
+    .coin_price,
+    .change_positive,
+    .change_negative {
+        font-size: 0.85rem;
+    }
+
+    .coin_meta img {
+        width: 22px;
+        height: 22px;
     }
 }
 
@@ -98,6 +129,12 @@
     .wording_trending_coins {
        text-align: center;
        margin-left: 0px;
+    }
+
+    .container_list_coin,
+    .coin_header {
+        grid-template-columns: 16px minmax(0, 1fr) minmax(0, 0.8fr) 52px;
+        column-gap: 6px;
     }
 }
 
@@ -136,6 +173,7 @@
     padding-left: 24px;
     padding-right: 24px;
     box-sizing: border-box;
+    column-gap: 12px;
 }
 
 .coin_header_right {
@@ -206,4 +244,68 @@
 
 .change_negative {
     color: #ef4444;
+}
+
+.coin_header_mobile,
+.container_list_coin_mobile,
+.coin_row_mobile {
+    display: none;
+}
+
+.coin_header_mobile {
+    grid-template-columns: 18px minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    padding: 6px 12px 10px;
+    box-sizing: border-box;
+    column-gap: 8px;
+}
+
+.coin_row_mobile {
+    padding: 6px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.coin_row_mobile:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.container_list_coin_mobile {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: center;
+    column-gap: 8px;
+}
+
+.price_positive {
+    color: #22c55e;
+    font-weight: 600;
+    text-align: right;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.price_negative {
+    color: #ef4444;
+    font-weight: 600;
+    text-align: right;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+    .coin_header,
+    .coin_row {
+        display: none;
+    }
+
+    .coin_header_mobile,
+    .coin_row_mobile {
+        display: block;
+    }
 }

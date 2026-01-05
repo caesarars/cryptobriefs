@@ -1,21 +1,21 @@
 'use client'; // WAJIB buat pake useRouter dan hooks di Next.js Client Components
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { FaArrowUp, FaArrowDown, FaMinusCircle } from "react-icons/fa";
 import Image from "next/image";
-import SentimentProgress from "./SentimentProgress"; // pastikan udah adaptasi
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaArrowDown, FaArrowUp, FaMinusCircle } from "react-icons/fa";
 import Loading from "../loading/Loading"; // pastikan udah adaptasi
 import "./CryptoSentiment.css";
+import SentimentProgress from "./SentimentProgress"; // pastikan udah adaptasi
 
 // Import assets
 import bitcoinImage from "../../assets/image/bitcoin.png";
-import ethereumImage from "../../assets/image/ethereum.png";
-import solanaImage from "../../assets/image/solana.png";
-import dogeImage from "../../assets/image/dogecoin.png";
 import bnbImage from "../../assets/image/bnb.png";
 import adaImage from "../../assets/image/coin.png";
+import dogeImage from "../../assets/image/dogecoin.png";
+import ethereumImage from "../../assets/image/ethereum.png";
 import dotImage from "../../assets/image/polkadot.png";
+import solanaImage from "../../assets/image/solana.png";
 import xrpImage from "../../assets/image/xrp.png";
 
 export default function CryptoSentiment() {
@@ -30,44 +30,102 @@ export default function CryptoSentiment() {
     const [isLoading, setIsLoading] = useState(false)
     const [coinPrice, setCoinPrice] = useState(0)
     const [coinPath, setCoinPath] = useState(bitcoinImage)
+    const [lastWeekBullishPct, setLastWeekBullishPct] = useState(null)
+    const [compareEnabled, setCompareEnabled] = useState(false)
+    const [compareStats, setCompareStats] = useState(null)
 
     useEffect(() => {
+        let isMounted = true;
         setIsLoading(true)
-        
-        fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment${coinFilter ? `?coin=${coinFilter}` : ""}&period=${period}`)
-            .then((res) => res.json())
-            .then((data) => {
+
+        const fetchSentiment = async () => {
+            try {
+                const res = await fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment${coinFilter ? `?coin=${coinFilter}` : ""}&period=${period}`);
+                const data = await res.json();
+                if (!isMounted) return;
                 setNews(data.news)
                 setTotalBullish(data.sentimentCounts.bullish)
                 setTotalBearish(data.sentimentCounts.bearish)
                 setTotalNeutral(data.sentimentCounts.neutral)
                 setTotalNews(data.news.length)
-                setIsLoading(false)
-            })
-            .catch((error) => console.error("Error fetching news:", error));
-             // Fetch harga Bitcoin dari Binance
-            const fetchPrice = async () => {
-                try {  
-                    const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${coinFilter}USDT`);
-                    //const res = await fetch(`https://crypto-blog-backend.vercel.app/api/crypto-price?coinFilter=${coinFilter}`);
-                    const data = await res.json();
+            } catch (error) {
+                console.error("Error fetching news:", error);
+            } finally {
+                if (isMounted) setIsLoading(false)
+            }
+        };
 
-                    if (data.price) {
-                        setCoinPrice(parseFloat(data.price));
-                    }
-                } catch (error) {
-                    console.error("Error fetching BTC price:", error);
+        const fetchLastWeek = async () => {
+            try {
+                const res = await fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment${coinFilter ? `?coin=${coinFilter}` : ""}&period=week`);
+                const data = await res.json();
+                const total = data.news.length || 1;
+                const pct = Math.round((data.sentimentCounts.bullish / total) * 100);
+                if (isMounted) setLastWeekBullishPct(pct);
+            } catch (error) {
+                console.error("Error fetching last week sentiment:", error);
+            }
+        };
+
+        fetchSentiment();
+        fetchLastWeek();
+
+        // Fetch harga coin dari Binance
+        const fetchPrice = async () => {
+            try {  
+                const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${coinFilter}USDT`);
+                //const res = await fetch(`https://crypto-blog-backend.vercel.app/api/crypto-price?coinFilter=${coinFilter}`);
+                const data = await res.json();
+
+                if (data.price) {
+                    setCoinPrice(parseFloat(data.price));
                 }
-            };
+            } catch (error) {
+                console.error("Error fetching BTC price:", error);
+            }
+        };
 
-            fetchPrice();
-            const priceInterval = setInterval(fetchPrice, 5000); // Update tiap 5 detik
+        fetchPrice();
+        const priceInterval = setInterval(fetchPrice, 5000); // Update tiap 5 detik
 
-            return () => clearInterval(priceInterval);
-
-            
+        return () => {
+            isMounted = false;
+            clearInterval(priceInterval);
+        };
 
     }, [coinFilter, period]);    
+
+    useEffect(() => {
+        if (!compareEnabled) return;
+        let isMounted = true;
+
+        const fetchCompare = async () => {
+            try {
+                const [btcRes, ethRes] = await Promise.all([
+                    fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment?coin=BTC&period=${period}`),
+                    fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment?coin=ETH&period=${period}`),
+                ]);
+                const [btcData, ethData] = await Promise.all([btcRes.json(), ethRes.json()]);
+                const btcTotal = btcData.news.length || 1;
+                const ethTotal = ethData.news.length || 1;
+                const btcPct = Math.round((btcData.sentimentCounts.bullish / btcTotal) * 100);
+                const ethPct = Math.round((ethData.sentimentCounts.bullish / ethTotal) * 100);
+                if (isMounted) {
+                    setCompareStats({
+                        BTC: { bullishPct: btcPct, totalNews: btcData.news.length },
+                        ETH: { bullishPct: ethPct, totalNews: ethData.news.length },
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching compare sentiment:", error);
+            }
+        };
+
+        fetchCompare();
+        return () => {
+            isMounted = false;
+        };
+    }, [compareEnabled, period]);
 
     const getCoinPath = (coin) => {
         switch (coin) {
@@ -131,6 +189,22 @@ export default function CryptoSentiment() {
           
     }
 
+    const bullishPct = totalNews > 0 ? Math.round((totalBullish / totalNews) * 100) : 0;
+    const noSignals = totalBullish === 0 && totalBearish === 0 && totalNeutral === 0;
+    const biasLabel = noSignals
+        ? "Neutral"
+        : bullishPct >= 55
+        ? "Bullish"
+        : bullishPct <= 45
+        ? "Bearish"
+        : "Neutral";
+    const biasClass = biasLabel === "Bullish" ? "bias_bullish" : biasLabel === "Bearish" ? "bias_bearish" : "bias_neutral";
+
+    const trendDelta = lastWeekBullishPct === null ? 0 : bullishPct - lastWeekBullishPct;
+    const trendIcon = trendDelta > 1 ? <FaArrowUp /> : trendDelta < -1 ? <FaArrowDown /> : <FaMinusCircle />;
+    const trendText = trendDelta > 1 ? "Sentiment ↑ from last week" : trendDelta < -1 ? "Sentiment ↓ from last week" : "Sentiment flat vs last week";
+    const momentumText = trendDelta > 1 ? "Momentum increasing vs last week" : trendDelta < -1 ? "Momentum cooling vs last week" : "Momentum steady vs last week";
+
     return (
         <>
             <div className="container wrapper_analysis">
@@ -148,6 +222,16 @@ export default function CryptoSentiment() {
                     <p className="read_more btn btn-warning general-font" onClick={() =>navigate('/news')} style={{ justifySelf: "end" }}>Explore More News</p>
                 </div>
 
+                <div className="sentiment_explain">
+                    <div className="sentiment_explain_title">
+                        <span>Sentiment score</span>
+                        <span className="tooltip_badge" title="Sentiment based on 120+ news articles & social mentions">i</span>
+                    </div>
+                    <p className="sentiment_explain_text">
+                        Score reflects the share of bullish vs bearish coverage for {coinFilter} in the selected period.
+                    </p>
+                </div>
+
                 <div className="d-flex justify-content-center flex-column align-items-center general-font p-3">
                     <p style={{fontSize:"1.4em"}}>$ {coinPrice}
                     <Image style={{marginLeft:"12px"}}
@@ -159,7 +243,7 @@ export default function CryptoSentiment() {
 
                 <div className="input-group select-option general-font">
                         <div className="input-group-prepand" style={{width:"72px"}}>
-                            <label className="input-group-text" htmlFor="inputGroupSelect01">Period</label>
+                            <label className="input-group-text" htmlFor="select_period">Period</label>
                         </div>
                         <select id="select_period" className="form-control" onChange={(e) => setPeriod(e.target.value)}>
                             <option value="today">Today</option>
@@ -192,6 +276,38 @@ export default function CryptoSentiment() {
                 {isLoading && <Loading />}                
                 {!isLoading && (
                     <>
+                        <div className="sentiment_takeaway general-font">
+                            <div className="takeaway_row">
+                                <span className={`bias_tag ${biasClass}`}>Bias: {biasLabel} ({bullishPct}%)</span>
+                                <span className="momentum_tag">{momentumText}</span>
+                            </div>
+                            <div className="trend_row">
+                                <span className="trend_icon">{trendIcon}</span>
+                                <span className="trend_text">{trendText}</span>
+                            </div>
+                            <div className="sentiment_actions">
+                                <button className="sentiment_btn" onClick={() => navigate(`/news?coin=${coinFilter}`)}>
+                                    Open {coinFilter} sentiment
+                                </button>
+                                <button className="sentiment_btn sentiment_btn_outline" onClick={() => setCompareEnabled((prev) => !prev)}>
+                                    {compareEnabled ? "Hide BTC vs ETH" : "Compare BTC vs ETH"}
+                                </button>
+                            </div>
+                            {compareEnabled && compareStats && (
+                                <div className="compare_panel">
+                                    <div className="compare_card">
+                                        <span className="compare_symbol">BTC</span>
+                                        <span className="compare_value">{compareStats.BTC?.bullishPct ?? "—"}% Bullish</span>
+                                        <span className="compare_subtext">{compareStats.BTC?.totalNews ?? 0} articles</span>
+                                    </div>
+                                    <div className="compare_card">
+                                        <span className="compare_symbol">ETH</span>
+                                        <span className="compare_value">{compareStats.ETH?.bullishPct ?? "—"}% Bullish</span>
+                                        <span className="compare_subtext">{compareStats.ETH?.totalNews ?? 0} articles</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                         <div className="main_container_sentiment general-font">
                             <div className="news_list">
 

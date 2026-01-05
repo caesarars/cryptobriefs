@@ -5,8 +5,9 @@
     color: white;
     border-radius: 16px;
     padding: 16px;
-    width: 480px;     
+    width: 520px;     
     height: 600px;
+    overflow: auto;
 }
 
 .date_published {
@@ -14,6 +15,145 @@
     font-weight: 400;
 }
 
+.sentiment_explain {
+    margin: 8px 0 4px;
+}
+
+.sentiment_explain_title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.tooltip_badge {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 12px;
+    cursor: help;
+}
+
+.sentiment_explain_text {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 6px 0 0;
+}
+
+.sentiment_takeaway {
+    margin: 14px 0 10px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.takeaway_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.bias_tag {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.bias_bullish {
+    background: rgba(34, 197, 94, 0.18);
+    color: #22c55e;
+}
+
+.bias_bearish {
+    background: rgba(239, 68, 68, 0.18);
+    color: #ef4444;
+}
+
+.bias_neutral {
+    background: rgba(148, 163, 184, 0.18);
+    color: #cbd5f5;
+}
+
+.momentum_tag {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.trend_row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.trend_icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sentiment_actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.sentiment_btn {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    background: #f59e0b;
+    color: #111827;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.sentiment_btn_outline {
+    background: transparent;
+    color: #f59e0b;
+    border: 1px solid #f59e0b;
+}
+
+.compare_panel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.compare_card {
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.compare_symbol {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.compare_value {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.compare_subtext {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
 
 .read_more_2 {
     display: none;
@@ -138,6 +278,14 @@
     .arrowDown , .arrowUp , .neturalIcon {
         width: 12px;
         padding: 2px;
+    }
+
+    .sentiment_actions {
+        flex-direction: column;
+    }
+
+    .compare_panel {
+        grid-template-columns: 1fr;
     }
    
 }

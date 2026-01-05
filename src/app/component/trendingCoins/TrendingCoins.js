@@ -119,7 +119,7 @@ const TrendingCoins = () => {
                             rel="noopener noreferrer"
                         >
                             <div className="container_list_coin">
-                                <span className="coin_rank">{++index}</span>
+                                <span className="coin_rank">{index + 1}</span>
                                 <div className="coin_meta">
                                     <img loading="lazy" src={coin.image} alt={coin.id} width={"28px"} height={"28px"}/>
                                     <div className="coin_text">
@@ -130,6 +130,31 @@ const TrendingCoins = () => {
                                 <Sparkline prices={coin.sparkline} isUp={coin.change24h >= 0} />
                                 <p className={coin.change24h >= 0 ? "change_positive" : "change_negative"}>
                                     {formatChange(coin.change24h)}
+                                </p>
+                            </div>
+                        </a>
+                    ))}
+                    <div className="coin_header_mobile">
+                        <span>#</span>
+                        <span>Coin</span>
+                        <span className="coin_header_right">Price</span>
+                    </div>
+                    {coins.map((coin, index) => (
+                        <a
+                            key={`${coin.id}-mobile`}
+                            className="coin_row_mobile"
+                            href={`https://www.coingecko.com/en/coins/${coin.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div className="container_list_coin_mobile">
+                                <span className="coin_rank">{index + 1}</span>
+                                <div className="coin_meta">
+                                    <img loading="lazy" src={coin.image} alt={coin.id} width={"24px"} height={"24px"}/>
+                                    <span className="coin_symbol">{coin.symbol}</span>
+                                </div>
+                                <p className={coin.change24h >= 0 ? "price_positive" : "price_negative"}>
+                                    ${formatPrice(coin.price)}
                                 </p>
                             </div>
                         </a>
