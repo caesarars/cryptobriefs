@@ -268,7 +268,6 @@
     border-radius: 10px;
     text-decoration: none;
     color: inherit;
-    display: block;
 }
 
 .coin_row_mobile:hover {
@@ -276,7 +275,6 @@
 }
 
 .container_list_coin_mobile {
-    display: grid;
     grid-template-columns: 18px minmax(0, 1fr) minmax(0, 0.8fr);
     align-items: center;
     column-gap: 8px;
@@ -307,5 +305,9 @@
     .coin_header_mobile,
     .coin_row_mobile {
         display: block;
+    }
+
+    .container_list_coin_mobile {
+        display: grid;
     }
 }
