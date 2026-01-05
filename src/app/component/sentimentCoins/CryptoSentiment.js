@@ -19,7 +19,7 @@ import solanaImage from "../../assets/image/solana.png";
 import xrpImage from "../../assets/image/xrp.png";
 
 export default function CryptoSentiment() {
-    const navigate = useRouter()
+    const router = useRouter()
     const [news, setNews] = useState([]);
     const [coinFilter, setCoinFilter] = useState("BTC");
     const [period, setPeriod] = useState("today")
@@ -219,7 +219,7 @@ export default function CryptoSentiment() {
                     <p style={{ fontSize: "1.3em", fontWeight: "bold" }} className="space-title">
                         News Sentiment - {coinFilter}
                     </p>
-                    <p className="read_more btn btn-warning general-font" onClick={() =>navigate('/news')} style={{ justifySelf: "end" }}>Explore More News</p>
+                    <p className="read_more btn btn-warning general-font" onClick={() => router.push('/news')} style={{ justifySelf: "end" }}>Explore More News</p>
                 </div>
 
                 <div className="sentiment_explain">
@@ -286,7 +286,7 @@ export default function CryptoSentiment() {
                                 <span className="trend_text">{trendText}</span>
                             </div>
                             <div className="sentiment_actions">
-                                <button className="sentiment_btn" onClick={() => navigate(`/news?coin=${coinFilter}`)}>
+                                <button className="sentiment_btn" onClick={() => router.push(`/news?coin=${coinFilter}`)}>
                                     Open {coinFilter} sentiment
                                 </button>
                                 <button className="sentiment_btn sentiment_btn_outline" onClick={() => setCompareEnabled((prev) => !prev)}>
@@ -342,7 +342,7 @@ export default function CryptoSentiment() {
                 )}
 
                { news.length < 3 && 
-                <p className="read_more_2 btn btn-warning general-font" onClick={() =>navigate('/news')} style={{ justifySelf: "end" }}>Explore More News</p>
+                <p className="read_more_2 btn btn-warning general-font" onClick={() => router.push('/news')} style={{ justifySelf: "end" }}>Explore More News</p>
 
                }
                 
