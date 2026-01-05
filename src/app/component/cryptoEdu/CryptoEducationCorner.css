@@ -72,6 +72,75 @@
     font-weight: bold;
 }
 
+.learning_path {
+    padding: 8px 12px 4px;
+}
+
+.learning_path_card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.learning_path_title {
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.learning_path_steps {
+    display: grid;
+    gap: 6px;
+}
+
+.learning_path_step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.learning_step_number {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.read_time {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 6px;
+}
+
+.cta_edu {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #f59e0b;
+    color: #111827;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.cta_edu:hover {
+    background: #fbbf24;
+    color: #111827;
+}
+
 .wrapper_blog_edu {
     display: grid;
     gap: 20px;
