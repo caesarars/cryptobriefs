@@ -4,7 +4,7 @@
   left:18px;
   z-index: 2;
   margin: 24px 12px 0 0;
-  width: 280px;
+  width: clamp(200px, 22vw, 320px);
 }
 
 .trending-coins-card {
