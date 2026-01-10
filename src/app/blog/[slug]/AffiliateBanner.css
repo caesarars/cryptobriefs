@@ -1,17 +1,16 @@
 .affiliate_banner_wrapper {
-    position: absolute;
-    top: 0px;
-    z-index: 1200;
+    position: sticky;
+    top: 24px;
+    z-index: 2;
     display: flex;
     justify-content: flex-end;
     border-radius: 8px;
     pointer-events: auto;
-    margin-left: 36px;
-    top: 136px;
+    margin: 24px 12px 0 0;
   }
   
   .image_affiliate {
-    width: 320px;
+    width: 280px;
     height: auto;
     transition: transform 0.3s ease;
     border-radius: 8px;
@@ -23,7 +22,7 @@
   }
   
   
-  @media (max-width:1594px) {
+  @media (max-width:1200px) {
     .image_affiliate {
         display: none;
     }

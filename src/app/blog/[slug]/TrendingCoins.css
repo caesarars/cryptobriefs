@@ -1,0 +1,123 @@
+.trending-coins-wrapper {
+  position: sticky;
+  top: 24px;
+  left:18px;
+  z-index: 2;
+  margin: 24px 12px 0 0;
+  width: 280px;
+}
+
+.trending-coins-card {
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.trending-coins-title {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.trending-coins-status {
+  font-size: 14px;
+  color: #4d4d4d;
+}
+
+.trending-coins-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.trending-coin-item + .trending-coin-item {
+  margin-top: 12px;
+}
+
+.trending-coin-link {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  padding: 8px;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.trending-coin-link:hover {
+  background: #f7f7f7;
+}
+
+.trending-coin-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.trending-coin-rank {
+  width: 20px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.trending-coin-image {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.trending-coin-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.trending-coin-symbol {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.trending-coin-name {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.trending-coin-stats {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trending-coin-price {
+  font-size: 12px;
+  color: #111827;
+}
+
+.trending-coin-change {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.trending-coin-change.positive {
+  color: #16a34a;
+}
+
+.trending-coin-change.negative {
+  color: #dc2626;
+}
+
+@media (max-width: 1200px) {
+  .trending-coins-wrapper {
+    display: none;
+  }
+}
