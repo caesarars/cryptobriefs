@@ -27,6 +27,8 @@ export default function Footer() {
             <ul className="footer-list">
               <li><Link href="/advertise">Advertise</Link></li>
               <li><Link href="/disclosure">Disclosure</Link></li>
+              <li><Link href="/privacy">Privacy</Link></li>
+              <li><Link href="/terms">Terms</Link></li>
               <li><a href="mailto:hello@cryptobriefs.net">hello@cryptobriefs.net</a></li>
             </ul>
           </div>

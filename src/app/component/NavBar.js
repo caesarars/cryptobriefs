@@ -51,9 +51,10 @@ const Navbar = () => {
             ["/", "Home"],
             ["/brief", "Brief"],
             ["/subscribe", "Subscribe"],
-            ["/airdrops", "Airdrops"],
             ["/blogs", "Blog"],
             ["/news", "News"],
+            ["/airdrops", "Airdrops"],
+            ["/about", "About"],
             ["/advertise", "Advertise"],
             ["/contact", "Contact"],
           ].map(([href, label]) => (
