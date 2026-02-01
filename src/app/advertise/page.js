@@ -46,7 +46,7 @@ export default function AdvertisePage() {
           Contact
         </div>
         <div className="mt-2" style={{ opacity: 0.9 }}>
-          Email: <a href="mailto:hello@cryptobriefs.net">hello@cryptobriefs.net</a>
+          Email: <a href="mailto:admin@cryptobriefs.net">admin@cryptobriefs.net</a>
         </div>
         <div className="mt-3 d-flex gap-2 flex-wrap">
           <Link className="btn btn-glow" href="/subscribe">Subscribe</Link>
