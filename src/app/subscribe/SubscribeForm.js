@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { trackEvent } from "../lib/analytics";
 
 const SubscribeForm = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    trackEvent("view_subscribe");
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatus("loading");
     setMessage("");
+
+    trackEvent("subscribe_submit", { placement: "subscribe_page" });
 
     try {
       const response = await fetch(
@@ -30,18 +37,20 @@ const SubscribeForm = () => {
       }
 
       setStatus("success");
-      setMessage("Thanks! Check your inbox for confirmation.");
+      setMessage("You’re in. Check your inbox (and spam) for the next brief.");
       setEmail("");
+      trackEvent("subscribe_success", { placement: "subscribe_page" });
     } catch (error) {
       setStatus("error");
       setMessage(error.message || "Something went wrong. Please try again.");
+      trackEvent("subscribe_error", { placement: "subscribe_page" });
     }
   };
 
   return (
     <form className="subscribe-form" onSubmit={handleSubmit}>
       <label className="subscribe-field">
-        Email address
+        Email
         <input
           type="email"
           name="email"
@@ -57,7 +66,7 @@ const SubscribeForm = () => {
         className="subscribe-button"
         disabled={status === "loading"}
       >
-        {status === "loading" ? "Submitting..." : "Join the newsletter"}
+        {status === "loading" ? "Submitting..." : "Join free"}
       </button>
       {message ? (
         <p

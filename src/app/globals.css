@@ -37,3 +37,39 @@ a {
   background: linear-gradient(135deg, #7234D9, #9f7aea);
   color: #fff;
 }
+
+.site-footer {
+  background: #0b0b0f;
+  color: #fff;
+  margin-top: 40px;
+}
+
+.footer-muted {
+  opacity: 0.85;
+}
+
+.footer-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0 0 0;
+}
+
+.footer-list li {
+  margin: 6px 0;
+}
+
+.footer-list a {
+  opacity: 0.9;
+}
+
+.footer-list a:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 16px 0;
+}

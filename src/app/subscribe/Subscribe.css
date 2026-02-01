@@ -34,7 +34,17 @@
   font-size: 16px;
   line-height: 26px;
   color: #4b5563;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+}
+
+.subscribe-benefits {
+  margin: 0 0 20px 18px;
+  color: #111827;
+}
+
+.subscribe-benefits li {
+  margin-bottom: 8px;
+  line-height: 22px;
 }
 
 .subscribe-form {

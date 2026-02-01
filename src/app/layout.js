@@ -5,6 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Space_Grotesk } from "next/font/google";
 import Script from "next/script";
 import Navbar from "./component/NavBar";
+import Footer from "./component/footer/Footer";
+import StickyCta from "./component/stickyCta/StickyCta";
+import "./component/stickyCta/StickyCta.css";
 import "./globals.css";
 
 
@@ -49,6 +52,8 @@ export default function RootLayout({ children }) {
         className="layout-body">
         <Navbar />
         {children}
+        <Footer />
+        <StickyCta />
         <Analytics />
       </body>
     </html>
