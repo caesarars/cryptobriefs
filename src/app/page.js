@@ -6,6 +6,7 @@ import CryptoSentiment from "./component/sentimentCoins/CryptoSentiment";
 import TrendingCoins from "./component/trendingCoins/TrendingCoins";
 import BriefSummary from "./component/brief/BriefSummary";
 import SubscribeInline from "./component/subscribeInline/SubscribeInline";
+import SignalContext from "./component/signalContext/SignalContext";
 import "./page.css"
 
 export const metadata = {
@@ -43,6 +44,7 @@ export default function Home() {
       <div className="bg-dark pb-5 background_image_banner">
         <HeroSection />
         <SubscribeInline />
+        <SignalContext />
         <div className="wrapper pb-5">
           <TrendingCoins />
           <CryptoSentiment />
