@@ -71,40 +71,75 @@ const News = () => {
       );
     };
 
+    // Landing page UX: avoid big skeleton blocks.
+    if (isLoading) {
+      return (
+        <div className="container pt-5 pb-3">
+          <h2 className="pt-4 pb-3 space-title">Newsletter</h2>
+          <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
+            <p className="mb-0" style={{ color: "#2b2b2b" }}>
+              Loading latest headlines…
+            </p>
+            <div className="mt-3 d-flex gap-2 flex-wrap">
+              <button onClick={() => navigate("/news")} className="btn btn-glow" style={{ borderRadius: 50 }}>
+                Open news
+              </button>
+              <a href="/subscribe" className="btn btn-outline-dark" style={{ borderRadius: 50 }}>
+                Get updates by email
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (!sortedNews || sortedNews.length === 0) {
+      return (
+        <div className="container pt-5 pb-3">
+          <h2 className="pt-4 pb-3 space-title">Newsletter</h2>
+          <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
+            <p className="mb-0" style={{ color: "#2b2b2b" }}>
+              No headlines available right now.
+            </p>
+            <div className="mt-3">
+              <button onClick={() => navigate("/news")} className="btn btn-glow" style={{ borderRadius: 50 }}>
+                Browse news
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
         <div className="container pt-5 pb-3">
-            <h1 className="pt-4 pb-3 space-title">Newsletter</h1>
-            {isLoading ? (
-                <LoadingSkeleton />
-            ) : (
-                <div style={styles.grid}>
-                {sortedNews.slice(0, visibleNews).map((item, index) => (
-                    <div key={index} style={styles.card}>
-                    <a href={item.link} target="_blank" rel="noopener noreferrer">
-                    <img
-                      loading="lazy"
-                        src={item.image || imageDefault}
-                        alt={item.title}
-                        style={styles.image}
-                        onError={(e) => {
-                          e.target.onerror = null; 
-                          e.target.src = imageDefault;
-                        }}
-                      />
-                    </a>
-                    <div style={styles.content}>
-                        <h2 style={styles.newsTitle}>{item.title}</h2>
-                        <p style={styles.date}>{new Date(item.published).toLocaleString()}</p>
-                    </div>
-                    </div>
-                ))}
-                </div>
-            )}
+            <h2 className="pt-4 pb-3 space-title">Newsletter</h2>
+            <div style={styles.grid}>
+              {sortedNews.slice(0, visibleNews).map((item, index) => (
+                  <div key={index} style={styles.card}>
+                  <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <img
+                    loading="lazy"
+                      src={item.image || imageDefault}
+                      alt={item.title}
+                      style={styles.image}
+                      onError={(e) => {
+                        e.target.onerror = null; 
+                        e.target.src = imageDefault;
+                      }}
+                    />
+                  </a>
+                  <div style={styles.content}>
+                      <h3 style={styles.newsTitle}>{item.title}</h3>
+                      <p style={styles.date}>{new Date(item.published).toLocaleString()}</p>
+                  </div>
+                  </div>
+              ))}
+            </div>
 
-                <button onClick={() => navigate("/news")} className="btn-glow" style={styles.loadMore}>
-                  See More
-                </button>
-               
+            <button onClick={() => navigate("/news")} className="btn-glow" style={styles.loadMore}>
+              See More
+            </button>
         </div>
     )
 }
