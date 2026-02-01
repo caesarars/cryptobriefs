@@ -5,6 +5,7 @@ import News from "./component/newsFeeds/News";
 import CryptoSentiment from "./component/sentimentCoins/CryptoSentiment";
 import TrendingCoins from "./component/trendingCoins/TrendingCoins";
 import BriefSummary from "./component/brief/BriefSummary";
+import SubscribeInline from "./component/subscribeInline/SubscribeInline";
 import "./page.css"
 
 export const metadata = {
@@ -18,7 +19,7 @@ export const metadata = {
     siteName: "CryptoBriefs",
     images: [
       {
-        url: "https://cryptobriefs.net/og-image.jpg", // Ganti ke image OG kamu
+        url: "https://cryptobriefs.net/og-image.jpg", // TODO: add this file to /public
         width: 1200,
         height: 630,
         alt: "CryptoBriefs OG Image",
@@ -36,24 +37,23 @@ export const metadata = {
   },
 };
 
-
-export default function Home({  }) {
+export default function Home() {
   return (
     <>
       <div className="bg-dark pb-5 background_image_banner">
-       <HeroSection/>
-       <div className="wrapper pb-5">
-         <TrendingCoins/>
-         <CryptoSentiment/>
-         <CryptoEducationCorner/>
-       </div>
+        <HeroSection />
+        <SubscribeInline />
+        <div className="wrapper pb-5">
+          <TrendingCoins />
+          <CryptoSentiment />
+          <CryptoEducationCorner />
+        </div>
       </div>
       <div className="">
-        <BriefSummary/>
-        <Blogs/>
-        <News/>
+        <BriefSummary />
+        <Blogs />
+        <News />
       </div>
     </>
-   
   );
 }
