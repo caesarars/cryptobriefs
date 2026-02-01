@@ -8,14 +8,19 @@ export default function SubscribeInline() {
       <div
         className="p-4 p-md-5 rounded-4"
         style={{
-          background: "linear-gradient(135deg, rgba(114,52,217,0.18), rgba(159,122,234,0.10))",
-          border: "1px solid rgba(114,52,217,0.25)",
+          background:
+            "linear-gradient(135deg, rgba(12,12,18,0.92), rgba(66,18,98,0.92))",
+          border: "1px solid rgba(255,255,255,0.12)",
+          boxShadow: "0 14px 40px rgba(0,0,0,0.35)",
+          color: "#fff",
         }}
       >
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
           <div style={{ maxWidth: 760 }}>
-            <h2 className="space-title mb-2">Get the 60‑second crypto brief</h2>
-            <p className="mb-0" style={{ color: "#2b2b2b" }}>
+            <h2 className="space-title mb-2" style={{ color: "#fff" }}>
+              Get the 60‑second crypto brief
+            </h2>
+            <p className="mb-0" style={{ color: "rgba(255,255,255,0.88)" }}>
               One email with sentiment + movers + a clear takeaway. No hype. No spam.
             </p>
           </div>
