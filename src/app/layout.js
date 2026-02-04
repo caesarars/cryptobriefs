@@ -40,6 +40,23 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+
+        {/* Google tag (gtag.js) */}
+        <Script
+          id="gtag-src"
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-881837141"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-881837141');
+          `}
+        </Script>
+
         <meta
           name="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1"
           content="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1"
