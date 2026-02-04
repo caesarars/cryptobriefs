@@ -10,7 +10,8 @@
     width: 90%;
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr;
-    margin: 0 auto;
+    margin: 24px auto 0; /* add breathing room from section above */
+    gap: 18px; /* space between widgets */
 }
 
 @media (max-width:1024px) {
