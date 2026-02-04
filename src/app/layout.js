@@ -6,10 +6,7 @@ import { Space_Grotesk } from "next/font/google";
 import Script from "next/script";
 import Navbar from "./component/NavBar";
 import Footer from "./component/footer/Footer";
-import StickyCta from "./component/stickyCta/StickyCta";
-import "./component/stickyCta/StickyCta.css";
 import "./globals.css";
-
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -34,10 +31,7 @@ export const metadata = {
 // Layout Component
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable}`}
-    >
+    <html lang="en" className={`${spaceGrotesk.variable}`}>
       <head>
         <Script
           id="adsense-script"
@@ -46,14 +40,15 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <meta name="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1" content="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1" />
+        <meta
+          name="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1"
+          content="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1"
+        />
       </head>
-      <body suppressHydrationWarning={true}
-        className="layout-body">
+      <body suppressHydrationWarning={true} className="layout-body">
         <Navbar />
         {children}
         <Footer />
-        <StickyCta />
         <Analytics />
       </body>
     </html>
