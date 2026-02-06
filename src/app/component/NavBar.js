@@ -42,11 +42,11 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`collapse navbar-collapse justify-content-end px-4 ${menuOpen ? "show" : ""}`}
+        className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`}
         id="navbarNav"
         style={{ borderRadius: "10px", marginTop: "0.5rem" }}
       >
-        <ul className="navbar-nav general-font w-100 text-center">
+        <ul className="navbar-nav general-font ms-auto nav-links">
           {[
             ["/", "Home"],
             ["/brief", "Brief"],
