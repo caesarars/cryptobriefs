@@ -17,14 +17,25 @@ const spaceGrotesk = Space_Grotesk({
 
 // Metadata
 export const metadata = {
-  title: "CryptoBriefs - Stay Updated on Crypto",
-  description: "Latest updates on Bitcoin, Ethereum, Altcoins, and Web3 News.",
+  title: {
+    default: "CryptoBriefs — Daily crypto brief + sentiment",
+    template: "%s | CryptoBriefs",
+  },
+  description: "Understand crypto in 60 seconds a day. Sentiment, movers, and one clear takeaway.",
   manifest: "/manifest.json",
   alternates: {
-    canonical: "https://www.cryptobriefs.net",
+    canonical: "https://cryptobriefs.net",
   },
   icons: {
     icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "CryptoBriefs",
+    description: "Daily crypto brief + news sentiment. Fast signal without the noise.",
+    url: "https://cryptobriefs.net",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    type: "website",
   },
 };
 
@@ -54,6 +65,9 @@ export default function RootLayout({ children }) {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'AW-881837141');
+
+            // Optional: set this to enable conversion tracking from app code
+            // window.__ADS_CONVERSION_SEND_TO = 'AW-XXXXXXX/XXXXXXXXXXX'
           `}
         </Script>
 

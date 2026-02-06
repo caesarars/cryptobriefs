@@ -14,16 +14,16 @@ export const metadata = {
   description: "Stay updated with CryptoBriefs – your go-to source for cryptocurrency news, education, and trending market insights. Discover Bitcoin, Ethereum, and the latest Web3 projects.",
   keywords: ["Crypto News", "Cryptocurrency Updates", "Bitcoin", "Ethereum", "Web3", "Crypto Trends", "Blockchain News"],
   openGraph: {
-    title: "CryptoBriefs - Latest Crypto News and Insights",
-    description: "Explore the latest crypto news, education, and market trends on CryptoBriefs.",
+    title: "CryptoBriefs - Latest Crypto News, Insights, and Trends",
+    description: "Daily crypto brief + news sentiment. Fast signal without the noise.",
     url: "https://cryptobriefs.net",
     siteName: "CryptoBriefs",
     images: [
       {
-        url: "https://cryptobriefs.net/og-image.jpg", // TODO: add this file to /public
+        url: "https://cryptobriefs.net/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "CryptoBriefs OG Image",
+        alt: "CryptoBriefs",
       },
     ],
     type: "website",
