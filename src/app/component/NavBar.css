@@ -9,19 +9,27 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Desktop navbar spacing */
+/* Desktop navbar spacing (compact) */
+.brand-title {
+  /* reduce brand a bit so links fit on 1 row */
+  font-size: 1.55em !important;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 8px;
 }
 
 .nav-links .nav-link {
-  padding: 6px 8px;
-  font-size: 0.98rem;
+  padding: 4px 6px;
+  font-size: 0.9rem;
   line-height: 1;
   opacity: 0.92;
+  white-space: nowrap;
 }
 
 .nav-links .nav-link:hover {

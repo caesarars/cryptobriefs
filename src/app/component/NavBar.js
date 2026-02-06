@@ -23,7 +23,7 @@ const Navbar = () => {
       <div className="container-fluid wrapper_inside d-flex justify-content-between align-items-center">
         <Link
           href="/"
-          className="navbar-brand fw-bold space-title text-white"
+          className="navbar-brand fw-bold space-title text-white brand-title"
           style={{ fontSize: "2em" }}
         >
           Crypto Briefs
