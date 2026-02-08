@@ -1,11 +1,6 @@
 import React from "react";
 
-function clamp(v, min, max) {
-  return Math.max(min, Math.min(max, v));
-}
-
 export default function CoinChart({ prices }) {
-  // prices: array of [timestampMs, price]
   const pts = (prices || []).filter((p) => Array.isArray(p) && p.length >= 2);
   if (pts.length < 2) return null;
 
@@ -14,36 +9,47 @@ export default function CoinChart({ prices }) {
   const max = Math.max(...values);
 
   const w = 900;
-  const h = 260;
-  const pad = 14;
+  const h = 280;
+  const padX = 14;
+  const padTop = 20;
+  const padBot = 30;
 
-  const scaleX = (i) => pad + (i / (values.length - 1)) * (w - pad * 2);
+  const scaleX = (i) => padX + (i / (values.length - 1)) * (w - padX * 2);
   const scaleY = (v) => {
     if (max === min) return h / 2;
     const t = (v - min) / (max - min);
-    return pad + (1 - t) * (h - pad * 2);
+    return padTop + (1 - t) * (h - padTop - padBot);
   };
 
-  const d = values
-    .map((v, i) => {
-      const x = scaleX(i);
-      const y = scaleY(v);
-      return `${i === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`;
-    })
+  const linePath = values
+    .map((v, i) => `${i === 0 ? "M" : "L"}${scaleX(i).toFixed(2)} ${scaleY(v).toFixed(2)}`)
     .join(" ");
+
+  // Closed path for gradient fill area
+  const areaPath =
+    linePath +
+    ` L${scaleX(values.length - 1).toFixed(2)} ${(h - padBot).toFixed(2)}` +
+    ` L${scaleX(0).toFixed(2)} ${(h - padBot).toFixed(2)} Z`;
 
   const latest = values[values.length - 1];
   const earliest = values[0];
   const change = ((latest - earliest) / earliest) * 100;
-  const changeColor = change >= 0 ? "#22c55e" : "#ef4444";
+  const isUp = change >= 0;
+
+  // Gridlines
+  const gridCount = 4;
+  const gridLines = Array.from({ length: gridCount }, (_, i) => {
+    const frac = i / (gridCount - 1);
+    const val = min + frac * (max - min);
+    const y = scaleY(val);
+    return { y, label: `$${val.toLocaleString(undefined, { maximumFractionDigits: 0 })}` };
+  });
 
   return (
-    <div className="rounded-3 border border-white/10 p-3" style={{ background: "rgba(255,255,255,0.04)" }}>
-      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-        <div className="fw-semibold">Price (USD) — all time</div>
-        <div className="small" style={{ color: changeColor }}>
-          {change >= 0 ? "+" : ""}{change.toFixed(2)}%
-        </div>
+    <div className="coin-chart-card">
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+        <div className="coin-section-title m-0">Price Chart</div>
+        <span className="small text-secondary">365 days</span>
       </div>
       <svg viewBox={`0 0 ${w} ${h}`} width="100%" height={h} role="img" aria-label="Price chart">
         <defs>
@@ -51,15 +57,36 @@ export default function CoinChart({ prices }) {
             <stop offset="0" stopColor="#7c3aed" />
             <stop offset="1" stopColor="#06b6d4" />
           </linearGradient>
+          <linearGradient id="cgArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#7c3aed" stopOpacity="0.25" />
+            <stop offset="1" stopColor="#7c3aed" stopOpacity="0" />
+          </linearGradient>
         </defs>
-        <rect x="0" y="0" width={w} height={h} fill="transparent" />
-        <path d={d} fill="none" stroke="url(#cgLine)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-        {/* Min/Max labels */}
-        <text x={pad} y={pad + 10} fill="#94a3b8" fontSize="12">max ${max.toLocaleString(undefined,{maximumFractionDigits:2})}</text>
-        <text x={pad} y={h - pad} fill="#94a3b8" fontSize="12">min ${min.toLocaleString(undefined,{maximumFractionDigits:2})}</text>
+        {/* Horizontal grid lines */}
+        {gridLines.map((g, i) => (
+          <g key={i}>
+            <line x1={padX} y1={g.y} x2={w - padX} y2={g.y} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+            <text x={w - padX} y={g.y - 5} fill="#475569" fontSize="11" textAnchor="end">{g.label}</text>
+          </g>
+        ))}
+        {/* Area fill */}
+        <path d={areaPath} fill="url(#cgArea)" />
+        {/* Line */}
+        <path d={linePath} fill="none" stroke="url(#cgLine)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        {/* Current price dot */}
+        <circle cx={scaleX(values.length - 1)} cy={scaleY(latest)} r="4" fill="#06b6d4" />
+        <circle cx={scaleX(values.length - 1)} cy={scaleY(latest)} r="8" fill="#06b6d4" fillOpacity="0.2" />
       </svg>
-      <div className="small text-secondary">
-        Tip: Use this as a quick trend view. (Not financial advice.)
+      <div className="d-flex justify-content-between align-items-center mt-2">
+        <span className="small text-secondary">
+          Low: ${min.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+        </span>
+        <span className={`coin-badge ${isUp ? "up" : "down"}`}>
+          {isUp ? "+" : ""}{change.toFixed(2)}% year
+        </span>
+        <span className="small text-secondary">
+          High: ${max.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+        </span>
       </div>
     </div>
   );
