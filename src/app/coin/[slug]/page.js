@@ -4,7 +4,7 @@ import { getCoinChartMax, getCoinDetail, getCoinMarket, fmtNum, fmtUsd } from "@
 
 export const revalidate = 300;
 
-const TOP10 = {
+const COINS = {
   bitcoin: { id: "bitcoin", label: "Bitcoin" },
   ethereum: { id: "ethereum", label: "Ethereum" },
   tether: { id: "tether", label: "Tether" },
@@ -15,15 +15,30 @@ const TOP10 = {
   cardano: { id: "cardano", label: "Cardano" },
   dogecoin: { id: "dogecoin", label: "Dogecoin" },
   tron: { id: "tron", label: "TRON" },
+  "staked-ether": { id: "staked-ether", label: "Lido Staked Ether" },
+  "wrapped-bitcoin": { id: "wrapped-bitcoin", label: "Wrapped Bitcoin" },
+  chainlink: { id: "chainlink", label: "Chainlink" },
+  avalanche: { id: "avalanche-2", label: "Avalanche" },
+  "shiba-inu": { id: "shiba-inu", label: "Shiba Inu" },
+  sui: { id: "sui", label: "Sui" },
+  stellar: { id: "stellar", label: "Stellar" },
+  "bitcoin-cash": { id: "bitcoin-cash", label: "Bitcoin Cash" },
+  polkadot: { id: "polkadot", label: "Polkadot" },
+  hyperliquid: { id: "hyperliquid", label: "Hyperliquid" },
+  litecoin: { id: "litecoin", label: "Litecoin" },
+  uniswap: { id: "uniswap", label: "Uniswap" },
+  near: { id: "near", label: "NEAR Protocol" },
+  pepe: { id: "pepe", label: "Pepe" },
+  aptos: { id: "aptos", label: "Aptos" },
 };
 
 export async function generateStaticParams() {
-  return Object.keys(TOP10).map((slug) => ({ slug }));
+  return Object.keys(COINS).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }) {
   const slug = params.slug;
-  const info = TOP10[slug];
+  const info = COINS[slug];
   const name = info?.label || slug;
   return {
     title: `${name} price, chart & key stats`,
@@ -34,7 +49,7 @@ export async function generateMetadata({ params }) {
 
 export default async function CoinPage({ params }) {
   const slug = params.slug;
-  const info = TOP10[slug];
+  const info = COINS[slug];
   if (!info) {
     return (
       <div className="container py-5" style={{ color: "white" }}>
@@ -117,11 +132,11 @@ export default async function CoinPage({ params }) {
         </div>
 
         <div className="mt-5">
-          <div className="text-secondary small mb-2">Top 10 quick links</div>
+          <div className="text-secondary small mb-2">Browse coins</div>
           <div className="d-flex flex-wrap gap-2">
-            {Object.keys(TOP10).map((s) => (
-              <a key={s} href={`/${s}`} className="btn btn-outline-light btn-sm" style={{ borderRadius: 999 }}>
-                {TOP10[s].label}
+            {Object.keys(COINS).map((s) => (
+              <a key={s} href={`/coin/${s}`} className="btn btn-outline-light btn-sm" style={{ borderRadius: 999 }}>
+                {COINS[s].label}
               </a>
             ))}
           </div>
