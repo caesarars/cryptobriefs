@@ -132,9 +132,9 @@ export default function CryptoSentiment() {
             case "BTC" :
                 return bitcoinImage;
             case "ETH" :
-                return ethereumImage;   
+                return ethereumImage;
             case "SOL" :
-                return solanaImage;     
+                return solanaImage;
             case "DOGE":
                 return dogeImage;
             case "BNB" :
@@ -144,8 +144,23 @@ export default function CryptoSentiment() {
             case "XRP" :
                 return xrpImage;
             case "DOT" :
-                return dotImage;                    
+                return dotImage;
         }
+    }
+
+    // Map coin ticker to page slug
+    const getCoinSlug = (coin) => {
+        const slugMap = {
+            "BTC": "bitcoin",
+            "ETH": "ethereum",
+            "SOL": "solana",
+            "DOGE": "dogecoin",
+            "BNB": "binancecoin",
+            "ADA": "cardano",
+            "XRP": "ripple",
+            "DOT": "polkadot"
+        };
+        return slugMap[coin] || "bitcoin";
     }
 
     const sentimentCount = {
@@ -232,13 +247,26 @@ export default function CryptoSentiment() {
                     </p>
                 </div>
 
-                <div className="d-flex justify-content-center flex-column align-items-center general-font p-3">
-                    <p style={{fontSize:"1.4em"}}>$ {coinPrice}
-                    <Image style={{marginLeft:"12px"}}
-                        src={getCoinPath(coinFilter)} 
-                        alt="Bitcoin" 
-                        width={40} 
-                        height={40} /></p>
+                <div
+                    className="d-flex justify-content-center flex-column align-items-center general-font p-3"
+                    onClick={() => router.push(`/${getCoinSlug(coinFilter)}`)}
+                    style={{ cursor: "pointer", transition: "all 0.2s" }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                >
+                    <p style={{fontSize:"1.4em", margin: 0}}>
+                        $ {coinPrice}
+                        <Image
+                            style={{marginLeft:"12px"}}
+                            src={getCoinPath(coinFilter)}
+                            alt={coinFilter}
+                            width={40}
+                            height={40}
+                        />
+                    </p>
+                    <small style={{fontSize:"0.8em", color: "rgba(255,255,255,0.7)", marginTop: "4px"}}>
+                        Click to view {coinFilter} page →
+                    </small>
                 </div>
 
                 <div className="input-group select-option general-font">

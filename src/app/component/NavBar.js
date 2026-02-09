@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import "./NavBar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -12,8 +14,57 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
-  if (!mounted) return null; // avoid hydration mismatch
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.nav-dropdown')) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [dropdownOpen]);
+
+  // Show skeleton while loading
+  if (!mounted) {
+    return (
+      <nav className="navbar-skeleton">
+        <div className="navbar-skeleton-container">
+          <div className="skeleton-brand"></div>
+          <div className="skeleton-nav-links">
+            <div className="skeleton-nav-item"></div>
+            <div className="skeleton-nav-item"></div>
+            <div className="skeleton-nav-item"></div>
+            <div className="skeleton-nav-item"></div>
+            <div className="skeleton-nav-item"></div>
+            <div className="skeleton-nav-item"></div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
+  // Primary navigation links
+  const primaryLinks = [
+    ["/", "Home"],
+    ["/brief", "Brief"],
+    ["/subscribe", "Subscribe"],
+    ["/blogs", "Blog"],
+    ["/news", "News"],
+    ["/airdrops", "Airdrops"],
+  ];
+
+  // Dropdown links (More menu)
+  const dropdownLinks = [
+    ["/about", "About"],
+    ["/advertise", "Advertise"],
+    ["/contact", "Contact"],
+  ];
 
   return (
     <nav
@@ -24,7 +75,6 @@ const Navbar = () => {
         <Link
           href="/"
           className="navbar-brand fw-bold space-title text-white brand-title"
-          style={{ fontSize: "2em" }}
         >
           Crypto Briefs
         </Link>
@@ -47,23 +97,37 @@ const Navbar = () => {
         style={{ borderRadius: "10px", marginTop: "0.5rem" }}
       >
         <ul className="navbar-nav general-font ms-auto nav-links">
-          {[
-            ["/", "Home"],
-            ["/brief", "Brief"],
-            ["/subscribe", "Subscribe"],
-            ["/blogs", "Blog"],
-            ["/news", "News"],
-            ["/airdrops", "Airdrops"],
-            ["/about", "About"],
-            ["/advertise", "Advertise"],
-            ["/contact", "Contact"],
-          ].map(([href, label]) => (
+          {/* Primary Links */}
+          {primaryLinks.map(([href, label]) => (
             <li key={label} className="nav-item">
               <Link href={href} className="nav-link text-white">
                 {label}
               </Link>
             </li>
           ))}
+
+          {/* Dropdown Menu */}
+          <li className="nav-item nav-dropdown">
+            <button
+              className="nav-link text-white nav-dropdown-toggle"
+              onClick={toggleDropdown}
+              aria-expanded={dropdownOpen}
+            >
+              More <span className="dropdown-arrow">{dropdownOpen ? '▲' : '▼'}</span>
+            </button>
+
+            {dropdownOpen && (
+              <ul className="nav-dropdown-menu">
+                {dropdownLinks.map(([href, label]) => (
+                  <li key={label}>
+                    <Link href={href} className="nav-dropdown-item">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
         </ul>
       </div>
     </nav>

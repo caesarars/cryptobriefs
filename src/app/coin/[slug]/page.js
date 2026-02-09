@@ -1,36 +1,63 @@
 import Image from "next/image";
-import CoinChart from "@/app/component/coins/CoinChart";
 import { getCoinChartMax, getCoinDetail, getCoinMarket, fmtNum, fmtUsd } from "@/app/lib/coingecko";
-import "../coin-page.css";
+import CoinNewsFeed from "@/app/component/coins/CoinNewsFeed";
+import "../../coin-page.css";
+
+// Import local coin icons
+import bitcoinIcon from "@/app/assets/image/bitcoin.png";
+import ethereumIcon from "@/app/assets/image/ethereum.png";
+import bnbIcon from "@/app/assets/image/bnb.png";
+import solanaIcon from "@/app/assets/image/solana.png";
+import xrpIcon from "@/app/assets/image/xrp.png";
+import dogecoinIcon from "@/app/assets/image/dogecoin.png";
+import polkadotIcon from "@/app/assets/image/polkadot.png";
+import tetherIcon from "@/app/assets/image/tether.png";
+import tronIcon from "@/app/assets/image/tron-trx-logo.png";
+import cardanoIcon from "@/app/assets/image/cardano-ada-logo.png";
+import usdcIcon from "@/app/assets/image/usd-coin-usdc-logo.png";
+import wbtcIcon from "@/app/assets/image/wrapped-bitcoin-wbtc-icon.webp";
+import chainlinkIcon from "@/app/assets/image/chainlink.png"
+import lido from "@/app/assets/image/lido.svg"
+import ava from "@/app/assets/image/avax.png"
+import shiba from "@/app/assets/image/shiba.png"
+import sui from "@/app/assets/image/sui.png"
+import stellar from "@/app/assets/image/stellar.png"
+import bitcoinCashIcon from "@/app/assets/image/bitcoin-cash-bch-logo.png"
+import hyperliquidIcon from "@/app/assets/image/hyperliquid.webp"
+import ltcIcon from "@/app/assets/image/litecoin-ltc-logo.png"
+import uniswapIcon from "@/app/assets/image/uniswap-uni-logo.png"
+import nearIcon from "@/app/assets/image/near-protocol-near-logo.png"
+import pepeIcon from "@/app/assets/image/pepe-pepe-logo.png"
+import aptosIcon from "@/app/assets/image/aptos-apt-logo.png" 
 
 export const revalidate = 300;
 
 const COINS = {
-  bitcoin: { id: "bitcoin", label: "Bitcoin" },
-  ethereum: { id: "ethereum", label: "Ethereum" },
-  tether: { id: "tether", label: "Tether" },
-  binancecoin: { id: "binancecoin", label: "BNB" },
-  solana: { id: "solana", label: "Solana" },
-  ripple: { id: "ripple", label: "XRP" },
-  "usd-coin": { id: "usd-coin", label: "USDC" },
-  cardano: { id: "cardano", label: "Cardano" },
-  dogecoin: { id: "dogecoin", label: "Dogecoin" },
-  tron: { id: "tron", label: "TRON" },
-  "staked-ether": { id: "staked-ether", label: "Lido Staked Ether" },
-  "wrapped-bitcoin": { id: "wrapped-bitcoin", label: "Wrapped Bitcoin" },
-  chainlink: { id: "chainlink", label: "Chainlink" },
-  avalanche: { id: "avalanche-2", label: "Avalanche" },
-  "shiba-inu": { id: "shiba-inu", label: "Shiba Inu" },
-  sui: { id: "sui", label: "Sui" },
-  stellar: { id: "stellar", label: "Stellar" },
-  "bitcoin-cash": { id: "bitcoin-cash", label: "Bitcoin Cash" },
-  polkadot: { id: "polkadot", label: "Polkadot" },
-  hyperliquid: { id: "hyperliquid", label: "Hyperliquid" },
-  litecoin: { id: "litecoin", label: "Litecoin" },
-  uniswap: { id: "uniswap", label: "Uniswap" },
-  near: { id: "near", label: "NEAR Protocol" },
-  pepe: { id: "pepe", label: "Pepe" },
-  aptos: { id: "aptos", label: "Aptos" },
+  bitcoin: { id: "bitcoin", label: "Bitcoin", icon: bitcoinIcon },
+  ethereum: { id: "ethereum", label: "Ethereum", icon: ethereumIcon },
+  tether: { id: "tether", label: "Tether", icon: tetherIcon },
+  binancecoin: { id: "binancecoin", label: "BNB", icon: bnbIcon },
+  solana: { id: "solana", label: "Solana", icon: solanaIcon },
+  ripple: { id: "ripple", label: "XRP", icon: xrpIcon },
+  "usd-coin": { id: "usd-coin", label: "USDC", icon: usdcIcon },
+  cardano: { id: "cardano", label: "Cardano", icon: cardanoIcon },
+  dogecoin: { id: "dogecoin", label: "Dogecoin", icon: dogecoinIcon },
+  tron: { id: "tron", label: "TRON", icon: tronIcon },
+  "staked-ether": { id: "staked-ether", label: "Lido Staked Ether", icon: lido },
+  "wrapped-bitcoin": { id: "wrapped-bitcoin", label: "Wrapped Bitcoin", icon: wbtcIcon },
+  chainlink: { id: "chainlink", label: "Chainlink" , icon: chainlinkIcon},
+  avalanche: { id: "avalanche-2", label: "Avalanche", icon: ava },
+  "shiba-inu": { id: "shiba-inu", label: "Shiba Inu", icon: shiba },
+  sui: { id: "sui", label: "Sui", icon: sui },
+  stellar: { id: "stellar", label: "Stellar", icon: stellar },
+  "bitcoin-cash": { id: "bitcoin-cash", label: "Bitcoin Cash", icon: bitcoinCashIcon },
+  polkadot: { id: "polkadot", label: "Polkadot", icon: polkadotIcon },
+  hyperliquid: { id: "hyperliquid", label: "Hyperliquid", icon: hyperliquidIcon },
+  litecoin: { id: "litecoin", label: "Litecoin", icon: ltcIcon },
+  uniswap: { id: "uniswap", label: "Uniswap", icon: uniswapIcon },
+  near: { id: "near", label: "NEAR Protocol", icon: nearIcon},
+  pepe: { id: "pepe", label: "Pepe", icon: pepeIcon },
+  aptos: { id: "aptos", label: "Aptos", icon: aptosIcon },
 };
 
 export async function generateStaticParams() {
@@ -48,25 +75,17 @@ export async function generateMetadata({ params }) {
   };
 }
 
-function ChangeBadge({ value, label }) {
-  const num = Number(value) || 0;
-  const isUp = num >= 0;
-  return (
-    <span className={`coin-badge ${isUp ? "up" : "down"}`}>
-      {label && <span style={{ opacity: 0.7, marginRight: 2 }}>{label}</span>}
-      {isUp ? "+" : ""}{num.toFixed(2)}%
-    </span>
-  );
-}
-
 export default async function CoinPage({ params }) {
   const slug = params.slug;
   const info = COINS[slug];
+
   if (!info) {
     return (
-      <div className="container py-5" style={{ color: "white" }}>
-        <h1 className="h3">Coin not supported</h1>
-        <p className="text-secondary">For now we only support top coins. Try /bitcoin, /ethereum, /solana, etc.</p>
+      <div className="coin-top-section">
+        <div className="coin-container">
+          <h1>Coin not supported</h1>
+          <p>For now we only support top coins. Try /bitcoin, /ethereum, /solana, etc.</p>
+        </div>
       </div>
     );
   }
@@ -79,7 +98,7 @@ export default async function CoinPage({ params }) {
 
   const symbol = String(detail?.symbol || "").toUpperCase();
   const name = detail?.name || info.label;
-  const img = detail?.image?.large || detail?.image?.small || null;
+  const img = info.icon || detail?.image?.large || detail?.image?.small || null;
 
   const price = market?.current_price;
   const change24h = market?.price_change_percentage_24h_in_currency;
@@ -94,7 +113,6 @@ export default async function CoinPage({ params }) {
   const maxSupply = market?.max_supply;
   const supplyPct = circSupply && maxSupply ? ((circSupply / maxSupply) * 100) : null;
 
-  // Links from detail
   const homepage = detail?.links?.homepage?.[0] || null;
   const explorer = detail?.links?.blockchain_site?.find((u) => u && u.length > 0) || null;
   const subreddit = detail?.links?.subreddit_url || null;
@@ -102,139 +120,127 @@ export default async function CoinPage({ params }) {
     ? `https://x.com/${detail.links.twitter_screen_name}`
     : null;
 
-  // Full description (strip HTML)
   const rawDesc = detail?.description?.en || "";
   const cleanDesc = rawDesc.replace(/<[^>]+>/g, "");
   const shortDesc = cleanDesc.length > 600 ? cleanDesc.slice(0, 600) + "..." : cleanDesc;
 
   return (
-    <div className="bg-dark" style={{ minHeight: "100vh" }}>
-      <div className="container py-4 py-md-5" style={{ color: "white", maxWidth: 1100 }}>
+    <>
+      {/* Top Section - Purple Gradient */}
+      <div className="coin-top-section">
+        <div className="coin-container">
+          {/* Disclaimer */}
+          <div className="coin-disclaimer">
+            Data refreshes every 5 minutes via CoinGecko. Chart shows the last 365 days (public API limit). This is not financial advice.
+          </div>
 
-        {/* Disclaimer */}
-        <div className="coin-disclaimer">
-          Data refreshes every 5 minutes via CoinGecko. Chart shows the last 365 days (public API limit). This is not financial advice.
-        </div>
-
-        {/* ── Hero Card ───────────────────────────────── */}
-        <div className="coin-hero-card">
-          <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <div className="d-flex align-items-center gap-3">
-              {img ? (
-                <Image src={img} alt={name} width={52} height={52} style={{ borderRadius: 14 }} />
-              ) : null}
-              <div>
-                <h1 className="h3 m-0" style={{ fontWeight: 800 }}>
-                  {name} <span className="text-secondary" style={{ fontWeight: 500 }}>({symbol})</span>
+          {/* Hero Card */}
+          <div className="coin-hero">
+            <div className="coin-hero-top">
+              {img && (
+                <Image
+                  src={img}
+                  alt={name}
+                  width={56}
+                  height={56}
+                  className="coin-icon"
+                />
+              )}
+              <div className="coin-title-group">
+                <h1>
+                  {name} <span className="coin-symbol">({symbol})</span>
                 </h1>
-                {rank && (
-                  <span className="small" style={{ color: "#94a3b8" }}>
-                    Rank #{rank}
+                {rank && <div className="coin-rank">Rank #{rank}</div>}
+              </div>
+            </div>
+
+            <div className="coin-price-section">
+              <div className={`coin-price ${
+                change24h === null || change24h === undefined
+                  ? 'neutral'
+                  : change24h >= 0
+                    ? 'positive'
+                    : 'negative'
+              }`}>
+                {fmtUsd(price)}
+              </div>
+              <div className="coin-changes">
+                {change24h !== null && change24h !== undefined && (
+                  <span className={`coin-change-badge ${change24h >= 0 ? 'up' : 'down'}`}>
+                    {change24h >= 0 ? '+' : ''}{change24h.toFixed(2)}% <small>24h</small>
+                  </span>
+                )}
+                {change7d !== null && change7d !== undefined && (
+                  <span className={`coin-change-badge ${change7d >= 0 ? 'up' : 'down'}`}>
+                    {change7d >= 0 ? '+' : ''}{change7d.toFixed(2)}% <small>7d</small>
                   </span>
                 )}
               </div>
             </div>
+          </div>
 
-            <div className="text-end">
-              <div className="coin-price-tag">{fmtUsd(price)}</div>
-              <div className="d-flex gap-2 justify-content-end mt-1">
-                <ChangeBadge value={change24h} label="24h" />
-                <ChangeBadge value={change7d} label="7d" />
+          {/* Chart + Stats Grid */}
+          <div className="coin-grid">
+            {/* Chart */}
+            <div className="coin-chart-wrapper">
+              <div className="coin-chart-header">
+                <h2 className="coin-chart-title">Price Chart</h2>
+                <span className="coin-chart-period">365 days</span>
               </div>
+              <CoinChartInner prices={chart?.prices || []} />
             </div>
-          </div>
-        </div>
 
-        {/* ── Main Content ────────────────────────────── */}
-        <div className="row g-4">
+            {/* Stats */}
+            <div className="coin-stats-wrapper">
+              <h2 className="coin-stats-title">Key Statistics</h2>
 
-          {/* Left Column: Chart + About */}
-          <div className="col-12 col-lg-8">
-            <CoinChart prices={chart?.prices || []} />
-
-            {/* About Section */}
-            <div className="coin-about-card mt-4">
-              <div className="coin-section-title">About {name}</div>
-              <p className="coin-about-text m-0">
-                {shortDesc || `Learn what ${name} is, track the latest price, and review the all-time trend.`}
-              </p>
-              {(homepage || explorer || twitter || subreddit) && (
-                <div className="coin-links-grid">
-                  {homepage && (
-                    <a href={homepage} target="_blank" rel="noopener noreferrer" className="coin-link-btn">
-                      Website
-                    </a>
-                  )}
-                  {explorer && (
-                    <a href={explorer} target="_blank" rel="noopener noreferrer" className="coin-link-btn">
-                      Explorer
-                    </a>
-                  )}
-                  {twitter && (
-                    <a href={twitter} target="_blank" rel="noopener noreferrer" className="coin-link-btn">
-                      X / Twitter
-                    </a>
-                  )}
-                  {subreddit && (
-                    <a href={subreddit} target="_blank" rel="noopener noreferrer" className="coin-link-btn">
-                      Reddit
-                    </a>
-                  )}
-                  <a href="/subscribe" className="coin-link-btn" style={{ borderColor: "rgba(114,52,217,0.4)", color: "#c4b5fd" }}>
-                    Get Daily Brief
-                  </a>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Right Column: Stats */}
-          <div className="col-12 col-lg-4">
-            <div className="coin-stat-card">
-              <div className="coin-section-title">Key Statistics</div>
-
-              <div className="coin-stat-row">
+              <div className="coin-stat-item">
                 <span className="coin-stat-label">Market cap</span>
                 <span className="coin-stat-value">{fmtUsd(market?.market_cap, { max: 0 })}</span>
               </div>
-              <div className="coin-stat-row">
+
+              <div className="coin-stat-item">
                 <span className="coin-stat-label">24h volume</span>
                 <span className="coin-stat-value">{fmtUsd(market?.total_volume, { max: 0 })}</span>
               </div>
-              <div className="coin-stat-row">
+
+              <div className="coin-stat-item">
                 <span className="coin-stat-label">Circulating supply</span>
                 <span className="coin-stat-value">{fmtNum(circSupply)}</span>
               </div>
-              <div className="coin-stat-row">
+
+              <div className="coin-stat-item">
                 <span className="coin-stat-label">Max supply</span>
                 <span className="coin-stat-value">{maxSupply ? fmtNum(maxSupply) : "Unlimited"}</span>
               </div>
 
-              {/* Supply Progress Bar */}
               {supplyPct !== null && (
-                <div style={{ marginTop: 4, marginBottom: 8 }}>
-                  <div className="d-flex justify-content-between" style={{ fontSize: 12, color: "#64748b" }}>
+                <div className="coin-supply-progress">
+                  <div className="coin-supply-info">
                     <span>Supply minted</span>
                     <span>{supplyPct.toFixed(1)}%</span>
                   </div>
                   <div className="coin-supply-bar">
-                    <div className="coin-supply-fill" style={{ width: `${Math.min(supplyPct, 100)}%` }} />
+                    <div
+                      className="coin-supply-fill"
+                      style={{ width: `${Math.min(supplyPct, 100)}%` }}
+                    />
                   </div>
                 </div>
               )}
 
-              <div className="coin-stat-row">
+              <div className="coin-stat-item">
                 <span className="coin-stat-label">All-time high</span>
                 <span className="coin-stat-value">{fmtUsd(ath)}</span>
               </div>
-              <div className="coin-stat-row">
+
+              <div className="coin-stat-item">
                 <span className="coin-stat-label">All-time low</span>
                 <span className="coin-stat-value">{fmtUsd(atl)}</span>
               </div>
 
-              {/* ATH Distance Indicator */}
               {athChange !== null && (
-                <div className={`coin-ath-distance${athChange >= 0 ? " positive" : ""}`}>
+                <div className={`coin-ath-badge ${athChange >= 0 ? 'positive' : 'negative'}`}>
                   {athChange >= 0
                     ? `Currently at all-time high territory (+${athChange.toFixed(1)}%)`
                     : `${Math.abs(athChange).toFixed(1)}% below all-time high`
@@ -242,39 +248,133 @@ export default async function CoinPage({ params }) {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      </div>
 
-            {/* Quick Info Card */}
-            {!homepage && !explorer && (
-              <div className="coin-about-card mt-3">
-                <div className="coin-section-title">Stay Updated</div>
-                <p className="coin-about-text m-0">
-                  Subscribe to get daily crypto insights covering {name} and other top coins.
-                </p>
-                <div className="mt-2">
-                  <a href="/subscribe" className="coin-link-btn" style={{ borderColor: "rgba(114,52,217,0.4)", color: "#c4b5fd" }}>
-                    Get Daily Brief
+      {/* Bottom Section - White Background */}
+      <div className="coin-bottom-section">
+        <div className="coin-container">
+          {/* About Section */}
+          <div className="coin-about-wrapper">
+            <h2 className="coin-about-title">About {name}</h2>
+            <p className="coin-about-text">
+              {shortDesc || `Learn what ${name} is, track the latest price, and review the all-time trend.`}
+            </p>
+
+            {(homepage || explorer || twitter || subreddit) && (
+              <div className="coin-links">
+                {homepage && (
+                  <a href={homepage} target="_blank" rel="noopener noreferrer" className="coin-link">
+                    🌐 Website
                   </a>
-                </div>
+                )}
+                {explorer && (
+                  <a href={explorer} target="_blank" rel="noopener noreferrer" className="coin-link">
+                    🔍 Explorer
+                  </a>
+                )}
+                {twitter && (
+                  <a href={twitter} target="_blank" rel="noopener noreferrer" className="coin-link">
+                    𝕏 Twitter
+                  </a>
+                )}
+                {subreddit && (
+                  <a href={subreddit} target="_blank" rel="noopener noreferrer" className="coin-link">
+                    💬 Reddit
+                  </a>
+                )}
+                <a href="/subscribe" className="coin-link primary">
+                  ✉️ Get Daily Brief
+                </a>
               </div>
             )}
           </div>
-        </div>
 
-        {/* ── Browse Coins ────────────────────────────── */}
-        <div className="mt-5">
-          <div className="coin-section-title text-secondary" style={{ fontSize: 14, fontWeight: 600 }}>Browse coins</div>
-          <div className="d-flex flex-wrap gap-2">
-            {Object.keys(COINS).map((s) => (
-              <a
-                key={s}
-                href={`/${s}`}
-                className={`coin-browse-btn${s === slug ? " active" : ""}`}
-              >
-                {COINS[s].label}
-              </a>
-            ))}
+          {/* Coin News Feed */}
+          <CoinNewsFeed coinSymbol={symbol} coinName={name} />
+
+          {/* Browse Other Coins */}
+          <div className="coin-browse-section">
+            <h2 className="coin-browse-title">Browse Other Coins</h2>
+            <div className="coin-browse-grid">
+              {Object.keys(COINS).map((s) => (
+                <a
+                  key={s}
+                  href={`/${s}`}
+                  className={`coin-browse-item${s === slug ? ' active' : ''}`}
+                >
+                  {COINS[s].label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
+      </div>
+    </>
+  );
+}
+
+// Chart component (simplified inline version)
+function CoinChartInner({ prices }) {
+  const pts = (prices || []).filter((p) => Array.isArray(p) && p.length >= 2);
+  if (pts.length < 2) return <div style={{ padding: '40px', textAlign: 'center', color: 'rgba(255,255,255,0.6)' }}>No chart data available</div>;
+
+  const values = pts.map((p) => Number(p[1])).filter((x) => Number.isFinite(x));
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+
+  const w = 900;
+  const h = 280;
+  const padX = 14;
+  const padTop = 20;
+  const padBot = 30;
+
+  const scaleX = (i) => padX + (i / (values.length - 1)) * (w - padX * 2);
+  const scaleY = (v) => {
+    if (max === min) return h / 2;
+    const t = (v - min) / (max - min);
+    return padTop + (1 - t) * (h - padTop - padBot);
+  };
+
+  const linePath = values
+    .map((v, i) => `${i === 0 ? "M" : "L"}${scaleX(i).toFixed(2)} ${scaleY(v).toFixed(2)}`)
+    .join(" ");
+
+  const areaPath =
+    linePath +
+    ` L${scaleX(values.length - 1).toFixed(2)} ${(h - padBot).toFixed(2)}` +
+    ` L${scaleX(0).toFixed(2)} ${(h - padBot).toFixed(2)} Z`;
+
+  const latest = values[values.length - 1];
+  const earliest = values[0];
+  const change = ((latest - earliest) / earliest) * 100;
+  const isUp = change >= 0;
+
+  return (
+    <div>
+      <svg viewBox={`0 0 ${w} ${h}`} width="100%" height={h} role="img" aria-label="Price chart">
+        <defs>
+          <linearGradient id="cgLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#7c3aed" />
+            <stop offset="1" stopColor="#06b6d4" />
+          </linearGradient>
+          <linearGradient id="cgArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#7c3aed" stopOpacity="0.25" />
+            <stop offset="1" stopColor="#7c3aed" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={areaPath} fill="url(#cgArea)" />
+        <path d={linePath} fill="none" stroke="url(#cgLine)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        <circle cx={scaleX(values.length - 1)} cy={scaleY(latest)} r="4" fill="#06b6d4" />
+        <circle cx={scaleX(values.length - 1)} cy={scaleY(latest)} r="8" fill="#06b6d4" fillOpacity="0.2" />
+      </svg>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>
+        <span>Low: ${min.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
+        <span className={`coin-change-badge ${isUp ? 'up' : 'down'}`}>
+          {isUp ? "+" : ""}{change.toFixed(2)}% year
+        </span>
+        <span>High: ${max.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span>
       </div>
     </div>
   );
