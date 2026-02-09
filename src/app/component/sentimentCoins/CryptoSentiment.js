@@ -40,7 +40,7 @@ export default function CryptoSentiment() {
 
         const fetchSentiment = async () => {
             try {
-                const res = await fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment${coinFilter ? `?coin=${coinFilter}` : ""}&period=${period}`);
+                const res = await fetch(`https://ces.dbrata.my.id/api/news/newsWithSentiment${coinFilter ? `?coin=${coinFilter}` : ""}&period=${period}`);
                 const data = await res.json();
                 if (!isMounted) return;
                 setNews(data.news)
@@ -57,7 +57,7 @@ export default function CryptoSentiment() {
 
         const fetchLastWeek = async () => {
             try {
-                const res = await fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment${coinFilter ? `?coin=${coinFilter}` : ""}&period=week`);
+                const res = await fetch(`https://ces.dbrata.my.id/api/news/newsWithSentiment${coinFilter ? `?coin=${coinFilter}` : ""}&period=week`);
                 const data = await res.json();
                 const total = data.news.length || 1;
                 const pct = Math.round((data.sentimentCounts.bullish / total) * 100);
@@ -102,8 +102,8 @@ export default function CryptoSentiment() {
         const fetchCompare = async () => {
             try {
                 const [btcRes, ethRes] = await Promise.all([
-                    fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment?coin=BTC&period=${period}`),
-                    fetch(`https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment?coin=ETH&period=${period}`),
+                    fetch(`https://ces.dbrata.my.id/api/news/newsWithSentiment?coin=BTC&period=${period}`),
+                    fetch(`https://ces.dbrata.my.id/api/news/newsWithSentiment?coin=ETH&period=${period}`),
                 ]);
                 const [btcData, ethData] = await Promise.all([btcRes.json(), ethRes.json()]);
                 const btcTotal = btcData.news.length || 1;

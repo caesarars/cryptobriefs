@@ -64,7 +64,7 @@ const News = () => {
       };
       
       const queryParams = new URLSearchParams(query).toString();
-      const response = await fetch(`https://crypto-blog-backend.vercel.app/api/news/news?${queryParams}`);
+      const response = await fetch(`https://ces.dbrata.my.id/api/news/news?${queryParams}`);
 
       if (!response.ok) {
           const errorData = await response.json();

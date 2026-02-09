@@ -11,7 +11,7 @@ export default function BriefIndexPage() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await fetch("https://crypto-blog-backend.vercel.app/api/briefs/getSummary");
+        const res = await fetch("https://ces.dbrata.my.id/api/briefs/getSummary");
         if (!res.ok) throw new Error("Failed to load brief");
         const json = await res.json();
         setData(json);

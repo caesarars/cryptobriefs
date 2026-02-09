@@ -47,7 +47,7 @@ const ListAirdrops = () => {
         const fetchAirdrops = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('https://crypto-blog-backend.vercel.app/api/airdrops/list', {
+                const response = await axios.get('https://ces.dbrata.my.id/api/airdrops/list', {
                     params: {
                         page,
                         limit,

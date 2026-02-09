@@ -21,7 +21,7 @@ const SubscribeForm = () => {
 
     try {
       const response = await fetch(
-        "https://crypto-blog-backend.vercel.app/api/newsletter/join",
+        "https://ces.dbrata.my.id/api/newsletter/join",
         {
           method: "POST",
           headers: {

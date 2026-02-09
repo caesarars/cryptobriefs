@@ -80,7 +80,7 @@ export async function generateMetadata({params}) {
 
 const getBlog = async (slug) => {
   try {
-    const response = await fetch(`https://crypto-blog-backend.vercel.app/api/getBlogBySlug?slug=${slug}`, {
+    const response = await fetch(`https://ces.dbrata.my.id/api/getBlogBySlug?slug=${slug}`, {
       next: { revalidate: 3600 }
     });
     const data = await response.json();
@@ -94,7 +94,7 @@ const getBlog = async (slug) => {
 
 const getSuggestedBlogs = async (title) => {
   try {
-    const response = await fetch(`https://crypto-blog-backend.vercel.app/suggestedBlog?currentTitle=${encodeURIComponent(title)}`, {
+    const response = await fetch(`https://ces.dbrata.my.id/suggestedBlog?currentTitle=${encodeURIComponent(title)}`, {
       cache: 'no-store',
     });
     const data = await response.json();

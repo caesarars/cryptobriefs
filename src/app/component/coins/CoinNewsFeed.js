@@ -12,7 +12,7 @@ export default function CoinNewsFeed({ coinSymbol, coinName }) {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://crypto-blog-backend.vercel.app/api/news/newsWithSentiment?coin=${coinSymbol}&period=week`
+          `https://ces.dbrata.my.id/api/news/newsWithSentiment?coin=${coinSymbol}&period=week`
         );
         const data = await response.json();
         setNews(data.news?.slice(0, 5) || []); // Get latest 5 articles

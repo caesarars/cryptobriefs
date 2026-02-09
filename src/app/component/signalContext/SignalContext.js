@@ -14,7 +14,7 @@ export default function SignalContext() {
     async function run() {
       setLoading(true);
       try {
-        const res = await fetch('https://crypto-blog-backend.vercel.app/api/briefs/insight?coin=BTC&period=today');
+        const res = await fetch('https://ces.dbrata.my.id/api/briefs/insight?coin=BTC&period=today');
         const json = await res.json();
         if (!alive) return;
         setData(json);

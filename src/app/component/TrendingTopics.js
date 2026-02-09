@@ -20,7 +20,7 @@ const TrendingTopics = ({ onTopicSelect }) => {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const response = await fetch('https://crypto-blog-backend.vercel.app/api/news/trending');
+        const response = await fetch('https://ces.dbrata.my.id/api/news/trending');
         if (!response.ok) {
           throw new Error('Failed to fetch trending topics');
         }

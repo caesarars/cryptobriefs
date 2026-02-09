@@ -32,7 +32,7 @@ const Blogs = () => {
 
     try {
       const response = await fetch(
-        `https://crypto-blog-backend.vercel.app/api/getBlog?${queryParams}`
+        `https://ces.dbrata.my.id/api/getBlog?${queryParams}`
       );
       const data = await response.json();
       setCurrentPage(data.page);

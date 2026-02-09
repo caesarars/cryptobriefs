@@ -24,7 +24,7 @@ const News = () => {
   useEffect(() => {
   const fetchNews = async () => {
       try {
-        const response = await fetch("https://crypto-blog-backend.vercel.app/api/news/getNews");
+        const response = await fetch("https://ces.dbrata.my.id/api/news/getNews");
         const data = await response.json();
         setNews(data);
       } catch (error) {

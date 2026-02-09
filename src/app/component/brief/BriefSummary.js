@@ -13,7 +13,7 @@ export default function BriefSummary() {
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const res = await fetch("https://crypto-blog-backend.vercel.app/api/briefs/getSummary");
+        const res = await fetch("https://ces.dbrata.my.id/api/briefs/getSummary");
         const json = await res.json();
         setData(json);
       } catch (err) {

@@ -5,7 +5,7 @@ export async function GET() {
 
   let blogs = [];
   try {
-    const blogRes = await fetch("https://crypto-blog-backend.vercel.app/getAllBlog", {
+    const blogRes = await fetch("https://ces.dbrata.my.id/getAllBlog", {
       // Allow caching so Next can statically optimize this route without warnings.
       next: { revalidate },
     });
