@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { getCoinChartMax, getCoinDetail, getCoinMarket, fmtNum, fmtUsd } from "@/app/lib/coingecko";
+import { getBinanceChart } from "@/app/lib/binance";
 import CoinNewsFeed from "@/app/component/coins/CoinNewsFeed";
+import LiveCoinPrice from "@/app/component/coins/LiveCoinPrice";
 import "../../coin-page.css";
 
 // Import local coin icons
@@ -90,11 +92,21 @@ export default async function CoinPage({ params }) {
     );
   }
 
-  const [market, detail, chart] = await Promise.all([
+  // Fetch data from Binance and CoinGecko
+  const [market, detail, binanceChart] = await Promise.all([
     getCoinMarket(info.id).catch(() => null),
     getCoinDetail(info.id).catch(() => null),
-    getCoinChartMax(info.id).catch(() => ({ prices: [] })),
+    getBinanceChart(slug, 365).catch(() => null),
   ]);
+
+  // Use Binance chart if available, otherwise fallback to CoinGecko
+  let chart = binanceChart;
+  let chartSource = 'Binance';
+
+  if (!chart || !chart.prices || chart.prices.length === 0) {
+    chart = await getCoinChartMax(info.id).catch(() => ({ prices: [] }));
+    chartSource = 'CoinGecko';
+  }
 
   const symbol = String(detail?.symbol || "").toUpperCase();
   const name = detail?.name || info.label;
@@ -131,7 +143,7 @@ export default async function CoinPage({ params }) {
         <div className="coin-container">
           {/* Disclaimer */}
           <div className="coin-disclaimer">
-            Data refreshes every 5 minutes via CoinGecko. Chart shows the last 365 days (public API limit). This is not financial advice.
+            Live price via Binance WebSocket. Chart from {chartSource}. Stats from CoinGecko. Not financial advice.
           </div>
 
           {/* Hero Card */}
@@ -154,29 +166,12 @@ export default async function CoinPage({ params }) {
               </div>
             </div>
 
-            <div className="coin-price-section">
-              <div className={`coin-price ${
-                change24h === null || change24h === undefined
-                  ? 'neutral'
-                  : change24h >= 0
-                    ? 'positive'
-                    : 'negative'
-              }`}>
-                {fmtUsd(price)}
-              </div>
-              <div className="coin-changes">
-                {change24h !== null && change24h !== undefined && (
-                  <span className={`coin-change-badge ${change24h >= 0 ? 'up' : 'down'}`}>
-                    {change24h >= 0 ? '+' : ''}{change24h.toFixed(2)}% <small>24h</small>
-                  </span>
-                )}
-                {change7d !== null && change7d !== undefined && (
-                  <span className={`coin-change-badge ${change7d >= 0 ? 'up' : 'down'}`}>
-                    {change7d >= 0 ? '+' : ''}{change7d.toFixed(2)}% <small>7d</small>
-                  </span>
-                )}
-              </div>
-            </div>
+            <LiveCoinPrice
+              coinSlug={slug}
+              initialPrice={price}
+              initialChange24h={change24h}
+              initialChange7d={change7d}
+            />
           </div>
 
           {/* Chart + Stats Grid */}
