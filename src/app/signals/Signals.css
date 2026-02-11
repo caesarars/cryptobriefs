@@ -1,0 +1,144 @@
+.signals-page {
+  min-height: 100vh;
+  background: #0b0f17;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 16px;
+  color: #f8f9fb;
+}
+
+.signals-card {
+  width: min(900px, 100%);
+  background: rgba(20, 24, 35, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 48px 40px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+.signals-label {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8aa0ff;
+  margin-bottom: 12px;
+}
+
+.signals-title {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.signals-subtitle {
+  color: #cbd2e1;
+  margin-bottom: 28px;
+}
+
+.signals-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signals-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #e6e9f4;
+}
+
+.signals-input {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(9, 12, 20, 0.9);
+  color: #ffffff;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.signals-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.signals-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.signals-button {
+  background: #3b63f6;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.signals-button.ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #cbd2e1;
+}
+
+.signals-message {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.signals-message.success {
+  background: rgba(56, 176, 94, 0.2);
+  color: #7fffa1;
+}
+
+.signals-message.error {
+  background: rgba(255, 79, 79, 0.2);
+  color: #ff8c8c;
+}
+
+.signals-section {
+  margin-top: 32px;
+}
+
+.signals-section h2 {
+  margin-bottom: 12px;
+}
+
+.signals-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.signals-list li {
+  background: rgba(9, 12, 20, 0.7);
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.signals-reasons {
+  color: #aab2c8;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.signals-muted {
+  color: #8c94a7;
+  font-size: 14px;
+}
+
+.signals-footnote {
+  margin-top: 20px;
+  color: #9aa4bd;
+  font-size: 13px;
+}

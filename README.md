@@ -2,6 +2,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Create a `.env.local` file:
+
+```
+NEXT_PUBLIC_API_BASE=https://ces.dbrata.my.id
+```
+
 First, run the development server:
 
 ```bash

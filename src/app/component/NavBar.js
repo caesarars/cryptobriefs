@@ -61,6 +61,7 @@ const Navbar = () => {
 
   // Dropdown links (More menu)
   const dropdownLinks = [
+    ["/signals", "Signals"],
     ["/about", "About"],
     ["/advertise", "Advertise"],
     ["/contact", "Contact"],
