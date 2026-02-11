@@ -9,6 +9,7 @@ export default function BriefIndexPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAll, setShowAll] = useState(false);
+  const [market, setMarket] = useState([]);
 
   useEffect(() => {
     const run = async () => {
@@ -26,8 +27,44 @@ export default function BriefIndexPage() {
     run();
   }, []);
 
+  useEffect(() => {
+    const runMarket = async () => {
+      try {
+        const ids = "bitcoin,ethereum";
+        const res = await fetch(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=24h`
+        );
+        if (!res.ok) return;
+        const json = await res.json();
+        setMarket(Array.isArray(json) ? json : []);
+      } catch {
+        // ignore
+      }
+    };
+    runMarket();
+  }, []);
+
   const summaryItems = useMemo(() => data?.summary || [], [data]);
   const visibleItems = showAll ? summaryItems : summaryItems.slice(0, 10);
+
+  const fmtUsd = (n) => {
+    if (n === null || n === undefined) return "–";
+    const num = Number(n);
+    if (!Number.isFinite(num)) return "–";
+    return num.toLocaleString(undefined, {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: num < 1 ? 6 : 2,
+    });
+  };
+
+  const fmtPct = (n) => {
+    if (n === null || n === undefined) return "–";
+    const num = Number(n);
+    if (!Number.isFinite(num)) return "–";
+    const sign = num > 0 ? "+" : "";
+    return `${sign}${num.toFixed(2)}%`;
+  };
 
   return (
     <div className="container py-5">
@@ -62,6 +99,36 @@ export default function BriefIndexPage() {
           </div>
         ) : (
           <div className="mt-4">
+            <div className={styles.marketCard}>
+              <div className={styles.marketHeader}>
+                <h2 className="h6 mb-0">Market snapshot</h2>
+                <span className={styles.marketBadge}>Live</span>
+              </div>
+              {market.length ? (
+                <div className={styles.marketGrid}>
+                  {market.map((coin) => (
+                    <div key={coin.id} className={styles.marketItem}>
+                      <div className={styles.marketSymbol}>{coin.symbol?.toUpperCase()}</div>
+                      <div className={styles.marketPrice}>{fmtUsd(coin.current_price)}</div>
+                      <div
+                        className={
+                          coin.price_change_percentage_24h >= 0
+                            ? styles.marketChangeUp
+                            : styles.marketChangeDown
+                        }
+                      >
+                        {fmtPct(coin.price_change_percentage_24h)} (24h)
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mb-0" style={{ color: "#6b7280" }}>
+                  Market data loading…
+                </p>
+              )}
+            </div>
+
             <div className={styles.summaryCard}>
               <h2 className="h5 mb-3">Summary</h2>
               {Array.isArray(summaryItems) && summaryItems.length ? (

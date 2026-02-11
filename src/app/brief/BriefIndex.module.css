@@ -16,6 +16,71 @@
   padding: 28px;
 }
 
+.marketCard {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 20px 24px;
+  border: 1px solid rgba(108, 92, 231, 0.12);
+  box-shadow: 0 12px 24px rgba(108, 92, 231, 0.08);
+  margin-bottom: 20px;
+}
+
+.marketHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.marketBadge {
+  background: rgba(108, 92, 231, 0.12);
+  color: #6c5ce7;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.marketGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.marketItem {
+  background: #f9f9ff;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid #ecebff;
+}
+
+.marketSymbol {
+  font-weight: 700;
+  color: #1b1f2a;
+  margin-bottom: 4px;
+}
+
+.marketPrice {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1b1f2a;
+}
+
+.marketChangeUp {
+  margin-top: 6px;
+  color: #15803d;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.marketChangeDown {
+  margin-top: 6px;
+  color: #b91c1c;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
 .summaryList {
   list-style: none;
   padding: 0;
