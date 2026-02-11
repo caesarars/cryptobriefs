@@ -14,10 +14,11 @@ const Blogs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalBlog, setTotalBlog] = useState();
   const [totalPages, setTotalPages] = useState(1);
+  const [featured, setFeatured] = useState(null);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("");
 
-  const getBlogs = async (search, order, page) => {
+  const getBlogs = async (search, order, page, append = false) => {
     setIsLoading(true);
 
     const queryParams = new URLSearchParams({
@@ -38,7 +39,13 @@ const Blogs = () => {
       setCurrentPage(data.page);
       setTotalPages(data.totalPages);
       setTotalBlog(data.totalBlogs);
-      setBlogs(data.data);
+
+      if (!append) {
+        setBlogs(data.data);
+        setFeatured(data.data?.[0] || null);
+      } else {
+        setBlogs((prev) => [...(prev || []), ...(data.data || [])]);
+      }
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
     } finally {
@@ -57,6 +64,14 @@ const Blogs = () => {
     }
   };
 
+  const handleLoadMore = () => {
+    const nextPage = currentPage + 1;
+    if (nextPage <= totalPages) {
+      setCurrentPage(nextPage);
+      getBlogs(search, order, nextPage, true);
+    }
+  };
+
   useEffect(() => {
     getBlogs("", "desc", 1);
   }, []);
@@ -65,8 +80,17 @@ const Blogs = () => {
     <>
       <Searchbar searchBlog={handleSearchBlog} />
       <div className="mb-5">
-        {isLoading ? <Loading /> : <ListBlogs blogs={blogs} />}
+        {isLoading ? <Loading /> : <ListBlogs blogs={blogs || []} featured={featured} />}
       </div>
+
+      {currentPage < totalPages && (
+        <div className="d-flex justify-content-center mb-4">
+          <button className="btn btn-glow" onClick={handleLoadMore}>
+            Load more
+          </button>
+        </div>
+      )}
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

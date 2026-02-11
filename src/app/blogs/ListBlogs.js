@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "./ListBlogs.css";
 
-const ListBlogs = ({ blogs }) => {
+const ListBlogs = ({ blogs, featured }) => {
   const parseJsonContent = (jsonString) => {
     try {
       const jsonContent = JSON.parse(jsonString);
@@ -37,9 +37,41 @@ const ListBlogs = ({ blogs }) => {
   };
   
 
+  if (!blogs || blogs.length === 0) return null;
+
+  const featuredItem = featured || blogs[0];
+  const rest = blogs.filter((b) => b._id !== featuredItem?._id);
+
   return (
-    <div className="container blogs-container">
-      {blogs.map((item) => {
+    <div className="container">
+      {featuredItem ? (
+        <div className="featured-blog">
+          <Link href={`/blog/${featuredItem.slug}`}>
+            <img
+              loading="lazy"
+              src={featuredItem.imageUrl || "https://via.placeholder.com/800x450"}
+              alt={featuredItem.title?.replace(/<[^>]*>/g, "")}
+              className="featured-image"
+            />
+          </Link>
+          <div className="featured-content">
+            <Link href={`/blog/${featuredItem.slug}`}>
+              <h2 className="featured-title">
+                {featuredItem.title?.replace(/<[^>]*>/g, "")}
+              </h2>
+            </Link>
+            <p className="featured-snippet">
+              {parseJsonContent(featuredItem.content) ?? ""}
+            </p>
+            <Link href={`/blog/${featuredItem.slug}`}>
+              <button className="btn btn-glow read-more">Read More</button>
+            </Link>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="blogs-container">
+        {rest.map((item) => {
         const content = parseJsonContent(item.content) ?? "";
         const imageUrl = item.imageUrl || "https://via.placeholder.com/400";
         const cleanTitle = item.title.replace(/<[^>]*>/g, "");
@@ -69,7 +101,8 @@ const ListBlogs = ({ blogs }) => {
             </div>
           </div>
         );
-      })}
+        })}
+      </div>
     </div>
   );
 };
