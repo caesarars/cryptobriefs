@@ -1,0 +1,71 @@
+.briefWrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.briefIntro {
+  max-width: 720px;
+  color: #4b4b4b;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.summaryCard {
+  background: #f6f2fb;
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.summaryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.summaryItem {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(108, 92, 231, 0.12);
+  box-shadow: 0 6px 16px rgba(108, 92, 231, 0.06);
+}
+
+.summaryTitle {
+  font-weight: 700;
+  color: #1b1f2a;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.summaryContent {
+  margin-top: 6px;
+  color: #4f5666;
+  line-height: 1.6;
+  font-size: 0.98rem;
+}
+
+.summaryMeta {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a90a6;
+}
+
+.toggleButton {
+  border: none;
+  background: transparent;
+  color: #6c5ce7;
+  font-weight: 600;
+  padding: 0;
+}
+
+.newsletterCard {
+  margin-top: 28px;
+  background: #0b0b0f;
+  color: #fff;
+  border-radius: 20px;
+  padding: 24px 28px;
+}
