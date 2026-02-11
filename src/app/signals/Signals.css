@@ -1,18 +1,16 @@
 :root {
-  --glass-bg: rgba(18, 22, 34, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-highlight: rgba(255, 255, 255, 0.2);
-  --accent: #8aa0ff;
-  --accent-2: #53d1ff;
-  --text: #f8f9fb;
-  --muted: #aab2c8;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(92, 74, 255, 0.15);
+  --glass-highlight: rgba(92, 74, 255, 0.2);
+  --accent: #6c5ce7;
+  --accent-2: #8c7bff;
+  --text: #141627;
+  --muted: #5b6275;
 }
 
 .signals-page {
   min-height: 100vh;
-  background: radial-gradient(1200px 600px at 10% -10%, rgba(94, 114, 255, 0.25), transparent),
-    radial-gradient(800px 400px at 90% 10%, rgba(83, 209, 255, 0.18), transparent),
-    #0b0f17;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,7 +24,7 @@
   border: 1px solid var(--glass-border);
   border-radius: 24px;
   padding: 48px 44px;
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 30px 60px rgba(108, 92, 231, 0.18);
   backdrop-filter: blur(18px);
 }
 
@@ -53,7 +51,7 @@
 }
 
 .signals-subtitle {
-  color: #cbd2e1;
+  color: #5b6275;
   max-width: 520px;
 }
 
@@ -62,16 +60,16 @@
   padding: 10px 16px;
   border-radius: 999px;
   border: 1px solid var(--glass-highlight);
-  color: var(--accent-2);
+  color: var(--accent);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  background: rgba(83, 209, 255, 0.08);
+  background: rgba(108, 92, 231, 0.08);
 }
 
 .glass {
-  background: rgba(12, 16, 26, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(108, 92, 231, 0.12);
   border-radius: 16px;
   padding: 20px;
   backdrop-filter: blur(14px);
@@ -93,9 +91,9 @@
 
 .signals-input {
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(9, 12, 20, 0.8);
-  color: #ffffff;
+  border: 1px solid rgba(108, 92, 231, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  color: #141627;
   padding: 12px 14px;
   font-size: 14px;
   outline: none;
@@ -120,8 +118,8 @@
 }
 
 .signals-button {
-  background: linear-gradient(135deg, rgba(138, 160, 255, 0.9), rgba(83, 209, 255, 0.9));
-  color: #0b0f17;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.95), rgba(140, 123, 255, 0.95));
+  color: #ffffff;
   border: none;
   padding: 12px 20px;
   border-radius: 12px;
@@ -132,13 +130,13 @@
 
 .signals-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(83, 209, 255, 0.2);
+  box-shadow: 0 12px 24px rgba(108, 92, 231, 0.2);
 }
 
 .signals-button.ghost {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #cbd2e1;
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  color: #5b6275;
 }
 
 .signals-message {
@@ -149,13 +147,13 @@
 }
 
 .signals-message.success {
-  background: rgba(56, 176, 94, 0.2);
-  color: #7fffa1;
+  background: rgba(56, 176, 94, 0.12);
+  color: #15803d;
 }
 
 .signals-message.error {
-  background: rgba(255, 79, 79, 0.2);
-  color: #ff8c8c;
+  background: rgba(255, 79, 79, 0.12);
+  color: #b91c1c;
 }
 
 .signals-section {
@@ -170,8 +168,8 @@
 }
 
 .signals-chip {
-  background: rgba(83, 209, 255, 0.12);
-  color: var(--accent-2);
+  background: rgba(108, 92, 231, 0.12);
+  color: var(--accent);
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
@@ -180,7 +178,7 @@
 }
 
 .signals-chip.muted {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(91, 98, 117, 0.12);
   color: var(--muted);
 }
 
@@ -193,10 +191,10 @@
 }
 
 .signals-list li {
-  background: rgba(9, 12, 20, 0.6);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 12px;
   padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(108, 92, 231, 0.12);
 }
 
 .signals-reasons {
