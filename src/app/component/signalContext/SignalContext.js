@@ -49,6 +49,7 @@ export default function SignalContext() {
           </div>
           <div className="signal-actions">
             <Link className="btn btn-glow" href="/brief">Read brief</Link>
+            <Link className="btn btn-outline-dark" href="/subscribe" style={{ borderRadius: 50 }}>Join newsletter</Link>
           </div>
         </div>
 

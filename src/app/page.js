@@ -5,7 +5,7 @@ import News from "./component/newsFeeds/News";
 import CryptoSentiment from "./component/sentimentCoins/CryptoSentiment";
 import TrendingCoins from "./component/trendingCoins/TrendingCoins";
 import BriefSummary from "./component/brief/BriefSummary";
-import SubscribeInline from "./component/subscribeInline/SubscribeInline";
+// SubscribeInline removed
 import SignalContext from "./component/signalContext/SignalContext";
 import "./page.css"
 
@@ -43,7 +43,7 @@ export default function Home() {
     <>
       <div className="bg-dark pb-5 background_image_banner">
         <HeroSection />
-        <SubscribeInline />
+        {/* SubscribeInline removed */}
         <SignalContext />
         <div className="wrapper pb-5">
           <TrendingCoins />
