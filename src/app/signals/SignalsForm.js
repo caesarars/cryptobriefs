@@ -106,7 +106,7 @@ const SignalsForm = () => {
 
   return (
     <div>
-      <form className="signals-form" onSubmit={handleSubmit}>
+      <form className="signals-form glass" onSubmit={handleSubmit}>
         <label className="signals-field">
           Email
           <input
@@ -176,8 +176,11 @@ const SignalsForm = () => {
         ) : null}
       </form>
 
-      <div className="signals-section">
-        <h2>Latest Signals</h2>
+      <div className="signals-section glass">
+        <div className="signals-section-header">
+          <h2>Latest Signals</h2>
+          <span className="signals-chip">Live</span>
+        </div>
         {latestSignals.length === 0 ? (
           <p className="signals-muted">No signals yet.</p>
         ) : (
@@ -194,8 +197,11 @@ const SignalsForm = () => {
         )}
       </div>
 
-      <div className="signals-section">
-        <h2>My Recent Alerts</h2>
+      <div className="signals-section glass">
+        <div className="signals-section-header">
+          <h2>My Recent Alerts</h2>
+          <span className="signals-chip muted">History</span>
+        </div>
         {alerts.length === 0 ? (
           <p className="signals-muted">No alerts yet. Enter email and click “View my alerts”.</p>
         ) : (

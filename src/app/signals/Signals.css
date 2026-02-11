@@ -1,44 +1,86 @@
+:root {
+  --glass-bg: rgba(18, 22, 34, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.2);
+  --accent: #8aa0ff;
+  --accent-2: #53d1ff;
+  --text: #f8f9fb;
+  --muted: #aab2c8;
+}
+
 .signals-page {
   min-height: 100vh;
-  background: #0b0f17;
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(94, 114, 255, 0.25), transparent),
+    radial-gradient(800px 400px at 90% 10%, rgba(83, 209, 255, 0.18), transparent),
+    #0b0f17;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 16px;
-  color: #f8f9fb;
+  padding: 96px 16px;
+  color: var(--text);
 }
 
 .signals-card {
-  width: min(900px, 100%);
-  background: rgba(20, 24, 35, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 48px 40px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+  width: min(980px, 100%);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 48px 44px;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+}
+
+.signals-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
 .signals-label {
   font-size: 12px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #8aa0ff;
+  color: var(--accent);
   margin-bottom: 12px;
 }
 
 .signals-title {
-  font-size: 32px;
+  font-size: clamp(28px, 4vw, 40px);
   margin-bottom: 12px;
+  font-weight: 700;
 }
 
 .signals-subtitle {
   color: #cbd2e1;
-  margin-bottom: 28px;
+  max-width: 520px;
+}
+
+.signals-badge {
+  align-self: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-highlight);
+  color: var(--accent-2);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(83, 209, 255, 0.08);
+}
+
+.glass {
+  background: rgba(12, 16, 26, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(14px);
 }
 
 .signals-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .signals-field {
@@ -50,12 +92,19 @@
 }
 
 .signals-input {
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(9, 12, 20, 0.9);
+  background: rgba(9, 12, 20, 0.8);
   color: #ffffff;
   padding: 12px 14px;
   font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signals-input:focus {
+  border-color: rgba(138, 160, 255, 0.7);
+  box-shadow: 0 0 0 3px rgba(138, 160, 255, 0.2);
 }
 
 .signals-grid {
@@ -71,13 +120,19 @@
 }
 
 .signals-button {
-  background: #3b63f6;
-  color: #fff;
+  background: linear-gradient(135deg, rgba(138, 160, 255, 0.9), rgba(83, 209, 255, 0.9));
+  color: #0b0f17;
   border: none;
-  padding: 12px 18px;
-  border-radius: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signals-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(83, 209, 255, 0.2);
 }
 
 .signals-button.ghost {
@@ -104,11 +159,29 @@
 }
 
 .signals-section {
-  margin-top: 32px;
+  margin-top: 28px;
 }
 
-.signals-section h2 {
+.signals-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 12px;
+}
+
+.signals-chip {
+  background: rgba(83, 209, 255, 0.12);
+  color: var(--accent-2);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.signals-chip.muted {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
 }
 
 .signals-list {
@@ -116,24 +189,24 @@
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .signals-list li {
-  background: rgba(9, 12, 20, 0.7);
+  background: rgba(9, 12, 20, 0.6);
   border-radius: 12px;
   padding: 12px 14px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .signals-reasons {
-  color: #aab2c8;
+  color: var(--muted);
   font-size: 13px;
   margin-top: 6px;
 }
 
 .signals-muted {
-  color: #8c94a7;
+  color: var(--muted);
   font-size: 14px;
 }
 
@@ -141,4 +214,15 @@
   margin-top: 20px;
   color: #9aa4bd;
   font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .signals-card {
+    padding: 32px 24px;
+  }
+
+  .signals-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

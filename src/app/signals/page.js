@@ -10,12 +10,19 @@ const SignalsPage = () => {
   return (
     <div className="signals-page">
       <div className="signals-card">
-        <p className="signals-label">CryptoBriefs Signals</p>
-        <h1 className="signals-title">Signal Alerts Dashboard</h1>
-        <p className="signals-subtitle">
-          Customize your watchlist, score threshold, and cooldown.
-        </p>
+        <div className="signals-header">
+          <div>
+            <p className="signals-label">CryptoBriefs Signals</p>
+            <h1 className="signals-title">Signal Alerts Dashboard</h1>
+            <p className="signals-subtitle">
+              Customize your watchlist, score threshold, and cooldown.
+            </p>
+          </div>
+          <div className="signals-badge">Premium Signal UI</div>
+        </div>
+
         <SignalsForm />
+
         <p className="signals-footnote">
           You can unsubscribe anytime. Alerts are sent to your email.
         </p>
