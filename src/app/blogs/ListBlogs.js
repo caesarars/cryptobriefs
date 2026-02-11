@@ -57,7 +57,7 @@ const ListBlogs = ({ blogs }) => {
 
             <div className="blog-content">
               <Link href={`/blog/${item.slug}`}>
-                <p className="bold">{cleanTitle}</p>
+                <p className="blog-title">{cleanTitle}</p>
               </Link>
               <p
                 className="blog-snippet"
