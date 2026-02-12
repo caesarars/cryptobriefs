@@ -299,6 +299,22 @@
   padding: 0;
 }
 
+.summaryNarrative {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(108, 92, 231, 0.16);
+  box-shadow: 0 10px 20px rgba(108, 92, 231, 0.08);
+}
+
+.summaryNarrativeText {
+  margin-bottom: 0;
+  color: #4b4b4b;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
 .newsletterCard {
   margin-top: 28px;
   background: #0b0b0f;

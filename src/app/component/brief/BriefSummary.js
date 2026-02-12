@@ -78,7 +78,11 @@ export default function BriefSummary() {
   const isYesterdayBrief = isSameDay(data?.date, yesterday);
   const hasValidBrief = isTodayBrief || isYesterdayBrief;
 
-  if (!data || !Array.isArray(data.summary) || data.summary.length === 0 || !hasValidBrief) {
+  const highlights = Array.isArray(data?.summaryImportant) && data.summaryImportant.length
+    ? data.summaryImportant
+    : data?.summary || [];
+
+  if (!data || !Array.isArray(highlights) || highlights.length === 0 || !hasValidBrief) {
     return (
       <section className={styles.sectionWrap}>
         <div className="container">
@@ -118,7 +122,7 @@ export default function BriefSummary() {
               </p>
             </div>
             <div className={styles.topBarRight}>
-              <p className={styles.countPill}>{data.summary.length} highlights</p>
+              <p className={styles.countPill}>{highlights.length} highlights</p>
               <Link href="/brief" className={`btn btn-glow ${styles.actionButton}`}>
                 Read full brief
               </Link>
@@ -126,7 +130,7 @@ export default function BriefSummary() {
           </div>
 
           <div className={styles.timeline}>
-            {data.summary.map((point, i) => (
+            {highlights.map((point, i) => (
               <article className={styles.timelineItem} key={i}>
                 <div className={styles.timelineDot} aria-hidden="true" />
                 <div className={styles.timelineContent}>

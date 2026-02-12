@@ -44,7 +44,12 @@ export default function BriefIndexPage() {
     runMarket();
   }, []);
 
-  const summaryItems = useMemo(() => data?.summary || [], [data]);
+  const summaryItems = useMemo(() => {
+    if (Array.isArray(data?.summaryImportant) && data.summaryImportant.length) {
+      return data.summaryImportant;
+    }
+    return data?.summary || [];
+  }, [data]);
   const visibleItems = showAll ? summaryItems : summaryItems.slice(0, 10);
 
   const fmtUsd = (n) => {
@@ -183,6 +188,12 @@ export default function BriefIndexPage() {
                       >
                         {showAll ? "Show less" : `Show all ${summaryItems.length} items`}
                       </button>
+                    </div>
+                  )}
+                  {data?.summaryImportantText && (
+                    <div className={styles.summaryNarrative}>
+                      <h3 className="h6 mb-2">Highlight recap</h3>
+                      <p className={styles.summaryNarrativeText}>{data.summaryImportantText}</p>
                     </div>
                   )}
                 </>
