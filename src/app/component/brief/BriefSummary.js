@@ -62,7 +62,21 @@ export default function BriefSummary() {
     );
   }
 
-  if (!data || !Array.isArray(data.summary) || data.summary.length === 0) {
+  const isSameDay = (value) => {
+    if (!value) return false;
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return false;
+    const now = new Date();
+    return (
+      date.getFullYear() === now.getFullYear() &&
+      date.getMonth() === now.getMonth() &&
+      date.getDate() === now.getDate()
+    );
+  };
+
+  const isTodayBrief = isSameDay(data?.date);
+
+  if (!data || !Array.isArray(data.summary) || data.summary.length === 0 || !isTodayBrief) {
     return (
       <section className={styles.sectionWrap}>
         <div className="container">
