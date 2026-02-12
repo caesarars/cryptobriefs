@@ -10,8 +10,6 @@ export default function BriefIndexPage() {
   const [error, setError] = useState(null);
   const [showAll, setShowAll] = useState(false);
   const [market, setMarket] = useState([]);
-  const [archiveGroups, setArchiveGroups] = useState([]);
-  const [archiveError, setArchiveError] = useState(null);
 
   useEffect(() => {
     const run = async () => {
@@ -46,21 +44,6 @@ export default function BriefIndexPage() {
     runMarket();
   }, []);
 
-  useEffect(() => {
-    const runArchive = async () => {
-      try {
-        const res = await fetch("https://ces.dbrata.my.id/api/briefs/summaries?limit=60");
-        if (!res.ok) throw new Error("Failed to load archive");
-        const json = await res.json();
-        const grouped = Array.isArray(json.grouped) ? json.grouped : [];
-        setArchiveGroups(grouped);
-      } catch (e) {
-        setArchiveError(e?.message || "Failed to load archive");
-      }
-    };
-    runArchive();
-  }, []);
-
   const summaryItems = useMemo(() => data?.summary || [], [data]);
   const visibleItems = showAll ? summaryItems : summaryItems.slice(0, 10);
 
@@ -81,27 +64,6 @@ export default function BriefIndexPage() {
     if (!Number.isFinite(num)) return "–";
     const sign = num > 0 ? "+" : "";
     return `${sign}${num.toFixed(2)}%`;
-  };
-
-  const fmtDate = (value) => {
-    if (!value) return "";
-    const date = new Date(`${value}T00:00:00`);
-    if (Number.isNaN(date.getTime())) return value;
-    return date.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const fmtTime = (value) => {
-    if (!value) return "";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return "";
-    return date.toLocaleTimeString(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
   };
 
   return (
@@ -193,37 +155,6 @@ export default function BriefIndexPage() {
                 </>
               ) : (
                 <p className="mb-0">No summary available.</p>
-              )}
-            </div>
-
-            <div className={styles.archiveCard}>
-              <h2 className="h5 mb-3">Brief archive</h2>
-              {archiveError ? (
-                <p className="mb-0" style={{ color: "#6b7280" }}>{archiveError}</p>
-              ) : archiveGroups.length ? (
-                <div className={styles.archiveGroups}>
-                  {archiveGroups.map((group) => (
-                    <div key={group.date} className={styles.archiveGroup}>
-                      <div className={styles.archiveDate}>{fmtDate(group.date)}</div>
-                      <div className={styles.archiveList}>
-                        {group.items.map((item) => {
-                          const label = fmtTime(item.createdAt || item.date) || item.slug;
-                          return (
-                            <Link
-                              key={item.slug}
-                              href={`/brief/${item.slug}`}
-                              className={styles.archiveLink}
-                            >
-                              {label}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="mb-0" style={{ color: "#6b7280" }}>Archive loading…</p>
               )}
             </div>
 

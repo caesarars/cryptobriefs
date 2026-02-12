@@ -1,28 +1,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import "./briefs.css";
+import ReactMarkdown from "react-markdown";
+import "./briefs.css"; // Buat file ini untuk styling
 
 export default function BriefsPage() {
-  const { slug } = useParams();
-  const [summaryItems, setSummaryItems] = useState([]);
+  const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(true);
-  const [articles, setArticles] = useState([]);
-  const [date, setDate] = useState("");
+  const [titles, setTitles] = useState([]);
 
   useEffect(() => {
-    if (!slug) return;
-
     async function fetchSummary() {
       try {
-        const res = await fetch(`https://ces.dbrata.my.id/api/briefs/summary/${slug}`);
+        const res = await fetch("http://localhost:5005/api/briefs/getSummary");
         const data = await res.json();
 
         if (res.ok) {
-          setSummaryItems(Array.isArray(data.summary) ? data.summary : []);
-          setArticles(Array.isArray(data.articles) ? data.articles : []);
-          setDate(data.date || "");
+          setSummary(data.summary || "");
+          setTitles(data.titles || []);
         } else {
           console.error("Error fetching summary:", data.error);
         }
@@ -34,47 +29,31 @@ export default function BriefsPage() {
     }
 
     fetchSummary();
-  }, [slug]);
-
-  const formattedDate = date
-    ? new Date(date).toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : slug;
+  }, []);
 
   return (
     <div className="briefs-container">
-      <h1 className="briefs-title">Crypto Brief — {formattedDate}</h1>
+      <h1 className="briefs-title"></h1>
 
       {loading ? (
         <p>Loading summary...</p>
-      ) : summaryItems.length ? (
+      ) : (
         <>
           <div className="briefs-summary">
-            <ul>
-              {summaryItems.map((item, idx) => (
-                <li key={idx}>
-                  <strong>{item.title}</strong> — {item.content}
-                </li>
-              ))}
-            </ul>
+            <ReactMarkdown>{summary}</ReactMarkdown>
           </div>
-
-          {articles.length > 0 && (
+            <p dangerouslySetInnerHTML={{ __html: summary }}/>
+          {titles.length > 0 && (
             <div className="briefs-titles">
               <h2>🧠 Article Titles</h2>
               <ul>
-                {articles.map((article, index) => (
-                  <li key={index}>{article.title}</li>
+                {titles.map((title, index) => (
+                  <li key={index}>{title}</li>
                 ))}
               </ul>
             </div>
           )}
         </>
-      ) : (
-        <p>No summary available.</p>
       )}
     </div>
   );

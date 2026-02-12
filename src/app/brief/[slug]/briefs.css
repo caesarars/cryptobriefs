@@ -19,20 +19,9 @@
     border-radius: 6px;
     margin-bottom: 30px;
   }
-
-  .briefs-summary ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 12px;
-  }
-
-  .briefs-summary li {
-    background-color: #181818;
-    padding: 12px 14px;
-    border-radius: 6px;
-    line-height: 1.5;
+  
+  .briefs-summary h3 {
+    margin-top: 0;
   }
   
   .briefs-titles ul {
