@@ -62,21 +62,27 @@ export default function BriefSummary() {
     );
   }
 
-  const isSameDay = (value) => {
-    if (!value) return false;
+  const isSameDay = (value, base) => {
+    if (!value || !base) return false;
     const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return false;
-    const now = new Date();
+    const ref = new Date(base);
+    if (Number.isNaN(date.getTime()) || Number.isNaN(ref.getTime())) return false;
     return (
-      date.getFullYear() === now.getFullYear() &&
-      date.getMonth() === now.getMonth() &&
-      date.getDate() === now.getDate()
+      date.getFullYear() === ref.getFullYear() &&
+      date.getMonth() === ref.getMonth() &&
+      date.getDate() === ref.getDate()
     );
   };
 
-  const isTodayBrief = isSameDay(data?.date);
+  const now = new Date();
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
 
-  if (!data || !Array.isArray(data.summary) || data.summary.length === 0 || !isTodayBrief) {
+  const isTodayBrief = isSameDay(data?.date, now);
+  const isYesterdayBrief = isSameDay(data?.date, yesterday);
+  const hasValidBrief = isTodayBrief || isYesterdayBrief;
+
+  if (!data || !Array.isArray(data.summary) || data.summary.length === 0 || !hasValidBrief) {
     return (
       <section className={styles.sectionWrap}>
         <div className="container">
