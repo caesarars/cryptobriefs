@@ -1,12 +1,12 @@
-'use client'; // WAJIB buat pake useRouter dan hooks di Next.js Client Components
+'use client';
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaMinusCircle } from "react-icons/fa";
-import Loading from "../loading/Loading"; // pastikan udah adaptasi
+import Loading from "../loading/Loading";
 import "./CryptoSentiment.css";
-import SentimentProgress from "./SentimentProgress"; // pastikan udah adaptasi
+import SentimentProgress from "./SentimentProgress";
 
 // Import assets
 import bitcoinImage from "../../assets/image/bitcoin.png";
@@ -29,7 +29,6 @@ export default function CryptoSentiment() {
     const [totalNeutral, setTotalNeutral] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
     const [coinPrice, setCoinPrice] = useState(0)
-    const [coinPath, setCoinPath] = useState(bitcoinImage)
     const [lastWeekBullishPct, setLastWeekBullishPct] = useState(null)
     const [compareEnabled, setCompareEnabled] = useState(false)
     const [compareStats, setCompareStats] = useState(null)
@@ -70,11 +69,9 @@ export default function CryptoSentiment() {
         fetchSentiment();
         fetchLastWeek();
 
-        // Fetch harga coin dari Binance
         const fetchPrice = async () => {
             try {  
                 const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${coinFilter}USDT`);
-                //const res = await fetch(`https://crypto-blog-backend.vercel.app/api/crypto-price?coinFilter=${coinFilter}`);
                 const data = await res.json();
 
                 if (data.price) {
@@ -86,7 +83,7 @@ export default function CryptoSentiment() {
         };
 
         fetchPrice();
-        const priceInterval = setInterval(fetchPrice, 5000); // Update tiap 5 detik
+        const priceInterval = setInterval(fetchPrice, 5000);
 
         return () => {
             isMounted = false;
@@ -145,10 +142,11 @@ export default function CryptoSentiment() {
                 return xrpImage;
             case "DOT" :
                 return dotImage;
+            default:
+                return bitcoinImage;
         }
     }
 
-    // Map coin ticker to page slug
     const getCoinSlug = (coin) => {
         const slugMap = {
             "BTC": "bitcoin",
@@ -162,12 +160,6 @@ export default function CryptoSentiment() {
         };
         return slugMap[coin] || "bitcoin";
     }
-
-    const sentimentCount = {
-        Bullish: news.filter((n) => n.sentiment === "Bullish").length,
-        Bearish: news.filter((n) => n.sentiment === "Bearish").length,
-        Neutral: news.filter((n) => n.sentiment === "Neutral").length
-    };
 
     const  getIconSentiment = (sentiment) => {
         if (sentiment === "bearish") {
@@ -223,18 +215,16 @@ export default function CryptoSentiment() {
     return (
         <>
             <div className="container wrapper_analysis">
-                <div 
-                    className="title_sentiment_wrapper" 
-                    style={{ 
-                        display: "grid", 
-                        gridTemplateColumns: "1fr auto",
-                        alignItems: "center"
-                    }}
-                    >
-                    <p style={{ fontSize: "1.3em", fontWeight: "bold" }} className="space-title">
-                        News Sentiment - {coinFilter}
-                    </p>
-                    <p className="read_more btn btn-warning general-font" onClick={() => router.push('/news')} style={{ justifySelf: "end" }}>Explore More News</p>
+                <div className="title_sentiment_wrapper">
+                    <div>
+                        <p className="widget_kicker">Signal Radar</p>
+                        <p className="space-title sentiment_title">
+                            News Sentiment - {coinFilter}
+                        </p>
+                    </div>
+                    <button type="button" className="read_more sentiment_cta" onClick={() => router.push('/news')}>
+                        Explore More News
+                    </button>
                 </div>
 
                 <div className="sentiment_explain">
@@ -248,29 +238,26 @@ export default function CryptoSentiment() {
                 </div>
 
                 <div
-                    className="d-flex justify-content-center flex-column align-items-center general-font p-3"
+                    className="coin_price_card general-font"
                     onClick={() => router.push(`/${getCoinSlug(coinFilter)}`)}
-                    style={{ cursor: "pointer", transition: "all 0.2s" }}
-                    onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-                    onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
                 >
-                    <p style={{fontSize:"1.4em", margin: 0}}>
+                    <p className="coin_price_value">
                         $ {coinPrice}
                         <Image
-                            style={{marginLeft:"12px"}}
+                            className="coin_price_icon"
                             src={getCoinPath(coinFilter)}
                             alt={coinFilter}
                             width={40}
                             height={40}
                         />
                     </p>
-                    <small style={{fontSize:"0.8em", color: "rgba(255,255,255,0.7)", marginTop: "4px"}}>
+                    <small className="coin_price_hint">
                         Click to view {coinFilter} page →
                     </small>
                 </div>
 
                 <div className="input-group select-option general-font">
-                        <div className="input-group-prepand" style={{width:"72px"}}>
+                        <div className="input-group-prepand select_label_wrap">
                             <label className="input-group-text" htmlFor="select_period">Period</label>
                         </div>
                         <select id="select_period" className="form-control" onChange={(e) => setPeriod(e.target.value)}>
@@ -280,7 +267,7 @@ export default function CryptoSentiment() {
                         </select>
                 </div>
                 <div className="input-group mt-3 select-option general-font">
-                        <div className="input-group-prepand" style={{width:"72px"}}>
+                        <div className="input-group-prepand select_label_wrap">
                             <label className="input-group-text" htmlFor="inputGroupSelect01">Coin</label>
                         </div>
                         <select id="inputGroupSelect01" className="form-control mb-3" value={coinFilter} onChange={(e) => setCoinFilter(e.target.value)}>
@@ -314,10 +301,10 @@ export default function CryptoSentiment() {
                                 <span className="trend_text">{trendText}</span>
                             </div>
                             <div className="sentiment_actions">
-                                <button className="sentiment_btn" onClick={() => router.push(`/news?coin=${coinFilter}`)}>
+                                <button type="button" className="sentiment_btn" onClick={() => router.push(`/news?coin=${coinFilter}`)}>
                                     Open {coinFilter} sentiment
                                 </button>
-                                <button className="sentiment_btn sentiment_btn_outline" onClick={() => setCompareEnabled((prev) => !prev)}>
+                                <button type="button" className="sentiment_btn sentiment_btn_outline" onClick={() => setCompareEnabled((prev) => !prev)}>
                                     {compareEnabled ? "Hide BTC vs ETH" : "Compare BTC vs ETH"}
                                 </button>
                             </div>
@@ -340,28 +327,23 @@ export default function CryptoSentiment() {
                             <div className="news_list">
 
                                 {news.length === 0 && (
-                                    <>
-                                        <h3 className="no_data" style={{textAlign:"center", marginTop:"32px"}}>No Data</h3>
-                                    </>
+                                    <h3 className="no_data">No Data</h3>
                                 )}
 
                                 {news.length > 0 && news.map((data,index)=> {
-                                    const classNameSpan = data.sentiment
                                     const iconSentiment = getIconSentiment(data.sentiment)
                                     return (
-                                        <>
-                                            <div className="news_sentiments">
-                                                <div className="link_text">
-                                                    <a className="some_a_tag" href={data.link} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
-                                                            <span  className="span_link">{data.title}</span>
-                                                    </a>
-                                                    <p className="date_published">{formattedDate(data.published)}</p>
-                                                </div>
-                                                <div className="icon_wrapper">
-                                                    <span style={{color:"black"}}>{iconSentiment}</span>
-                                                </div>
+                                        <div className="news_sentiments" key={`${data.link}-${index}`}>
+                                            <div className="link_text">
+                                                <a className="some_a_tag" href={data.link} target="_blank" rel="noopener noreferrer">
+                                                    <span className="span_link">{data.title}</span>
+                                                </a>
+                                                <p className="date_published">{formattedDate(data.published)}</p>
                                             </div>
-                                        </>
+                                            <div className="icon_wrapper">
+                                                {iconSentiment}
+                                            </div>
+                                        </div>
                                     )
                                 })}
                             </div>
@@ -370,7 +352,7 @@ export default function CryptoSentiment() {
                 )}
 
                { news.length < 3 && 
-                <p className="read_more_2 btn btn-warning general-font" onClick={() => router.push('/news')} style={{ justifySelf: "end" }}>Explore More News</p>
+                <button type="button" className="read_more_2 sentiment_cta" onClick={() => router.push('/news')}>Explore More News</button>
 
                }
                 

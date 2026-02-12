@@ -1,13 +1,10 @@
 'use client'
 
 import "./CryptoEducationCorner.css"
-import { useState } from "react";
 import Image from 'next/image';
 import Link from 'next/link'
 
 const CryptoEducationCorner = () => {
-
-    const [isClicked , setIsClicked] = useState(false)
     
     const learningPaths = [
       {
@@ -60,7 +57,13 @@ const CryptoEducationCorner = () => {
 
     return (
       <div className="container_crypto_education">
-       <p style={{ fontSize: "1.3em", fontWeight: "bold" }} className="p-2 space-title">Crypto Education Corner</p>
+        <div className="education_header">
+          <div>
+            <p className="widget_kicker">Learning Hub</p>
+            <p className="space-title education_title">Crypto Education Corner</p>
+          </div>
+          <span className="education_badge">{cryptoTips.length} lessons</span>
+        </div>
         <div className="learning_path">
           {learningPaths.map((path) => (
             <div key={path.title} className="learning_path_card">
@@ -77,31 +80,28 @@ const CryptoEducationCorner = () => {
           ))}
         </div>
         <div className="container_list_edu">
-          {cryptoTips.map((tip, index) => (
-            <article key={tip.link} className="container_list_edu general-font">
-              <div className="p-3">
-                <div className="wrapper_blog_edu">
-                  <Image
-                    src={tip.image}
-                    alt={`Cover for ${tip.title}`}
-                    width={124}
-                    height={124}
-                    className="image_edu_cover"
-                    style={{ borderRadius: "10px", objectFit: "cover" }}
-                  />
-                  <div className="content_blog_edu">
-                    <div className="read_time">{tip.readTime}</div>
-                    <Link
-                      href={tip.link}
-                      aria-label={`Read more about ${tip.title} - ${tip.description}`}
-                    >
+          {cryptoTips.map((tip) => (
+            <article key={tip.link} className="edu_article general-font">
+              <div className="wrapper_blog_edu">
+                <Image
+                  src={tip.image}
+                  alt={`Cover for ${tip.title}`}
+                  width={124}
+                  height={124}
+                  className="image_edu_cover"
+                />
+                <div className="content_blog_edu">
+                  <div className="read_time">{tip.readTime}</div>
+                  <Link
+                    href={tip.link}
+                    aria-label={`Read more about ${tip.title} - ${tip.description}`}
+                  >
                     <h3 className="title_blog_edu">{tip.title}</h3>
-                    </Link>
-                    <p>{tip.description}</p>
-                    <Link className="cta_edu" href={tip.link} aria-label={`Learn more about ${tip.title}`}>
-                      {tip.cta}
-                    </Link>
-                  </div>
+                  </Link>
+                  <p className="desc_blog_edu">{tip.description}</p>
+                  <Link className="cta_edu" href={tip.link} aria-label={`Learn more about ${tip.title}`}>
+                    {tip.cta}
+                  </Link>
                 </div>
               </div>
             </article>

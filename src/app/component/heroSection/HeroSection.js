@@ -33,19 +33,28 @@ const HeroSection = () => {
             <div className="row g-3 justify-content-center">
               <div className="col-12 col-md-4">
                 <div className="hero-trust-card">
-                  <div className="hero-trust-title">Fast</div>
+                  <div className="hero-trust-top">
+                    <span className="hero-trust-icon">01</span>
+                    <div className="hero-trust-title">Fast</div>
+                  </div>
                   <div className="hero-trust-text">A quick daily read you can finish in a minute.</div>
                 </div>
               </div>
               <div className="col-12 col-md-4">
                 <div className="hero-trust-card">
-                  <div className="hero-trust-title">Signal & context</div>
+                  <div className="hero-trust-top">
+                    <span className="hero-trust-icon">02</span>
+                    <div className="hero-trust-title">Signal & context</div>
+                  </div>
                   <div className="hero-trust-text">Sentiment + movers + why it matters.</div>
                 </div>
               </div>
               <div className="col-12 col-md-4">
                 <div className="hero-trust-card">
-                  <div className="hero-trust-title">No shilling</div>
+                  <div className="hero-trust-top">
+                    <span className="hero-trust-icon">03</span>
+                    <div className="hero-trust-title">No shilling</div>
+                  </div>
                   <div className="hero-trust-text">Curated insights. No hype, no spam.</div>
                 </div>
               </div>

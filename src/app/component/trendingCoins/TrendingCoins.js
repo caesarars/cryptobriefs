@@ -1,4 +1,4 @@
-'use client'; // ⬅️ wajib kalau pakai useState, useEffect
+'use client';
 import {useState, useEffect}from "react";
 import axios from "axios";
 import "./TrendingCoins.css"
@@ -52,15 +52,21 @@ const TrendingCoins = () => {
 
     const formatPrice = (price) => {
         const num = Number(price);
+        if (!Number.isFinite(num)) return "N/A";
         if (num < 0.01) return num.toFixed(8);
         if (num < 1) return num.toFixed(4);
         return num.toFixed(2);
-      };
+    };
 
     const formatChange = (change) => {
         if (change === null || change === undefined) return "N/A";
         const sign = change > 0 ? "+" : "";
         return `${sign}${change.toFixed(2)}%`;
+    };
+
+    const getChangeClass = (change) => {
+        if (change === null || change === undefined) return "change_neutral";
+        return change >= 0 ? "change_positive" : "change_negative";
     };
 
     const Sparkline = ({ prices, isUp }) => {
@@ -98,7 +104,13 @@ const TrendingCoins = () => {
 
     return (
         <div className="container_tranding_coins">
-            <p style={{ fontSize: "1.3em" }} className="wording_trending_coins space-title">🔥 Trending Coins 🔥</p>
+            <div className="trending_header">
+                <div>
+                    <p className="widget_kicker">Momentum Radar</p>
+                    <p className="wording_trending_coins space-title">Trending Coins</p>
+                </div>
+                <span className="trending_badge">{coins.length || 10} coins</span>
+            </div>
             {loading ? (
                 <Loading/>
             ) : (
@@ -124,11 +136,12 @@ const TrendingCoins = () => {
                                     <img loading="lazy" src={coin.image} alt={coin.id} width={"28px"} height={"28px"}/>
                                     <div className="coin_text">
                                         <span className="coin_symbol">{coin.symbol}</span>
+                                        <span className="coin_name">{coin.name}</span>
                                     </div>
                                 </div>
                                 <p className="coin_price">${formatPrice(coin.price)}</p>
                                 <Sparkline prices={coin.sparkline} isUp={coin.change24h >= 0} />
-                                <p className={coin.change24h >= 0 ? "change_positive" : "change_negative"}>
+                                <p className={getChangeClass(coin.change24h)}>
                                     {formatChange(coin.change24h)}
                                 </p>
                             </div>
@@ -151,9 +164,12 @@ const TrendingCoins = () => {
                                 <span className="coin_rank">{index + 1}</span>
                                 <div className="coin_meta">
                                     <img loading="lazy" src={coin.image} alt={coin.id} width={"24px"} height={"24px"}/>
-                                    <span className="coin_symbol">{coin.symbol}</span>
+                                    <div className="coin_text">
+                                        <span className="coin_symbol">{coin.symbol}</span>
+                                        <span className="coin_name">{coin.name}</span>
+                                    </div>
                                 </div>
-                                <p className={coin.change24h >= 0 ? "price_positive" : "price_negative"}>
+                                <p className={coin.change24h >= 0 ? "price_positive" : coin.change24h < 0 ? "price_negative" : "price_neutral"}>
                                     ${formatPrice(coin.price)}
                                 </p>
                             </div>

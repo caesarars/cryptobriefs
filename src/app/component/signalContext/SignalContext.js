@@ -38,18 +38,20 @@ export default function SignalContext() {
   const bullishPct = total ? Math.round((bullish / total) * 100) : 0;
   const noSignals = bullish === 0 && bearish === 0 && neutral === 0;
   const biasLabel = noSignals ? 'Neutral' : bullishPct >= 55 ? 'Bullish' : bullishPct <= 45 ? 'Bearish' : 'Neutral';
+  const movers = Array.isArray(data?.movers) ? data.movers.slice(0, 4) : [];
 
   return (
-    <section className="signal-context container py-4">
+    <section className="signal-context container mb-5">
       <div className="signal-card">
         <div className="signal-head">
           <div>
+            <p className="signal-kicker">Market Pulse</p>
             <h2 className="space-title signal-title">Signal & context</h2>
             <p className="signal-sub">Sentiment + movers + why it matters (today)</p>
           </div>
           <div className="signal-actions">
             <Link className="btn btn-glow" href="/brief">Read brief</Link>
-            <Link className="btn btn-outline-dark" href="/subscribe" style={{ borderRadius: 50 }}>Join newsletter</Link>
+            <Link className="btn btn-outline-dark signal-btn-ghost" href="/subscribe">Join newsletter</Link>
           </div>
         </div>
 
@@ -60,16 +62,19 @@ export default function SignalContext() {
             <div className="signal-block">
               <div className="signal-kicker">Sentiment (BTC)</div>
               <div className={`signal-pill signal-pill--${biasLabel.toLowerCase()}`}>Bias: {biasLabel} ({bullishPct}%)</div>
-              <div className="signal-text">
-                Based on the share of bullish vs bearish headlines today.
+              <div className="signal-stats">
+                <span>Bullish: {bullish}</span>
+                <span>Neutral: {neutral}</span>
+                <span>Bearish: {bearish}</span>
               </div>
+              <div className="signal-text">Based on the share of bullish vs bearish headlines today.</div>
             </div>
 
             <div className="signal-block">
               <div className="signal-kicker">Top movers (24h)</div>
-              {data?.movers?.length ? (
+              {movers.length ? (
                 <ul className="movers">
-                  {data.movers.map((m) => (
+                  {movers.map((m) => (
                     <li key={m.id} className={m.change24h >= 0 ? 'up' : 'down'}>
                       <span className="sym">{m.symbol}</span>
                       <span className="chg">{m.change24h >= 0 ? '+' : ''}{Number(m.change24h).toFixed(2)}%</span>

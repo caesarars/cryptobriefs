@@ -81,8 +81,8 @@ export default function BriefIndexPage() {
         </p>
 
         {loading ? (
-          <div className={styles.summaryCard}>
-            Loading…
+          <div className={styles.briefCard}>
+            <div className={styles.stateCard}>Loading today’s summary…</div>
           </div>
         ) : error ? (
           <div className="p-4 rounded-4" style={{ background: "#fff1f2", border: "1px solid #fecdd3" }}>
@@ -101,15 +101,39 @@ export default function BriefIndexPage() {
           <div className="mt-4">
             <div className={styles.marketCard}>
               <div className={styles.marketHeader}>
-                <h2 className="h6 mb-0">Market snapshot</h2>
-                <span className={styles.marketBadge}>Live</span>
+                <div className={styles.marketTitleWrap}>
+                  <p className={styles.marketMeta}>Quick Pulse</p>
+                  <h2 className={styles.marketTitle}>Market snapshot</h2>
+                  <p className={styles.marketSub}>Real-time movement for major assets.</p>
+                </div>
+                <div className={styles.marketBadgeWrap}>
+                  <span className={styles.marketBadgeLive}>Live</span>
+                  <span className={styles.marketBadgeCount}>{market.length || 2} assets</span>
+                </div>
               </div>
               {market.length ? (
                 <div className={styles.marketGrid}>
                   {market.map((coin) => (
                     <div key={coin.id} className={styles.marketItem}>
-                      <div className={styles.marketSymbol}>{coin.symbol?.toUpperCase()}</div>
-                      <div className={styles.marketPrice}>{fmtUsd(coin.current_price)}</div>
+                      <div className={styles.marketItemTop}>
+                        <div>
+                          <div className={styles.marketSymbol}>{coin.symbol?.toUpperCase()}</div>
+                          <div className={styles.marketName}>{coin.name}</div>
+                        </div>
+                        <div
+                          className={
+                            coin.price_change_percentage_24h >= 0
+                              ? styles.marketChangeUp
+                              : styles.marketChangeDown
+                          }
+                        >
+                          {fmtPct(coin.price_change_percentage_24h)}
+                        </div>
+                      </div>
+                      <div className={styles.marketPriceRow}>
+                        <div className={styles.marketPrice}>{fmtUsd(coin.current_price)}</div>
+                        <div className={styles.marketLabel}>24h</div>
+                      </div>
                       <div
                         className={
                           coin.price_change_percentage_24h >= 0
@@ -117,30 +141,39 @@ export default function BriefIndexPage() {
                             : styles.marketChangeDown
                         }
                       >
-                        {fmtPct(coin.price_change_percentage_24h)} (24h)
+                        {coin.price_change_percentage_24h >= 0 ? "Bullish momentum" : "Under pressure"}
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="mb-0" style={{ color: "#6b7280" }}>
-                  Market data loading…
-                </p>
+                <div className={styles.stateCard}>Market data loading…</div>
               )}
             </div>
 
-            <div className={styles.summaryCard}>
-              <h2 className="h5 mb-3">Summary</h2>
+            <div className={styles.briefCard}>
+              <div className={styles.topBar}>
+                <div>
+                  <p className={styles.eyebrow}>Daily Snapshot</p>
+                  <h2 className={`h5 mb-2 ${styles.summaryHeading}`}>Today’s brief</h2>
+                  <p className={styles.summarySubtitle}>A quick summary of today&apos;s important crypto news.</p>
+                </div>
+                <p className={styles.countPill}>{summaryItems.length} highlights</p>
+              </div>
               {Array.isArray(summaryItems) && summaryItems.length ? (
                 <>
-                  <ul className={styles.summaryList}>
+                  <div className={styles.timeline}>
                     {visibleItems.map((p, idx) => (
-                      <li key={idx} className={styles.summaryItem}>
-                        <div className={styles.summaryTitle}>{p.title}</div>
-                        <div className={styles.summaryContent}>{p.content}</div>
-                      </li>
+                      <article key={idx} className={styles.timelineItem}>
+                        <div className={styles.timelineDot} aria-hidden="true" />
+                        <div className={styles.timelineContent}>
+                          <p className={styles.itemText}>
+                            <strong>{p.title}</strong> — {p.content}
+                          </p>
+                        </div>
+                      </article>
                     ))}
-                  </ul>
+                  </div>
                   {summaryItems.length > 10 && (
                     <div className="mt-3">
                       <button
@@ -154,7 +187,7 @@ export default function BriefIndexPage() {
                   )}
                 </>
               ) : (
-                <p className="mb-0">No summary available.</p>
+                <div className={styles.stateCard}>No summary available.</div>
               )}
             </div>
 

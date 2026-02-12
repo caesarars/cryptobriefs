@@ -10,36 +10,136 @@
   line-height: 1.6;
 }
 
-.summaryCard {
-  background: #f6f2fb;
-  border-radius: 20px;
-  padding: 28px;
+.briefCard {
+  position: relative;
+  border-radius: 28px;
+  padding: 1.5rem;
+  background:
+    radial-gradient(circle at top right, rgba(114, 52, 217, 0.18), transparent 38%),
+    radial-gradient(circle at top left, rgba(159, 122, 234, 0.14), transparent 30%),
+    #ffffff;
+  border: 1px solid #e8edf3;
+  box-shadow: 0 18px 42px -28px rgba(5, 20, 60, 0.45);
+}
+
+.topBar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6f3cd5;
+}
+
+.summaryHeading {
+  margin-top: 0;
+}
+
+.summarySubtitle {
+  margin: 0;
+  max-width: 62ch;
+  color: #5f6d84;
+  font-size: 0.95rem;
+}
+
+.countPill {
+  margin: 0;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #f1eafe;
+  color: #5b32b4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.stateCard {
+  border-radius: 18px;
+  padding: 1rem;
+  background: #f7f9fc;
+  border: 1px solid #e6ecf5;
+  color: #273247;
 }
 
 .marketCard {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 20px 24px;
-  border: 1px solid rgba(108, 92, 231, 0.12);
-  box-shadow: 0 12px 24px rgba(108, 92, 231, 0.08);
+  background:
+    radial-gradient(circle at top right, rgba(114, 52, 217, 0.14), transparent 40%),
+    #ffffff;
+  border-radius: 24px;
+  padding: 1.25rem;
+  border: 1px solid #e8ddff;
+  box-shadow: 0 18px 32px -24px rgba(114, 52, 217, 0.55);
   margin-bottom: 20px;
 }
 
 .marketHeader {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.marketBadge {
-  background: rgba(108, 92, 231, 0.12);
-  color: #6c5ce7;
+.marketTitleWrap {
+  min-width: 0;
+}
+
+.marketMeta {
+  margin: 0 0 0.2rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6f3cd5;
+}
+
+.marketTitle {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #1b1f2a;
+}
+
+.marketSub {
+  margin: 0.25rem 0 0;
+  color: #666d80;
+  font-size: 0.9rem;
+}
+
+.marketBadgeWrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.marketBadgeLive,
+.marketBadgeCount {
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.marketBadgeLive {
+  background: rgba(114, 52, 217, 0.14);
+  color: #6c41cb;
+}
+
+.marketBadgeCount {
+  background: #f4efff;
+  color: #5e37b8;
 }
 
 .marketGrid {
@@ -49,74 +149,146 @@
 }
 
 .marketItem {
-  background: #f9f9ff;
-  border-radius: 14px;
-  padding: 12px 14px;
-  border: 1px solid #ecebff;
+  background: #fbf9ff;
+  border-radius: 16px;
+  padding: 0.8rem 0.85rem;
+  border: 1px solid #e8ddff;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.marketItem:hover {
+  border-color: #d3bbff;
+  box-shadow: 0 10px 20px -16px rgba(114, 52, 217, 0.6);
+  transform: translateY(-1px);
+}
+
+.marketItemTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .marketSymbol {
   font-weight: 700;
   color: #1b1f2a;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.marketName {
+  font-size: 0.8rem;
+  color: #6a7285;
+}
+
+.marketPriceRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.45rem;
 }
 
 .marketPrice {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 1.08rem;
+  font-weight: 700;
   color: #1b1f2a;
+}
+
+.marketLabel {
+  color: #7b8093;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
 }
 
 .marketChangeUp {
-  margin-top: 6px;
+  margin-top: 0.35rem;
   color: #15803d;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.78rem;
 }
 
 .marketChangeDown {
-  margin-top: 6px;
+  margin-top: 0.35rem;
   color: #b91c1c;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.summaryList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 14px;
-}
-
-.summaryItem {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 14px 16px;
-  border: 1px solid rgba(108, 92, 231, 0.12);
-  box-shadow: 0 6px 16px rgba(108, 92, 231, 0.06);
-}
-
-.summaryTitle {
   font-weight: 700;
-  color: #1b1f2a;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-
-.summaryContent {
-  margin-top: 6px;
-  color: #4f5666;
-  line-height: 1.6;
-  font-size: 0.98rem;
-}
-
-.summaryMeta {
-  margin-top: 10px;
   font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #8a90a6;
+}
+
+.timeline {
+  position: relative;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 0.8rem;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: 0.45rem;
+  width: 2px;
+  height: calc(100% - 0.4rem);
+  background: linear-gradient(to bottom, #7234d9, #d8c3ff);
+}
+
+.timeline::-webkit-scrollbar {
+  width: 8px;
+}
+
+.timeline::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #bcc9de;
+}
+
+.timeline::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timelineItem {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.9rem;
+}
+
+.timelineDot {
+  position: absolute;
+  left: 0.15rem;
+  top: 0.9rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: #7234d9;
+  box-shadow: 0 0 0 5px #f1eafe;
+}
+
+.timelineContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  border-radius: 16px;
+  border: 1px solid #e7edf7;
+  background: #fbfcff;
+  padding: 0.8rem 0.9rem;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timelineContent:hover {
+  border-color: #d2bcff;
+  box-shadow: 0 10px 18px -16px rgba(114, 52, 217, 0.45);
+  transform: translateY(-1px);
+}
+
+.itemText {
+  margin: 0;
+  color: #273247;
+  line-height: 1.55;
+}
+
+.itemText strong {
+  color: #111a2c;
 }
 
 .toggleButton {
@@ -133,4 +305,48 @@
   color: #fff;
   border-radius: 20px;
   padding: 24px 28px;
+}
+
+@media (max-width: 768px) {
+  .marketCard {
+    border-radius: 18px;
+    padding: 1rem;
+  }
+
+  .marketHeader {
+    flex-direction: column;
+    margin-bottom: 0.85rem;
+  }
+
+  .marketBadgeWrap {
+    justify-content: flex-start;
+  }
+
+  .briefCard {
+    border-radius: 20px;
+    padding: 1.1rem;
+  }
+
+  .topBar {
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 0.95rem;
+  }
+
+  .summarySubtitle {
+    font-size: 0.9rem;
+  }
+
+  .timeline {
+    max-height: 460px;
+    padding-right: 0.5rem;
+  }
+
+  .timelineItem {
+    padding-left: 1.7rem;
+  }
+
+  .timelineDot {
+    left: 0.08rem;
+  }
 }
