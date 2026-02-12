@@ -3,105 +3,189 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
-  background: radial-gradient(circle at top, #f5f9ff, #ffffff 60%);
+  padding: 56px 16px;
+  background:
+    radial-gradient(circle at top left, rgba(114, 52, 217, 0.2), transparent 38%),
+    radial-gradient(circle at top right, rgba(159, 122, 234, 0.16), transparent 34%),
+    linear-gradient(180deg, #0d0720 0%, #1d0f3a 42%, #ffffff 100%);
+}
+
+.subscribe-shell {
+  width: 100%;
+  max-width: 1060px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.subscribe-hero,
+.subscribe-card {
+  border-radius: 22px;
+  border: 1px solid rgba(198, 174, 255, 0.28);
+  box-shadow: 0 20px 34px -24px rgba(14, 8, 32, 0.8);
+}
+
+.subscribe-hero {
+  padding: 30px;
+  color: #f8f7ff;
+  background:
+    radial-gradient(circle at top right, rgba(114, 52, 217, 0.22), transparent 45%),
+    rgba(25, 18, 50, 0.92);
 }
 
 .subscribe-card {
-  width: 100%;
-  max-width: 520px;
-  background: #fff;
-  border-radius: 16px;
-  border: 1px solid #e6e6e6;
-  padding: 32px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  padding: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(114, 52, 217, 0.14), transparent 36%),
+    #ffffff;
 }
 
 .subscribe-label {
-  font-size: 12px;
-  letter-spacing: 2px;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6b7280;
-  margin-bottom: 12px;
+  color: #cdb4ff;
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 
 .subscribe-title {
-  font-size: 32px;
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  line-height: 1.12;
   margin-bottom: 12px;
 }
 
 .subscribe-subtitle {
-  font-size: 16px;
-  line-height: 26px;
-  color: #4b5563;
-  margin-bottom: 16px;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(236, 230, 255, 0.86);
+  margin-bottom: 18px;
 }
 
 .subscribe-benefits {
-  margin: 0 0 20px 18px;
-  color: #111827;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
 }
 
 .subscribe-benefits li {
-  margin-bottom: 8px;
-  line-height: 22px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  border: 1px solid rgba(198, 174, 255, 0.26);
+  border-radius: 14px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  line-height: 1.45;
+}
+
+.benefit-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f4eeff;
+  background: rgba(176, 145, 249, 0.24);
+  border: 1px solid rgba(222, 207, 255, 0.36);
+}
+
+.subscribe-proof {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.subscribe-proof span {
+  font-size: 0.77rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(235, 228, 255, 0.9);
+  border: 1px solid rgba(198, 174, 255, 0.32);
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.subscribe-form-title {
+  margin: 0;
+  color: #111827;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.subscribe-form-subtitle {
+  margin: 8px 0 18px;
+  color: #5a6375;
+  line-height: 1.5;
 }
 
 .subscribe-form {
   display: grid;
-  gap: 16px;
+  gap: 14px;
 }
 
 .subscribe-field {
   display: grid;
   gap: 8px;
-  font-size: 14px;
-  color: #111827;
+  font-size: 0.9rem;
+  color: #1f2937;
+  font-weight: 600;
 }
 
 .subscribe-input {
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
+  border: 1px solid #d6d9e0;
+  border-radius: 12px;
   padding: 12px 14px;
-  font-size: 15px;
+  font-size: 0.97rem;
   background: #ffffff;
   color: #111827;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .subscribe-input:focus {
-  outline: 2px solid #1f7aec;
-  border-color: #1f7aec;
+  outline: none;
+  border-color: #8e62ec;
+  box-shadow: 0 0 0 4px rgba(142, 98, 236, 0.16);
 }
 
 .subscribe-button {
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 12px 16px;
-  background: #0f172a;
+  background: linear-gradient(135deg, #7234d9, #9f7aea);
   color: #fff;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .subscribe-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 10px 20px -12px rgba(114, 52, 217, 0.75);
 }
 
 .subscribe-button:disabled {
-  opacity: 0.7;
+  opacity: 0.75;
   cursor: not-allowed;
   box-shadow: none;
 }
 
 .subscribe-message {
-  font-size: 14px;
-  margin-top: 8px;
+  font-size: 0.9rem;
+  margin-top: 2px;
 }
 
 .subscribe-message.success {
-  color: #16a34a;
+  color: #15803d;
 }
 
 .subscribe-message.error {
@@ -109,17 +193,31 @@
 }
 
 .subscribe-footnote {
-  margin-top: 16px;
-  font-size: 12px;
-  color: #6b7280;
+  margin-top: 14px;
+  font-size: 0.77rem;
+  line-height: 1.4;
+  color: #778194;
+}
+
+@media (max-width: 900px) {
+  .subscribe-shell {
+    grid-template-columns: 1fr;
+    max-width: 620px;
+  }
 }
 
 @media (max-width: 480px) {
+  .subscribe-page {
+    padding: 28px 12px;
+  }
+
+  .subscribe-hero,
   .subscribe-card {
-    padding: 24px;
+    padding: 20px;
+    border-radius: 16px;
   }
 
   .subscribe-title {
-    font-size: 26px;
+    font-size: 1.7rem;
   }
 }

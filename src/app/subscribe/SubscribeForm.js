@@ -70,6 +70,8 @@ const SubscribeForm = () => {
       </button>
       {message ? (
         <p
+          role="status"
+          aria-live="polite"
           className={
             status === "success" ? "subscribe-message success" : "subscribe-message error"
           }
