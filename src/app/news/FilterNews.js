@@ -1,5 +1,3 @@
-// Filename: FilterNews.js
-
 'use client';
 
 import { FaSearch } from "react-icons/fa";
@@ -11,34 +9,37 @@ const FilterNews = ({ onHandleFilter, initialValues }) => {
     onHandleFilter({ [name]: value });
   };
 
+  const resetFilters = () => {
+    onHandleFilter({
+      search: "",
+      coin: "",
+      sentiment: "",
+      sort: "latest",
+    });
+  };
+
   return (
-    // Menggunakan Bootstrap grid system.
-    // gx-3 memberikan spasi horizontal yang sedikit lebih lebar antar elemen.
-    <div className="row gx-3 gy-3 align-items-center mt-4 mb-3">
-      
-      {/* Kolom untuk Input Pencarian */}
-      {/* Di layar kecil (mobile) akan mengambil lebar penuh (12), di layar besar 3 */}
-      <div className="col-12 col-md-6 col-lg-3">
-        <div className="input-group">
+    <div className="news-filters">
+      <div className="news-filter-group filter-search">
+        <div className="input-group news-input-group news-search-group">
           <input 
             type="text" 
-            className="form-control" 
+            className="form-control news-control" 
             placeholder="Search news..." 
             aria-label="Search news"
             name="search"
             value={initialValues.search}
             onChange={handleInputChange}
           />
-          <span className="input-group-text">
+          <span className="input-group-text news-addon">
             <FaSearch />
           </span>
         </div>
       </div>
 
-      {/* Kolom untuk Filter Koin */}
-      <div className="col-6 col-md-6 col-lg-3">
+      <div className="news-filter-group">
         <select 
-          className="form-select" 
+          className="form-select news-control" 
           aria-label="Select Coin"
           name="coin"
           value={initialValues.coin}
@@ -54,10 +55,9 @@ const FilterNews = ({ onHandleFilter, initialValues }) => {
         </select>
       </div>
       
-      {/* Kolom untuk Filter Sentimen */}
-      <div className="col-6 col-md-6 col-lg-3">
+      <div className="news-filter-group">
         <select 
-          className="form-select" 
+          className="form-select news-control" 
           aria-label="Select Sentiment"
           name="sentiment"
           value={initialValues.sentiment}
@@ -70,25 +70,24 @@ const FilterNews = ({ onHandleFilter, initialValues }) => {
         </select>
       </div>
 
-      {/* Kolom untuk Sort By */}
-      <div className="col-12 col-md-6 col-lg-3">
-        {/* Menggunakan input-group agar label dan select terlihat menyatu dan rapi */}
-        <div className="input-group">
-            <span className="input-group-text fw-bold">Sort by:</span>
-            <select 
-                id="sort-select" 
-                className="form-select" 
-                name="sort" // ✅ PENTING: Tambahkan 'name' agar handler berfungsi
-                value={initialValues.sort} // ✅ Ganti defaultValue menjadi value agar konsisten
-                onChange={handleInputChange}
-            >
-                <option value="latest">Latest</option>
-                <option value="positive">Positive</option>
-                <option value="negative">Negative</option>
-            </select>
-        </div>
-    </div>
+      <div className="news-filter-group">
+        <select 
+          id="sort-select"
+          className="form-select news-control" 
+          aria-label="Sort News"
+          name="sort"
+          value={initialValues.sort}
+          onChange={handleInputChange}
+        >
+          <option value="latest">Sort: Latest</option>
+          <option value="positive">Sort: Positive</option>
+          <option value="negative">Sort: Negative</option>
+        </select>
+      </div>
 
+      <button type="button" className="news-clear-btn" onClick={resetFilters}>
+        Clear
+      </button>
     </div>
   );
 };

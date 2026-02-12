@@ -8,6 +8,7 @@
   position: relative;
   overflow: hidden;
   padding: 48px 0 32px;
+  margin-bottom: 56px;
 }
 
 .hero::before {

@@ -1,13 +1,12 @@
-// Filename: TrendingTopics.js
-
 'use client';
 
 import { useState, useEffect } from 'react';
 
 const TopicTag = ({ topic, onTopicClick }) => (
   <button 
+    type="button"
     onClick={() => onTopicClick(topic)}
-    className="btn btn-outline-primary btn-sm me-2 mb-2"
+    className="topic-chip"
   >
     {topic}
   </button>
@@ -25,13 +24,9 @@ const TrendingTopics = ({ onTopicSelect }) => {
           throw new Error('Failed to fetch trending topics');
         }
         const result = await response.json();
-        console.log(result.data)
-        console.log(Array.isArray(result.data))
-        // Pastikan result.data adalah array sebelum di-set
         if (Array.isArray(result.data)) {
             setTopics(result.data);
         } else {
-            // Jika format tidak sesuai, set ke array kosong untuk mencegah error
             setTopics([]);
         }
       } catch (error) {
@@ -44,32 +39,27 @@ const TrendingTopics = ({ onTopicSelect }) => {
     fetchTrending();
   }, []);
 
-  // ✅ 1. KEMBALIKAN LOGIKA LOADING
-  // Tampilkan placeholder yang informatif saat data sedang diambil.
   if (loading) {
     return (
-      <div className="mb-4">
-        <h5 className="fw-bold mb-3">Trending Now:</h5>
-        <div>
+      <div className="topics-panel">
+        <h5 className="topics-title">Trending now</h5>
+        <div className="topics-wrap">
           {[...Array(5)].map((_, i) => (
-            <span key={i} className="btn btn-outline-secondary btn-sm me-2 mb-2 disabled placeholder col-1"></span>
+            <span key={i} className="topic-chip topic-chip-loading"></span>
           ))}
         </div>
       </div>
     );
   }
 
-  // ✅ 2. KEMBALIKAN LOGIKA EMPTY STATE
-  // Jangan render apapun jika tidak ada topik yang tren. Ini membuat UI lebih bersih.
   if (topics.length === 0) {
     return null;
   }
 
-  // ✅ 3. TAMPILKAN HASIL JIKA SEMUA BERHASIL
   return (
-    <div className="mb-4">
-      <h5 className="fw-bold mb-3">Trending Now:</h5>
-      <div>
+    <div className="topics-panel">
+      <h5 className="topics-title">Trending now</h5>
+      <div className="topics-wrap">
         {topics.map(topic => (
           <TopicTag key={topic} topic={topic} onTopicClick={onTopicSelect} />
         ))}

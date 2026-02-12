@@ -2,16 +2,14 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./NewsPage.module.css";
+import "./NewsPage.css";
 
-// Import semua komponen yang dibutuhkan
 import ListNews from "./ListNews";
 import FilterNews from "./FilterNews";
-import SortNews from "./SortNews"; // Komponen yang kita buat sebelumnya
-import TrendingTopics from "../component/TrendingTopics"; // Komponen baru dari artifact di kanan
-import Loading from "../component/loading/Loading"; // Sebaiknya ini adalah Skeleton Loading
+import TrendingTopics from "../component/TrendingTopics";
+import Loading from "../component/loading/Loading";
 import Pagination from "../blogs/Pagination";
 
-// Hook custom untuk Debounce, agar tidak memanggil API di setiap ketikan
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -28,7 +26,6 @@ const useDebounce = (value, delay) => {
   return debouncedValue;
 };
 
-// Gunakan konstanta agar konsisten
 const NEWS_PER_PAGE = 9; 
 
 const News = () => {
@@ -37,7 +34,6 @@ const News = () => {
   const [error, setError] = useState(null);
   const [pagination, setPagination] = useState({ total: 0, page: 1, totalPages: 0 });
   
-  // Menggabungkan semua filter dalam satu state untuk manajemen yang lebih mudah
   const [filters, setFilters] = useState({
     coin: "",
     sentiment: "",
@@ -47,10 +43,8 @@ const News = () => {
   
   const [page, setPage] = useState(1);
 
-  // Menerapkan debounce pada input pencarian
   const debouncedSearch = useDebounce(filters.search, 500);
 
-  // Menggunakan useCallback untuk efisiensi dan mencegah re-render yang tidak perlu
   const fetchNews = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -73,11 +67,11 @@ const News = () => {
       }
 
       const result = await response.json();
-      setNews(result.data);
-      setPagination(result.pagination);
+      setNews(Array.isArray(result.data) ? result.data : []);
+      setPagination(result.pagination || { total: 0, page: 1, totalPages: 0 });
     } catch (err) {
       setError(err.message);
-      setNews([]); // Kosongkan berita jika terjadi error
+      setNews([]);
     }
     setLoading(false);
   }, [page, filters.coin, filters.sentiment, filters.sort, debouncedSearch]);
@@ -87,21 +81,12 @@ const News = () => {
     fetchNews();
   }, [fetchNews]);
 
-  // Handler umum untuk mengubah filter dari komponen FilterNews
   const handleFilterChange = (newFilters) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
     setPage(1); 
   };
-  
-  // Handler untuk mengubah urutan dari komponen SortNews
-  const handleSortChange = (newSort) => {
-    setFilters(prev => ({...prev, sort: newSort}));
-    setPage(1);
-  }
 
-  // Handler untuk mengklik topik dari komponen TrendingTopics
   const handleTopicSelect = (topic) => {
-    // Set nilai filter search dengan topik yang diklik dan reset filter lainnya
     setFilters({
         search: topic, 
         coin: '', 
@@ -114,8 +99,12 @@ const News = () => {
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
-      
-  // Ganti bagian 'return' di dalam file /news/page.js Anda dengan ini:
+  const hasActiveFilter = Boolean(filters.search || filters.coin || filters.sentiment || filters.sort !== "latest");
+  const activeFilters = [
+    filters.search ? `Search: ${filters.search}` : null,
+    filters.coin ? `Coin: ${filters.coin}` : null,
+    filters.sentiment ? `Sentiment: ${filters.sentiment}` : null,
+  ].filter(Boolean);
 
 return (
   <div className={styles.page}>
@@ -140,21 +129,37 @@ return (
               <FilterNews onHandleFilter={handleFilterChange} initialValues={filters} />
             </div>
           </div>
+          {hasActiveFilter ? (
+            <div className="news-filter-hint">
+              {activeFilters.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <div className={styles.trendingWrap}>
           <TrendingTopics onTopicSelect={handleTopicSelect} />
         </div>
 
-        {loading && <Loading />} 
-        {error && <div className="alert alert-danger text-center mt-4">{error}</div>}
-        {!loading && !error && (news.length > 0 ? <ListNews data={news} /> : <div className="text-center p-5">No news found. Try different filters.</div>) }
+        {loading && (
+          <div className="news-loading-wrap">
+            <Loading />
+          </div>
+        )} 
+        {error && <div className="alert alert-danger text-center mt-4 news-state">{error}</div>}
+        {!loading && !error && (news.length > 0 ? <ListNews data={news} /> : (
+          <div className="news-empty">
+            <h3>No news found</h3>
+            <p>Try changing filters or search terms to see more results.</p>
+          </div>
+        )) }
       </div>
 
       {!loading && !error && pagination.totalPages > 1 && (
-        <div className={styles.paginationWrap}>
+        <div className={`${styles.paginationWrap} container`}>
           <Pagination 
-            currentPage={pagination.page} 
+            currentPage={pagination.page || page} 
             totalPages={pagination.totalPages} 
             handlePageChange={handlePageChange} 
           />
