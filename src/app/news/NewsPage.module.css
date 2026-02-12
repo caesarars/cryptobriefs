@@ -1,0 +1,74 @@
+.page {
+  background: radial-gradient(circle at top, rgba(159, 122, 234, 0.16), transparent 55%),
+    #f6f7fb;
+  padding-bottom: 60px;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 0 32px;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(159, 122, 234, 0.45), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(114, 52, 217, 0.35), transparent 50%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.heroCard {
+  position: relative;
+  background: linear-gradient(135deg, rgba(114, 52, 217, 0.95), rgba(159, 122, 234, 0.95));
+  color: #fff;
+  border-radius: 24px;
+  padding: 32px 28px;
+  box-shadow: 0 24px 48px -30px rgba(50, 16, 97, 0.8);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 0.72rem;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  max-width: 640px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0;
+}
+
+.contentSection {
+  margin-top: -18px;
+}
+
+.controlsCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 22px;
+  box-shadow: 0 18px 30px -24px rgba(18, 22, 33, 0.45);
+  border: 1px solid rgba(109, 90, 230, 0.12);
+}
+
+.trendingWrap {
+  margin-top: 18px;
+}
+
+.paginationWrap {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}

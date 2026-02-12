@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from "react";
+import styles from "./NewsPage.module.css";
 
 // Import semua komponen yang dibutuhkan
 import ListNews from "./ListNews";
@@ -117,43 +118,50 @@ const News = () => {
   // Ganti bagian 'return' di dalam file /news/page.js Anda dengan ini:
 
 return (
-  <>
-    <div className="container mb-5">
-      
-      {/* --- MULAI PERUBAHAN DI SINI --- */}
+  <div className={styles.page}>
+    <section className={styles.hero}>
+      <div className="container">
+        <div className={styles.heroCard}>
+          <p className={styles.eyebrow}>Newsroom</p>
+          <h1 className={styles.title}>Crypto news with signal, not noise.</h1>
+          <p className={styles.subtitle}>
+            Scan headlines, filter by coin and sentiment, and keep tabs on what matters
+            most in the market today.
+          </p>
+        </div>
+      </div>
+    </section>
 
-      {/* Menggunakan Flexbox untuk layout yang lebih fleksibel */}
-      {/* 'flex-column' di layar kecil, 'flex-row' di layar besar (lg) */}
-      <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center mb-4 gap-3">
-        
-        {/* Filter sekarang akan mengambil ruang sebanyak yang dibutuhkan */}
-        <div className="flex-grow-1">
-          <FilterNews onHandleFilter={handleFilterChange} initialValues={filters} />
+    <section className={styles.contentSection}>
+      <div className="container mb-5">
+        <div className={styles.controlsCard}>
+          <div className="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center gap-3">
+            <div className="flex-grow-1">
+              <FilterNews onHandleFilter={handleFilterChange} initialValues={filters} />
+            </div>
+          </div>
         </div>
 
-        {/* Sort akan berada di sisi kanan */}
-        
+        <div className={styles.trendingWrap}>
+          <TrendingTopics onTopicSelect={handleTopicSelect} />
+        </div>
+
+        {loading && <Loading />} 
+        {error && <div className="alert alert-danger text-center mt-4">{error}</div>}
+        {!loading && !error && (news.length > 0 ? <ListNews data={news} /> : <div className="text-center p-5">No news found. Try different filters.</div>) }
       </div>
 
-      {/* --- AKHIR PERUBAHAN --- */}
-
-      {/* Mengintegrasikan komponen TrendingTopics */}
-      <TrendingTopics onTopicSelect={handleTopicSelect} />
-
-      {/* Logika render yang lebih baik */}
-      {loading && <Loading />} 
-      {error && <div className="alert alert-danger text-center">{error}</div>}
-      {!loading && !error && (news.length > 0 ? <ListNews data={news} /> : <div className="text-center p-5">No news found. Try different filters.</div>) }
-    </div>
-    
-    {!loading && !error && pagination.totalPages > 1 && (
-      <Pagination 
-        currentPage={pagination.page} 
-        totalPages={pagination.totalPages} 
-        handlePageChange={handlePageChange} 
-      />
-    )}
-  </>
+      {!loading && !error && pagination.totalPages > 1 && (
+        <div className={styles.paginationWrap}>
+          <Pagination 
+            currentPage={pagination.page} 
+            totalPages={pagination.totalPages} 
+            handlePageChange={handlePageChange} 
+          />
+        </div>
+      )}
+    </section>
+  </div>
 );
 };
 
