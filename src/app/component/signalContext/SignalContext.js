@@ -41,7 +41,7 @@ export default function SignalContext() {
   const movers = Array.isArray(data?.movers) ? data.movers.slice(0, 4) : [];
 
   return (
-    <section className="signal-context container mb-5">
+    <section className="signal-context mb-3">
       <div className="signal-card">
         <div className="signal-head">
           <div>
@@ -56,7 +56,16 @@ export default function SignalContext() {
         </div>
 
         {loading ? (
-          <div className="signal-loading">Loading today’s signal…</div>
+          <div className="signal-grid signal-grid-skeleton" aria-hidden="true">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div className="signal-block signal-block-skeleton" key={i}>
+                <span className="signal-skeleton-line signal-skeleton-line-sm" />
+                <span className="signal-skeleton-line signal-skeleton-line-lg" />
+                <span className="signal-skeleton-line signal-skeleton-line-md" />
+                <span className="signal-skeleton-line signal-skeleton-line-sm" />
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="signal-grid">
             <div className="signal-block">

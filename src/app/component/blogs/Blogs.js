@@ -100,23 +100,8 @@ const Blogs = () => {
     );
   };
 
-  // Landing page UX: avoid big skeleton blocks.
   if (isLoading) {
-    return (
-      <div className="container pt-2 pb-2 text-start">
-        <h2 className="pt-4 pb-2 space-title">Articles</h2>
-        <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
-          <p className="mb-0" style={{ color: "#2b2b2b" }}>
-            Loading latest articles…
-          </p>
-          <div className="mt-3">
-            <a className="btn btn-glow" style={{ backgroundColor: '#6a1b9a', color: 'white' }} href="/blogs">
-              Browse articles &nbsp; <FontAwesomeIcon icon={faArrowRight} />
-            </a>
-          </div>
-        </div>
-      </div>
-    );
+    return <LoadingSkeleton />;
   }
 
   if (!blogs || blogs.length === 0) {

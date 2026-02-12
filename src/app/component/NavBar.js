@@ -4,72 +4,86 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import "./NavBar.css";
 
+let tickerSnapshot = { coins: [], status: "loading" };
+let tickerRequestPromise = null;
+
+const fetchTickerOnce = async () => {
+  if (tickerRequestPromise) return tickerRequestPromise;
+
+  tickerRequestPromise = (async () => {
+    try {
+      const trendingRes = await fetch("https://api.coingecko.com/api/v3/search/trending");
+      const trendingJson = await trendingRes.json();
+      const ids = (trendingJson?.coins || [])
+        .map((coin) => coin?.item?.id)
+        .filter(Boolean)
+        .slice(0, 10);
+
+      if (!ids.length) {
+        tickerSnapshot = { coins: [], status: "empty" };
+        return tickerSnapshot;
+      }
+
+      const marketRes = await fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids.join(",")}&price_change_percentage=24h`
+      );
+      const marketJson = await marketRes.json();
+      const marketById = new Map((marketJson || []).map((coin) => [coin.id, coin]));
+
+      const merged = ids
+        .map((id) => {
+          const market = marketById.get(id);
+          if (!market) return null;
+          return {
+            id,
+            symbol: market?.symbol?.toUpperCase() || id.toUpperCase(),
+            price: market?.current_price ?? null,
+            change24h: market?.price_change_percentage_24h ?? null,
+            image: market?.image || "",
+          };
+        })
+        .filter(Boolean);
+
+      tickerSnapshot = {
+        coins: merged,
+        status: merged.length ? "ready" : "empty",
+      };
+      return tickerSnapshot;
+    } catch (error) {
+      console.error("Failed to load ticker coins:", error);
+      tickerSnapshot = { coins: [], status: "error" };
+      return tickerSnapshot;
+    }
+  })();
+
+  return tickerRequestPromise;
+};
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [tickerCoins, setTickerCoins] = useState([]);
   const [tickerStatus, setTickerStatus] = useState("loading");
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    let alive = true;
 
-  useEffect(() => {
-    let isMounted = true;
+    if (tickerSnapshot.status !== "loading") {
+      setTickerCoins(tickerSnapshot.coins);
+      setTickerStatus(tickerSnapshot.status);
+      return () => {
+        alive = false;
+      };
+    }
 
-    const fetchTicker = async () => {
-      try {
-        const trendingRes = await fetch("https://api.coingecko.com/api/v3/search/trending");
-        const trendingJson = await trendingRes.json();
-        const ids = (trendingJson?.coins || [])
-          .map((coin) => coin?.item?.id)
-          .filter(Boolean)
-          .slice(0, 10);
+    fetchTickerOnce().then((snapshot) => {
+      if (!alive) return;
+      setTickerCoins(snapshot.coins);
+      setTickerStatus(snapshot.status);
+    });
 
-        if (!ids.length) {
-          if (!isMounted) return;
-          setTickerCoins([]);
-          setTickerStatus("empty");
-          return;
-        }
-
-        const marketRes = await fetch(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids.join(",")}&price_change_percentage=24h`
-        );
-        const marketJson = await marketRes.json();
-        const marketById = new Map((marketJson || []).map((coin) => [coin.id, coin]));
-
-        const merged = ids
-          .map((id) => {
-            const market = marketById.get(id);
-            if (!market) return null;
-            return {
-              id,
-              symbol: market?.symbol?.toUpperCase() || id.toUpperCase(),
-              price: market?.current_price ?? null,
-              change24h: market?.price_change_percentage_24h ?? null,
-              image: market?.image || "",
-            };
-          })
-          .filter(Boolean);
-
-        if (!isMounted) return;
-        setTickerCoins(merged);
-        setTickerStatus(merged.length ? "ready" : "empty");
-      } catch (error) {
-        console.error("Failed to load ticker coins:", error);
-        if (!isMounted) return;
-        setTickerCoins([]);
-        setTickerStatus("error");
-      }
-    };
-
-    fetchTicker();
-    const intervalId = setInterval(fetchTicker, 120000);
     return () => {
-      isMounted = false;
-      clearInterval(intervalId);
+      alive = false;
     };
   }, []);
 
@@ -89,25 +103,6 @@ const Navbar = () => {
       return () => document.removeEventListener('click', handleClickOutside);
     }
   }, [dropdownOpen]);
-
-  // Show skeleton while loading
-  if (!mounted) {
-    return (
-      <nav className="navbar-skeleton">
-        <div className="navbar-skeleton-container">
-          <div className="skeleton-brand"></div>
-          <div className="skeleton-nav-links">
-            <div className="skeleton-nav-item"></div>
-            <div className="skeleton-nav-item"></div>
-            <div className="skeleton-nav-item"></div>
-            <div className="skeleton-nav-item"></div>
-            <div className="skeleton-nav-item"></div>
-            <div className="skeleton-nav-item"></div>
-          </div>
-        </div>
-      </nav>
-    );
-  }
 
   // Primary navigation links
   const primaryLinks = [
@@ -246,9 +241,17 @@ const Navbar = () => {
               ))}
             </div>
           </div>
+        ) : tickerStatus === "loading" ? (
+          <div className="ticker-viewport" aria-hidden="true">
+            <div className="ticker-track">
+              {Array.from({ length: 12 }).map((_, idx) => (
+                <span key={idx} className="ticker-item ticker-skeleton-item" />
+              ))}
+            </div>
+          </div>
         ) : (
           <div className="ticker-fallback">
-            {tickerStatus === "loading" ? "Loading trending coins..." : "Trending coins unavailable"}
+            Trending coins unavailable
           </div>
         )}
       </div>

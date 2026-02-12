@@ -28,7 +28,7 @@ export default function CryptoSentiment() {
     const [totalBearish, setTotalBearish] = useState(0)
     const [totalNeutral, setTotalNeutral] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
-    const [coinPrice, setCoinPrice] = useState(0)
+    const [coinPrice, setCoinPrice] = useState(null)
     const [lastWeekBullishPct, setLastWeekBullishPct] = useState(null)
     const [compareEnabled, setCompareEnabled] = useState(false)
     const [compareStats, setCompareStats] = useState(null)
@@ -69,28 +69,83 @@ export default function CryptoSentiment() {
         fetchSentiment();
         fetchLastWeek();
 
-        const fetchPrice = async () => {
-            try {  
-                const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${coinFilter}USDT`);
-                const data = await res.json();
-
-                if (data.price) {
-                    setCoinPrice(parseFloat(data.price));
-                }
-            } catch (error) {
-                console.error("Error fetching BTC price:", error);
-            }
-        };
-
-        fetchPrice();
-        const priceInterval = setInterval(fetchPrice, 5000);
-
         return () => {
             isMounted = false;
-            clearInterval(priceInterval);
         };
 
     }, [coinFilter, period]);    
+
+    useEffect(() => {
+        let ws;
+        let fallbackTimer;
+        let cancelled = false;
+        let hasPrice = false;
+        const coinGeckoId = getCoinSlug(coinFilter);
+        const coinCapAsset = getCoinCapAsset(coinFilter);
+
+        const applyPrice = (value) => {
+            const nextPrice = Number(value);
+            if (Number.isFinite(nextPrice) && nextPrice > 0) {
+                hasPrice = true;
+                setCoinPrice(nextPrice);
+                return true;
+            }
+            return false;
+        };
+
+        const fetchFallbackPrice = async () => {
+            try {
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinGeckoId}&vs_currencies=usd`);
+                const data = await res.json();
+                if (!cancelled) {
+                    applyPrice(data?.[coinGeckoId]?.usd);
+                }
+            } catch (error) {
+                console.error(`Fallback price fetch failed for ${coinFilter}:`, error);
+            }
+        };
+
+        setCoinPrice(null);
+
+        try {
+            ws = new WebSocket(`wss://ws.coincap.io/prices?assets=${coinCapAsset}`);
+        } catch (error) {
+            console.error(`WebSocket init failed for ${coinFilter}:`, error);
+            fetchFallbackPrice();
+            return () => {};
+        }
+
+        ws.onopen = () => {
+            fallbackTimer = setTimeout(() => {
+                if (!cancelled && !hasPrice) {
+                    fetchFallbackPrice();
+                }
+            }, 2500);
+        };
+
+        ws.onmessage = (event) => {
+            try {
+                const payload = JSON.parse(event.data);
+                const priceCandidate = payload?.[coinCapAsset];
+                applyPrice(priceCandidate);
+            } catch (error) {
+                console.error("WebSocket payload parse error:", error);
+            }
+        };
+
+        ws.onerror = (error) => {
+            console.error(`WebSocket error for ${coinFilter}:`, error);
+            fetchFallbackPrice();
+        };
+
+        return () => {
+            cancelled = true;
+            clearTimeout(fallbackTimer);
+            if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
+                ws.close();
+            }
+        };
+    }, [coinFilter]);
 
     useEffect(() => {
         if (!compareEnabled) return;
@@ -161,6 +216,20 @@ export default function CryptoSentiment() {
         return slugMap[coin] || "bitcoin";
     }
 
+    const getCoinCapAsset = (coin) => {
+        const assetMap = {
+            "BTC": "bitcoin",
+            "ETH": "ethereum",
+            "SOL": "solana",
+            "DOGE": "dogecoin",
+            "BNB": "binance-coin",
+            "ADA": "cardano",
+            "XRP": "xrp",
+            "DOT": "polkadot"
+        };
+        return assetMap[coin] || "bitcoin";
+    }
+
     const  getIconSentiment = (sentiment) => {
         if (sentiment === "bearish") {
             return (
@@ -195,6 +264,16 @@ export default function CryptoSentiment() {
         return formattedDate
           
     }
+
+    const formatCoinPrice = (value) => {
+        const num = Number(value);
+        if (!Number.isFinite(num) || num <= 0) return "$ 0.0000";
+        const options =
+            num < 1
+                ? { minimumFractionDigits: 4, maximumFractionDigits: 4 }
+                : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+        return `$ ${num.toLocaleString("en-US", options)}`;
+    };
 
     const bullishPct = totalNews > 0 ? Math.round((totalBullish / totalNews) * 100) : 0;
     const noSignals = totalBullish === 0 && totalBearish === 0 && totalNeutral === 0;
@@ -242,7 +321,7 @@ export default function CryptoSentiment() {
                     onClick={() => router.push(`/${getCoinSlug(coinFilter)}`)}
                 >
                     <p className="coin_price_value">
-                        $ {coinPrice}
+                        <span className="coin_price_amount">{formatCoinPrice(coinPrice)}</span>
                         <Image
                             className="coin_price_icon"
                             src={getCoinPath(coinFilter)}

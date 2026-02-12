@@ -1,6 +1,6 @@
 .wrapper_analysis {
   width: 100%;
-  max-width: 520px;
+  max-width: none;
   height: 600px;
   overflow: auto;
   border-radius: 22px;
@@ -117,6 +117,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.coin_price_amount {
+  display: inline-block;
+  min-width: 140px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .coin_price_icon {
@@ -362,19 +369,6 @@
   display: none;
 }
 
-@media (max-width: 1600px) {
-  .wrapper_analysis {
-    max-width: 420px;
-    margin: 24px auto;
-  }
-}
-
-@media (max-width: 1440px) {
-  .wrapper_analysis {
-    max-width: 360px;
-  }
-}
-
 @media (max-width: 1120px) {
   .read_more {
     display: none;
@@ -387,11 +381,6 @@
 }
 
 @media (max-width: 800px) {
-  .wrapper_analysis {
-    max-width: 520px;
-    margin: 32px auto;
-  }
-
   .read_more {
     display: inline-flex;
   }
@@ -402,10 +391,6 @@
 }
 
 @media (max-width: 560px) {
-  .wrapper_analysis {
-    max-width: 420px;
-  }
-
   .title_sentiment_wrapper {
     grid-template-columns: 1fr;
   }
@@ -420,10 +405,6 @@
 }
 
 @media (max-width: 430px) {
-  .wrapper_analysis {
-    max-width: 320px;
-  }
-
   .sentiment_title {
     font-size: 1.16rem;
   }

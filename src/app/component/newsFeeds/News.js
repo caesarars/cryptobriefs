@@ -71,24 +71,10 @@ const News = () => {
       );
     };
 
-    // Landing page UX: avoid big skeleton blocks.
     if (isLoading) {
       return (
         <div className="container pt-5 pb-3">
-          <h2 className="pt-4 pb-3 space-title">Newsletter</h2>
-          <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
-            <p className="mb-0" style={{ color: "#2b2b2b" }}>
-              Loading latest headlines…
-            </p>
-            <div className="mt-3 d-flex gap-2 flex-wrap">
-              <button onClick={() => navigate("/news")} className="btn btn-glow" style={{ borderRadius: 50 }}>
-                Open news
-              </button>
-              <a href="/subscribe" className="btn btn-outline-dark" style={{ borderRadius: 50 }}>
-                Get updates by email
-              </a>
-            </div>
-          </div>
+          <LoadingSkeleton />
         </div>
       );
     }

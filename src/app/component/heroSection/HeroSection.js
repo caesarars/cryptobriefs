@@ -1,14 +1,8 @@
 'use client'
 import Link from "next/link";
-import { useEffect, useState } from 'react';
 import "./HeroSection.css";
 
 const HeroSection = () => {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
-
   return (
     <div className="wrapper_section_hero p-5">
       <section className="text-white py-5">

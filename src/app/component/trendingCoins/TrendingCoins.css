@@ -1,6 +1,6 @@
 .container_tranding_coins {
   width: 100%;
-  max-width: 520px;
+  max-width: none;
   height: 600px;
   overflow: auto;
   border-radius: 22px;
@@ -231,18 +231,7 @@
   border-radius: 8px;
 }
 
-@media (max-width: 1600px) {
-  .container_tranding_coins {
-    max-width: 420px;
-    margin: 24px auto;
-  }
-}
-
 @media (max-width: 1440px) {
-  .container_tranding_coins {
-    max-width: 360px;
-  }
-
   .coin_header,
   .container_list_coin {
     grid-template-columns: 24px minmax(0, 1.1fr) minmax(0, 0.9fr) 74px 62px;
@@ -251,13 +240,6 @@
 
   .coin_symbol {
     font-size: 0.94rem;
-  }
-}
-
-@media (max-width: 800px) {
-  .container_tranding_coins {
-    max-width: 520px;
-    margin: 8px auto;
   }
 }
 
@@ -273,16 +255,11 @@
   }
 
   .container_tranding_coins {
-    max-width: 420px;
     height: 560px;
   }
 }
 
 @media (max-width: 430px) {
-  .container_tranding_coins {
-    max-width: 320px;
-  }
-
   .wording_trending_coins {
     font-size: 1.16rem;
   }

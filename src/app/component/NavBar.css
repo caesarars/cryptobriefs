@@ -99,6 +99,8 @@
   
     .navbar-toggler {
       order: 2; /* pastikan toggle di kanan */
+      border-color: rgba(184, 145, 255, 0.9) !important;
+      color: #b891ff !important;
     }
   
     .navbar-brand {
@@ -115,6 +117,10 @@
       text-align: center;
       width: 100%;
     }
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28184,145,255,0.98%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.4' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
   }
   
 
@@ -276,6 +282,7 @@
   background: #000;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   padding: 8px 24px 10px;
+  min-height: 50px;
 }
 
 .ticker-viewport {
@@ -309,6 +316,15 @@
   line-height: 1;
 }
 
+.ticker-skeleton-item {
+  width: 122px;
+  height: 31px;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(90deg, #1b1b24 25%, #2d2d3b 50%, #1b1b24 75%);
+  background-size: 200% 100%;
+  animation: ticker-skeleton-shimmer 1.2s linear infinite;
+}
+
 .ticker-item:hover {
   border-color: rgba(188, 157, 255, 0.65);
   background: rgba(114, 52, 217, 0.18);
@@ -329,10 +345,16 @@
 
 .ticker-price {
   color: rgba(235, 236, 241, 0.95);
+  min-width: 74px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .ticker-change {
   font-weight: 700;
+  min-width: 58px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .ticker-change.up {
@@ -358,6 +380,15 @@
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes ticker-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 

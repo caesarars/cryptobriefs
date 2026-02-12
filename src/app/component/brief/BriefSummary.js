@@ -26,7 +26,6 @@ export default function BriefSummary() {
     fetchSummary();
   }, []);
 
-  // Landing page UX: avoid big skeleton blocks.
   if (loading) {
     return (
       <section className={styles.sectionWrap}>
@@ -42,19 +41,16 @@ export default function BriefSummary() {
               </div>
             </div>
 
-            <div className={styles.stateCard}>
-              <p className={styles.stateTitle}>Loading today’s summary…</p>
-              <p className={styles.stateText}>
-                If it takes a while, you can still browse the full brief.
-              </p>
-              <div className="mt-3 d-flex gap-2 flex-wrap">
-                <Link href="/brief" className={`btn btn-glow ${styles.actionButton}`}>
-                  Open brief
-                </Link>
-                <Link href="/subscribe" className={`btn btn-outline-dark ${styles.ghostButton}`}>
-                  Get it by email
-                </Link>
-              </div>
+            <div className={styles.timeline} aria-hidden="true">
+              {Array.from({ length: 7 }).map((_, i) => (
+                <article className={styles.timelineItem} key={i}>
+                  <div className={styles.timelineDot} />
+                  <div className={`${styles.timelineContent} ${styles.timelineSkeleton}`}>
+                    <span className={styles.skeletonLineStrong} />
+                    <span className={styles.skeletonLineSoft} />
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@
 .briefCard {
   position: relative;
   margin-top: 2.25rem;
+  min-height: 540px;
   border-radius: 28px;
   padding: 1.5rem;
   background:
@@ -153,6 +154,30 @@
   transform: translateY(-1px);
 }
 
+.timelineSkeleton {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.skeletonLineStrong,
+.skeletonLineSoft {
+  display: block;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #edf1f7 25%, #e1e8f3 50%, #edf1f7 75%);
+  background-size: 200% 100%;
+  animation: briefShimmer 1.2s linear infinite;
+}
+
+.skeletonLineStrong {
+  width: 86%;
+}
+
+.skeletonLineSoft {
+  width: 62%;
+}
+
 .itemText {
   margin: 0;
   color: #273247;
@@ -166,6 +191,7 @@
 @media (max-width: 768px) {
   .briefCard {
     padding: 1.1rem;
+    min-height: 500px;
     border-radius: 20px;
   }
 
@@ -199,6 +225,15 @@
   .timelineContent {
     flex-direction: column;
     gap: 0.45rem;
+  }
+}
+
+@keyframes briefShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
   

@@ -45,7 +45,7 @@ export default function Home() {
         <HeroSection />
         {/* SubscribeInline removed */}
         <SignalContext />
-        <div className="wrapper pb-5 pt-5">
+        <div className="wrapper pb-5 pt-3">
           <TrendingCoins />
           <CryptoSentiment />
           <CryptoEducationCorner />

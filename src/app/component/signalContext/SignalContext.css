@@ -1,11 +1,26 @@
 .signal-context {
   position: relative;
+  width: min(1460px, 94%);
+  margin: 0 auto;
+}
+
+@media (min-width: 1500px) {
+  .signal-context {
+    width: min(1660px, 96%);
+  }
+}
+
+@media (max-width: 720px) {
+  .signal-context {
+    width: min(1320px, 94%);
+  }
 }
 
 .signal-card {
   color: #f8f7ff;
   border-radius: 22px;
   padding: 18px;
+  min-height: 300px;
   border: 1px solid rgba(189, 163, 255, 0.26);
   background:
     radial-gradient(circle at top right, rgba(114, 52, 217, 0.24), transparent 45%),
@@ -71,6 +86,37 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+}
+
+.signal-grid-skeleton .signal-block {
+  min-height: 150px;
+}
+
+.signal-block-skeleton {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.signal-skeleton-line {
+  display: block;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.09) 25%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.09) 75%);
+  background-size: 200% 100%;
+  animation: signal-shimmer 1.3s linear infinite;
+}
+
+.signal-skeleton-line-sm {
+  width: 42%;
+}
+
+.signal-skeleton-line-md {
+  width: 68%;
+}
+
+.signal-skeleton-line-lg {
+  width: 88%;
 }
 
 .signal-block {
@@ -187,9 +233,19 @@
   .signal-card {
     border-radius: 18px;
     padding: 14px;
+    min-height: 270px;
   }
 
   .signal-title {
     font-size: 1.3rem;
+  }
+}
+
+@keyframes signal-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
