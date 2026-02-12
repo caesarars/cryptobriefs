@@ -7,7 +7,6 @@ import SuggestedBlog from './SuggestedBlog.js';
 import ReactMarkdown from "react-markdown";
 import StructuredData from "./StructuredData";
 import ReadingProgress from "./ReadingProgress";  
-import TrendingCoins from "./TrendingCoins";
 
 export async function generateMetadata({params}) {
   const slug = params.slug;
@@ -128,12 +127,21 @@ const BlogDetail = async (props) => {
   const plainTextContent = isJSON
     ? contentSections.map((section) => section.text).join(" ") || ""
     : blog.content;
+  const cleanText = plainTextContent.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
   const wordCount = plainTextContent
     .replace(/<[^>]*>/g, "")
     .replace(/[^\w\s]/g, " ")
     .split(/\s+/)
     .filter(Boolean).length;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+  const publishedDate = blog.created_at
+    ? new Date(blog.created_at).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "-";
+  const introText = cleanText ? `${cleanText.slice(0, 220)}${cleanText.length > 220 ? "..." : ""}` : "";
 
   const suggestedBlogs = await getSuggestedBlogs(blog.title);
   const affiliateLink = "https://partner.bybit.com/b/aff_13915_123677";
@@ -182,7 +190,6 @@ const BlogDetail = async (props) => {
   return (
     <div className="wrapper-blog-content">
       <ReadingProgress />
-      <TrendingCoins />
       <div className="blog-layout">
         <main className="blog-detail-container">
           <div className="main-content">
@@ -203,18 +210,21 @@ const BlogDetail = async (props) => {
 
             <article itemScope itemType="https://schema.org/Article" className="blog-content">
               <header className="mb-4">
+                <div className="article-chip-row">
+                  <span className="article-chip">CryptoBriefs Insight</span>
+                  <span className="article-chip article-chip-subtle">{readingTime} min read</span>
+                </div>
                 <h1 className="blog-title-2">{blog.title.replace(/<\/?[^>]+(>|$)/g, "")}</h1>
+                {introText ? <p className="blog-intro">{introText}</p> : null}
                 <div className="blog-meta-2">
-                  <time>
-                    Published on {blog.created_at && blog.created_at.split('T')[0]}
+                  <time className="blog-meta-item">
+                    Published on {publishedDate}
                   </time>
-                  <span className="blog-meta-divider">•</span>
-                  <span>{readingTime} min read</span>
                 </div>
               </header>
             </article>
 
-            <section itemProp="articleBody" className="general-font p-2">
+            <section itemProp="articleBody" className="blog-article-body general-font">
               {isJSON && contentSections?.length ? (
                 contentSections.map((section, index) => {
                 if (section.type === "subhead") {

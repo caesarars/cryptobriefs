@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./AirdropsPage.css";
 
 const ListAirdrops = () => {
     const [airdrops, setAirdrops] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(20);
+    const limit = 20;
     const [totalPages, setTotalPages] = useState(1);
     const [search, setSearch] = useState("");
+    const [error, setError] = useState("");
 
     const formatPublishedDate = (dateString) => {
         if (!dateString) return "-";
@@ -32,20 +34,29 @@ const ListAirdrops = () => {
     const getTemperatureBadge = (temperature) => {
         const temp = parseInt(temperature, 10);
       
-        if (isNaN(temp)) return null; // Kalau temperature invalid
+        if (isNaN(temp)) return { label: "Unknown", className: "temp-unknown" };
       
         if (temp >= 70) {
-          return <span className="badge bg-danger mb-2">🔥 Hot</span>; // Merah
+          return { label: "Hot", className: "temp-hot" };
         } else if (temp >= 40) {
-          return <span className="badge bg-warning text-dark mb-2">🌡️ Warm</span>; // Kuning
+          return { label: "Warm", className: "temp-warm" };
         } else {
-          return <span className="badge bg-primary mb-2">❄️ Cool</span>; // Biru
+          return { label: "Cool", className: "temp-cool" };
         }
-      };
+    };
+
+    const sourceHostname = (url) => {
+        try {
+            return new URL(url).hostname.replace("www.", "");
+        } catch {
+            return "source";
+        }
+    };
 
     useEffect(() => {
         const fetchAirdrops = async () => {
             setLoading(true);
+            setError("");
             try {
                 const response = await axios.get('https://ces.dbrata.my.id/api/airdrops/list', {
                     params: {
@@ -54,10 +65,12 @@ const ListAirdrops = () => {
                         search
                     }
                 });
-                setAirdrops(response.data.data);
-                setTotalPages(response.data.totalPages);
+                setAirdrops(Array.isArray(response.data.data) ? response.data.data : []);
+                setTotalPages(Number(response.data.totalPages) || 1);
             } catch (error) {
-                console.error('❌ Error fetching airdrops:', error);
+                console.error("Error fetching airdrops:", error);
+                setError("Failed to load airdrops. Please try again.");
+                setAirdrops([]);
             } finally {
                 setLoading(false);
             }
@@ -76,89 +89,89 @@ const ListAirdrops = () => {
     };
 
     return (
-        <div className="container my-5">
-            <div className="mb-4 mt-4">
+        <div className="container airdrops-content">
+            <div className="airdrops-toolbar">
                 <input
                     type="text"
-                    className="form-control"
-                    placeholder="Search airdrops"
+                    className="form-control airdrops-search"
+                    placeholder="Search by project or keyword..."
                     value={search}
                     onChange={handleSearch}
                 />
+                <div className="airdrops-meta general-font">
+                    {loading ? "Loading..." : `${airdrops.length} results on this page`}
+                </div>
             </div>
 
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {loading ? (
-                    <div className="col-12 general-font">Loading...</div>
-                ) : (
-                    airdrops.map((airdrop) => (
-                        <div className="col col-12 col-sm-6 col-md-4 col-lg-3 general-font" key={airdrop._id}>
-                            <div 
-                                className="card h-100"
-                                style={{
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)', 
-                                    border: 'none',
-                                    transition: 'transform 0.2s, box-shadow 0.2s',
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-5px)';
-                                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
-                                }}
-                            >
-                                <img 
-                                    loading="lazy"
-                                    src={airdrop.image} 
-                                    className="card-img-top" 
-                                    alt={airdrop.title} 
-                                    style={{ height: '200px', objectFit: 'cover' }} 
-                                />
-                                
-                                <div className="card-body d-flex flex-column">
-                                    <span>{getTemperatureBadge(airdrop.temperature)}</span>
-                                    <h5 className="card-title mb-3 general-font">{airdrop.title}  </h5>
-                                    <p className="card-text"><strong>Action</strong> <br></br>{airdrop.action ?? "-"}</p>
-                                    <p className="card-text"><strong>Desc</strong><br></br>{airdrop.shortDescription ?? "-"}</p>
-                                    <p className="card-text">
-                                        <span><strong>Published:</strong> <br></br>{formatPublishedDate(airdrop.publishedDate)}</span>
-                                    </p>
-                                    <a className="btn btn-glow mt-auto"
+            {error ? (
+                <div className="airdrops-state airdrops-state-error general-font">{error}</div>
+            ) : null}
+
+            {loading ? (
+                <div className="airdrops-grid">
+                    {Array.from({ length: 8 }).map((_, idx) => (
+                        <div key={idx} className="airdrop-card airdrop-skeleton" />
+                    ))}
+                </div>
+            ) : airdrops.length === 0 ? (
+                <div className="airdrops-state general-font">
+                    No airdrops found. Try a different keyword.
+                </div>
+            ) : (
+                <div className="airdrops-grid">
+                    {airdrops.map((airdrop) => {
+                        const tempBadge = getTemperatureBadge(airdrop.temperature);
+                        return (
+                            <article className="airdrop-card general-font" key={airdrop._id}>
+                                <div className="airdrop-image-wrap">
+                                    <img 
+                                        loading="lazy"
+                                        src={airdrop.image} 
+                                        className="airdrop-image" 
+                                        alt={airdrop.title}
+                                    />
+                                    <span className={`airdrop-temp ${tempBadge.className}`}>{tempBadge.label}</span>
+                                </div>
+                                <div className="airdrop-body">
+                                    <h3 className="airdrop-title">{airdrop.title}</h3>
+                                    <p className="airdrop-action"><strong>Action:</strong> {airdrop.action ?? "-"}</p>
+                                    <p className="airdrop-desc">{airdrop.shortDescription ?? "-"}</p>
+                                    <div className="airdrop-footer">
+                                        <span className="airdrop-date">{formatPublishedDate(airdrop.publishedDate)}</span>
+                                        <span className="airdrop-source">{sourceHostname(airdrop.sourceUrl)}</span>
+                                    </div>
+                                    <a className="btn btn-glow airdrop-cta"
                                         href={airdrop.sourceUrl} 
                                         target="_blank" 
                                         rel="noopener noreferrer" 
                                     >
-                                        Visit Source
+                                        View source
                                     </a>
                                 </div>
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                            </article>
+                        );
+                    })}
+                </div>
+            )}
 
-            <div className="d-flex justify-content-center mt-4 mb-4 p-5">
-            <div className="align-items-end">
+            <div className="airdrops-pagination">
                 <button 
-                        className="btn btn-primary"
+                        className="btn airdrops-page-btn"
                         onClick={() => handlePageChange(page - 1)}
-                        disabled={page === 1}
+                        disabled={page === 1 || loading}
                     >
                         Previous
-                    </button>
-                    <span className="mx-2 align-items-center">
-                        Page {page} of {totalPages}
-                    </span>
-                    <button 
-                        className="btn btn-primary"
+                </button>
+                <span className="airdrops-page-info general-font">
+                    Page {page} of {totalPages}
+                </span>
+                <button 
+                        className="btn airdrops-page-btn"
                         onClick={() => handlePageChange(page + 1)}
-                        disabled={page === totalPages}
+                        disabled={page === totalPages || loading}
                     >
                         Next
-                    </button>
-            </div>
+                </button>
             </div>
         </div>
     );

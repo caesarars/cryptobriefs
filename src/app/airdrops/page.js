@@ -1,4 +1,5 @@
 import ListAirdrops from "./ListAirdrops";
+import "./AirdropsPage.css";
 
 export async function generateMetadata() { 
     return {
@@ -33,13 +34,18 @@ export async function generateMetadata() {
 
 const Airdrops = () => {
     return (
-        <>
-           <h1 className="m-4 text-center space-title">Latest Airdrops</h1>
-            <div className="general-font" style={{width:"50%" , margin: "0 auto", textAlign:"center"}}>
-                Airdrops are free crypto giveaways straight to your wallet! 🚀 Projects use them to reward early supporters, build hype, and grow their community — sometimes all you need to do is sign up or complete simple tasks.
+        <section className="airdrops-page">
+            <div className="container">
+                <div className="airdrops-hero">
+                    <p className="airdrops-kicker">Opportunity Feed</p>
+                    <h1 className="space-title airdrops-title">Latest Airdrops</h1>
+                    <p className="airdrops-subtitle general-font">
+                        Discover active crypto airdrops, track project momentum, and quickly see what actions are required before you join.
+                    </p>
+                </div>
             </div>
             <ListAirdrops/>
-        </>
+        </section>
     )
 }
 
