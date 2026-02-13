@@ -20,6 +20,12 @@
     #ffffff;
   border: 1px solid #e8edf3;
   box-shadow: 0 18px 42px -28px rgba(5, 20, 60, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.briefCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 50px -30px rgba(5, 20, 60, 0.55);
 }
 
 .topBar {
@@ -48,13 +54,14 @@
   max-width: 62ch;
   color: #5f6d84;
   font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .countPill {
   margin: 0;
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 999px;
-  background: #f1eafe;
+  background: linear-gradient(135deg, #f1eafe 0%, #ece3ff 100%);
   color: #5b32b4;
   font-size: 0.78rem;
   font-weight: 700;
@@ -222,6 +229,7 @@
   max-height: 520px;
   overflow-y: auto;
   padding-right: 0.8rem;
+  scroll-behavior: smooth;
 }
 
 .timeline::before {
@@ -251,6 +259,23 @@
   position: relative;
   padding-left: 2rem;
   margin-bottom: 0.9rem;
+  animation: fadeUp 0.35s ease both;
+}
+
+.timelineItem:nth-child(2) {
+  animation-delay: 0.03s;
+}
+
+.timelineItem:nth-child(3) {
+  animation-delay: 0.06s;
+}
+
+.timelineItem:nth-child(4) {
+  animation-delay: 0.09s;
+}
+
+.timelineItem:nth-child(5) {
+  animation-delay: 0.12s;
 }
 
 .timelineDot {
@@ -270,7 +295,8 @@
   gap: 0.7rem;
   border-radius: 16px;
   border: 1px solid #e7edf7;
-  background: #fbfcff;
+  background:
+    linear-gradient(145deg, #fcfdff 0%, #f7f9ff 100%);
   padding: 0.8rem 0.9rem;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -284,7 +310,7 @@
 .itemText {
   margin: 0;
   color: #273247;
-  line-height: 1.55;
+  line-height: 1.62;
 }
 
 .itemText strong {
@@ -292,35 +318,132 @@
 }
 
 .toggleButton {
-  border: none;
-  background: transparent;
-  color: #6c5ce7;
-  font-weight: 600;
-  padding: 0;
+  border: 1px solid #d9cbff;
+  background: linear-gradient(135deg, #f7f2ff 0%, #f0e8ff 100%);
+  color: #5330aa;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.toggleButton:hover {
+  transform: translateY(-1px);
+  border-color: #baa1ff;
+  box-shadow: 0 10px 20px -16px rgba(89, 54, 183, 0.7);
 }
 
 .summaryNarrative {
+  position: relative;
+  overflow: hidden;
   margin-top: 20px;
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: #ffffff;
-  border: 1px solid rgba(108, 92, 231, 0.16);
-  box-shadow: 0 10px 20px rgba(108, 92, 231, 0.08);
+  padding: 1.1rem 1.2rem 1.15rem;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 92% 12%, rgba(98, 63, 208, 0.15), transparent 42%),
+    linear-gradient(155deg, #ffffff 0%, #f8f5ff 56%, #f2edff 100%);
+  border: 1px solid rgba(108, 92, 231, 0.22);
+  box-shadow: 0 16px 28px -22px rgba(95, 55, 198, 0.75);
+}
+
+.summaryNarrative::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #6b45d5, #ab8dff);
+}
+
+.summaryNarrativeHead {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0.55rem;
+}
+
+.summaryNarrativeKicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.2rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(111, 65, 203, 0.14);
+  color: #5a36af;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.summaryNarrativeTitle {
+  margin: 0;
+  color: #221646;
+  letter-spacing: 0.01em;
 }
 
 .summaryNarrativeText {
+  position: relative;
+  z-index: 1;
   margin-bottom: 0;
-  color: #4b4b4b;
-  line-height: 1.7;
+  padding-left: 0.1rem;
+  color: #3f3a57;
+  line-height: 1.78;
   white-space: pre-line;
 }
 
 .newsletterCard {
   margin-top: 28px;
-  background: #0b0b0f;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(114, 52, 217, 0.5), transparent 32%),
+    radial-gradient(circle at 90% 20%, rgba(24, 170, 255, 0.35), transparent 28%),
+    linear-gradient(140deg, #0c1018 0%, #090c12 100%);
   color: #fff;
   border-radius: 20px;
   padding: 24px 28px;
+  border: 1px solid rgba(174, 197, 255, 0.2);
+  box-shadow: 0 20px 35px -22px rgba(5, 16, 40, 0.75);
+}
+
+.newsletterTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.newsletterSub {
+  margin-top: 0.15rem;
+  opacity: 0.86;
+}
+
+.newsletterCta {
+  white-space: nowrap;
+}
+
+.errorCard {
+  padding: 1rem;
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top right, rgba(248, 113, 113, 0.14), transparent 40%),
+    #fff5f7;
+  border: 1px solid #fecdd3;
+}
+
+.errorText {
+  color: #6b7280;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {
@@ -364,5 +487,24 @@
 
   .timelineDot {
     left: 0.08rem;
+  }
+
+  .summaryNarrative {
+    padding: 1rem 1rem 1.05rem;
+    border-radius: 15px;
+  }
+
+  .summaryNarrative::before {
+    top: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .newsletterCard {
+    border-radius: 16px;
+    padding: 18px 16px;
+  }
+
+  .newsletterTitle {
+    font-size: 1rem;
   }
 }

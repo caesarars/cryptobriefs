@@ -90,9 +90,9 @@ export default function BriefIndexPage() {
             <div className={styles.stateCard}>Loading today’s summary…</div>
           </div>
         ) : error ? (
-          <div className="p-4 rounded-4" style={{ background: "#fff1f2", border: "1px solid #fecdd3" }}>
+          <div className={styles.errorCard}>
             <div className="fw-semibold">Couldn’t load today’s brief.</div>
-            <div className="mt-1" style={{ color: "#6b7280" }}>{error}</div>
+            <div className={`mt-1 ${styles.errorText}`}>{error}</div>
             <div className="mt-3 d-flex gap-2 flex-wrap">
               <a className="btn btn-dark" href="/">
                 Back home
@@ -192,7 +192,10 @@ export default function BriefIndexPage() {
                   )}
                   {data?.summaryImportantText && (
                     <div className={styles.summaryNarrative}>
-                      <h3 className="h6 mb-2">Highlight recap</h3>
+                      <div className={styles.summaryNarrativeHead}>
+                        <span className={styles.summaryNarrativeKicker}>Signal boost</span>
+                        <h3 className={`h6 mb-0 ${styles.summaryNarrativeTitle}`}>Highlight recap</h3>
+                      </div>
                       <p className={styles.summaryNarrativeText}>{data.summaryImportantText}</p>
                     </div>
                   )}
@@ -205,10 +208,10 @@ export default function BriefIndexPage() {
             <div className={styles.newsletterCard}>
               <div className="d-flex flex-wrap justify-content-between align-items-center gap-2">
                 <div>
-                  <div className="fw-bold" style={{ fontSize: "1.1rem" }}>Want this in your inbox?</div>
-                  <div style={{ opacity: 0.9 }}>Free. No spam. Unsubscribe anytime.</div>
+                  <div className={styles.newsletterTitle}>Want this in your inbox?</div>
+                  <div className={styles.newsletterSub}>Free. No spam. Unsubscribe anytime.</div>
                 </div>
-                <Link href="/subscribe" className="btn btn-glow">
+                <Link href="/subscribe" className={`btn btn-glow ${styles.newsletterCta}`}>
                   Join newsletter
                 </Link>
               </div>
