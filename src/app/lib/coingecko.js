@@ -1,4 +1,5 @@
-const API = "https://api.coingecko.com/api/v3";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
+const API = API_BASE ? `${API_BASE}/api/coingecko` : "https://api.coingecko.com/api/v3";
 
 async function cgFetch(path, { revalidate = 300 } = {}) {
   const url = `${API}${path}`;

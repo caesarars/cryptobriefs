@@ -41,7 +41,10 @@ export async function getBinanceChart(coinSlug, days = 365) {
   }
 
   try {
-    const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&limit=${Math.min(days, 1000)}`;
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
+    const url = API_BASE
+      ? `${API_BASE}/api/binance/klines?symbol=${symbol}&interval=1d&limit=${Math.min(days, 1000)}`
+      : `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&limit=${Math.min(days, 1000)}`;
 
     const res = await fetch(url, {
       next: { revalidate: 3600 }, // Cache for 1 hour

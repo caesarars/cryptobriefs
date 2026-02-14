@@ -4,6 +4,8 @@ import axios from "axios";
 import "./TrendingCoins.css"
 import Loading from "../loading/Loading";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
+
 const TrendingCoins = () => {
     const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,16 +15,18 @@ const TrendingCoins = () => {
             try {
                 // Ambil daftar trending coins
                 const { data } = await axios.get(
-                    "https://api.coingecko.com/api/v3/search/trending"
+                    API_BASE ? `${API_BASE}/api/coingecko/search/trending` : "https://api.coingecko.com/api/v3/search/trending"
                 );
 
                 // Ambil ID semua coin trending
                 const coinIds = data.coins.map((coin) => coin.item.id).join(",");
 
                 // Ambil harga terbaru + 24h % + sparkline
-                const marketData = await axios.get(
-                    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIds}&sparkline=true&price_change_percentage=24h`
-                );
+                const marketUrl = API_BASE
+                    ? `${API_BASE}/api/coingecko/coins/markets?vs_currency=usd&ids=${coinIds}&sparkline=true&price_change_percentage=24h`
+                    : `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIds}&sparkline=true&price_change_percentage=24h`;
+
+                const marketData = await axios.get(marketUrl);
 
                 const marketById = new Map(
                     marketData.data.map((coin) => [coin.id, coin])

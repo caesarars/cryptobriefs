@@ -30,10 +30,12 @@ export default function BriefIndexPage() {
   useEffect(() => {
     const runMarket = async () => {
       try {
+        const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
         const ids = "bitcoin,ethereum";
-        const res = await fetch(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=24h`
-        );
+        const url = API_BASE
+          ? `${API_BASE}/api/coingecko/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=24h`
+          : `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=24h`;
+        const res = await fetch(url);
         if (!res.ok) return;
         const json = await res.json();
         setMarket(Array.isArray(json) ? json : []);

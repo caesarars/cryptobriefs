@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import "./NavBar.css";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
+
 let tickerSnapshot = { coins: [], status: "loading" };
 let tickerRequestPromise = null;
 
@@ -12,7 +14,10 @@ const fetchTickerOnce = async () => {
 
   tickerRequestPromise = (async () => {
     try {
-      const trendingRes = await fetch("https://api.coingecko.com/api/v3/search/trending");
+      const trendingUrl = API_BASE
+        ? `${API_BASE}/api/coingecko/search/trending`
+        : "https://api.coingecko.com/api/v3/search/trending";
+      const trendingRes = await fetch(trendingUrl);
       const trendingJson = await trendingRes.json();
       const ids = (trendingJson?.coins || [])
         .map((coin) => coin?.item?.id)
@@ -24,9 +29,10 @@ const fetchTickerOnce = async () => {
         return tickerSnapshot;
       }
 
-      const marketRes = await fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids.join(",")}&price_change_percentage=24h`
-      );
+      const marketUrl = API_BASE
+        ? `${API_BASE}/api/coingecko/coins/markets?vs_currency=usd&ids=${ids.join(",")}&price_change_percentage=24h`
+        : `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids.join(",")}&price_change_percentage=24h`;
+      const marketRes = await fetch(marketUrl);
       const marketJson = await marketRes.json();
       const marketById = new Map((marketJson || []).map((coin) => [coin.id, coin]));
 
