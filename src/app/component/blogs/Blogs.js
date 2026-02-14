@@ -38,6 +38,15 @@ const getContentText = (parsedContent) => {
   return words.length > 60 ? preview + '...' : preview;
 };
 
+const formatDate = (dateValue) => {
+  if (!dateValue) return 'Unknown date';
+  return new Date(dateValue).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,33 +79,42 @@ const Blogs = () => {
 
   const LoadingSkeleton = () => {
     return (
-      <>
-        <div className="container pt-2 pb-2 text-start">
-          <div className="skeletonTitle"></div>
-        </div>
-        <div className="container main_container">
-          <div className="main_card skeletonCard">
-            <div className="skeletonImageMain"></div>
-            <div className="skeletonContent">
-              <div className="skeletonLineWide"></div>
-              <div className="skeletonLine"></div>
-              <div className="skeletonLineShort"></div>
+      <section className="articles_section_wrap">
+        <div className="container">
+          <div className="articles_widget_card">
+            <div className="articles_top_bar">
+              <div>
+                <p className="articles_eyebrow">Editorial Picks</p>
+                <h2 className="space-title text-start mb-2 articles_title">Articles</h2>
+                <p className="articles_subtitle">Fresh reads from the latest crypto stories.</p>
+              </div>
             </div>
-          </div>
-          <div className="secondary_blog">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div className="d-flex container_second_blog skeletonCard" key={i}>
-                <div className="skeletonThumb"></div>
-                <div className="skeletonTextGroup">
+
+            <div className="main_container">
+              <div className="main_card skeletonCard">
+                <div className="skeletonImageMain"></div>
+                <div className="skeletonContent">
                   <div className="skeletonLineWide"></div>
+                  <div className="skeletonLine"></div>
                   <div className="skeletonLineShort"></div>
                 </div>
               </div>
-            ))}
-            <div className="skeletonButton"></div>
+              <div className="secondary_blog">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div className="d-flex container_second_blog skeletonCard" key={i}>
+                    <div className="skeletonThumb"></div>
+                    <div className="skeletonTextGroup">
+                      <div className="skeletonLineWide"></div>
+                      <div className="skeletonLineShort"></div>
+                    </div>
+                  </div>
+                ))}
+                <div className="skeletonButton"></div>
+              </div>
+            </div>
           </div>
         </div>
-      </>
+      </section>
     );
   };
 
@@ -106,112 +124,136 @@ const Blogs = () => {
 
   if (!blogs || blogs.length === 0) {
     return (
-      <div className="container pt-2 pb-2 text-start">
-        <h2 className="pt-4 pb-2 space-title">Articles</h2>
-        <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
-          <p className="mb-0" style={{ color: "#2b2b2b" }}>
-            No articles yet.
-          </p>
-          <div className="mt-3">
-            <a className="btn btn-glow" style={{ backgroundColor: '#6a1b9a', color: 'white' }} href="/blogs">
-              Go to blog &nbsp; <FontAwesomeIcon icon={faArrowRight} />
-            </a>
+      <section className="articles_section_wrap">
+        <div className="container">
+          <div className="articles_widget_card">
+            <div className="articles_top_bar">
+              <div>
+                <p className="articles_eyebrow">Editorial Picks</p>
+                <h2 className="space-title text-start mb-2 articles_title">Articles</h2>
+                <p className="articles_subtitle">Fresh reads from the latest crypto stories.</p>
+              </div>
+            </div>
+            <div className="p-4 rounded-4 articles_empty_state">
+              <p className="mb-0 articles_empty_text">
+                No articles yet.
+              </p>
+              <div className="mt-3">
+                <a className="btn btn-glow articles_cta" href="/blogs">
+                  Go to blog &nbsp; <FontAwesomeIcon icon={faArrowRight} />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <>
-      <div className="container pt-2 pb-2 text-start">
-        <h2 className="pt-4 pb-2 space-title">Articles</h2>
-      </div>
+    <section className="articles_section_wrap">
+      <div className="container">
+        <div className="articles_widget_card">
+          <div className="articles_top_bar">
+            <div>
+              <p className="articles_eyebrow">Editorial Picks</p>
+              <h2 className="space-title text-start mb-2 articles_title">Articles</h2>
+              <p className="articles_subtitle">Fresh reads from the latest crypto stories.</p>
+            </div>
+          </div>
 
-      <div className="container main_container">
-        <div className="main_card">
-          {blogs.slice(0, 1).map((item, index) => {
-            const isJSON = isJSONContent(item.content);
-            const parsedContent = isJSON
-              ? JSON.parse(item.content)
-              : {
-                  plain_title: item.title,
-                  section: [{ text: item.content }],
-                };
-            const getFirstSection = getContentText(parsedContent);
+          <div className="main_container">
+            <div className="main_card">
+              {blogs.slice(0, 1).map((item, index) => {
+                const isJSON = isJSONContent(item.content);
+                const parsedContent = isJSON
+                  ? JSON.parse(item.content)
+                  : {
+                      plain_title: item.title,
+                      section: [{ text: item.content }],
+                    };
+                const getFirstSection = getContentText(parsedContent);
 
-            return (
-              <div key={index}>
-                <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`} passHref>
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.title}
-                    width={800}
-                    height={220}
-                    className="image_main_card"
-                    style={{ objectFit: 'cover', borderRadius: '16px' }}
-                    loading="lazy"
-                  />
-                </Link>
-                <div className="content_custom">
-                  <h3 className="newsTitle">
-                    <Link
-                      href={`/blog/${item.slug}`}
-                      className="link-clean"
-                      aria-label={`Read more about ${parsedContent.plain_title || parsedContent.title}`}
-                    >
-                      {(parsedContent.plain_title || parsedContent.title || '').replace(/<\/?[^>]+(>|$)/g, '')}
+                return (
+                  <div key={index}>
+                    <Link href={`/blog/${item.slug}`} aria-label={`Read more about ${item.title}`} passHref>
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.title}
+                        width={800}
+                        height={220}
+                        className="image_main_card"
+                        style={{ objectFit: 'cover', borderRadius: '16px' }}
+                        loading="lazy"
+                      />
                     </Link>
-                  </h3>
-                  <p style={{ textAlign: 'justify', color: 'black' }}>{getFirstSection}</p>
-                  <p className="date_custom">{new Date(item.created_at).toLocaleString()}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                    <div className="content_custom">
+                      <div className="article_meta_row">
+                        <span className="article_meta_chip">Featured Story</span>
+                        <span className="date_custom">{formatDate(item.created_at)}</span>
+                      </div>
+                      <h3 className="newsTitle">
+                        <Link
+                          href={`/blog/${item.slug}`}
+                          className="link-clean"
+                          aria-label={`Read more about ${parsedContent.plain_title || parsedContent.title}`}
+                        >
+                          {(parsedContent.plain_title || parsedContent.title || '').replace(/<\/?[^>]+(>|$)/g, '')}
+                        </Link>
+                      </h3>
+                      <p className="article_excerpt">{getFirstSection}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
-        <div className="secondary_blog">
-          {blogs.slice(1, 5).map((item, index) => {
-            const isJSON = isJSONContent(item.content);
-            const parsedContent = isJSON
-              ? JSON.parse(item.content)
-              : {
-                  plain_title: item.title,
-                  section: [{ text: item.content }],
-                };
+            <div className="secondary_blog">
+              {blogs.slice(1, 5).map((item, index) => {
+                const isJSON = isJSONContent(item.content);
+                const parsedContent = isJSON
+                  ? JSON.parse(item.content)
+                  : {
+                      plain_title: item.title,
+                      section: [{ text: item.content }],
+                    };
 
-            return (
-              <div className="d-flex container_second_blog" key={index}>
-                <div className="d-flex align-items-center">
-                  <Link href={`/blog/${item.slug}`} passHref>
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.title}
-                      width={120}
-                      height={72}
-                      className="image_non_main"
-                      style={{ objectFit: 'cover', borderRadius: '8px' }}
-                      loading="lazy"
-                    />
-                  </Link>
-                </div>
-                <Link
-                  href={`/blog/${item.slug}`}
-                  className="link_element"
-                  aria-label={`Read more about ${item.title}`}
-                >
-                  {(parsedContent.plain_title || parsedContent.title || '').replace(/<\/?[^>]+(>|$)/g, '')}
-                </Link>
-              </div>
-            );
-          })}
-          <a className="btn btn-glow" style={{ backgroundColor: '#6a1b9a', color: 'white' }} href="/blogs">
-            Find more articles &nbsp; <FontAwesomeIcon icon={faArrowRight} />
-          </a>
+                return (
+                  <div className="d-flex container_second_blog" key={index}>
+                    <div className="d-flex align-items-center article_thumb_wrap">
+                      <Link href={`/blog/${item.slug}`} passHref>
+                        <Image
+                          src={item.imageUrl}
+                          alt={item.title}
+                          width={120}
+                          height={72}
+                          className="image_non_main"
+                          style={{ objectFit: 'cover', borderRadius: '8px' }}
+                          loading="lazy"
+                        />
+                      </Link>
+                    </div>
+                    <div className="article_list_content">
+                      <Link
+                        href={`/blog/${item.slug}`}
+                        className="link_element"
+                        aria-label={`Read more about ${item.title}`}
+                      >
+                        {(parsedContent.plain_title || parsedContent.title || '').replace(/<\/?[^>]+(>|$)/g, '')}
+                      </Link>
+                      <span className="article_list_date">{formatDate(item.created_at)}</span>
+                    </div>
+                  </div>
+                );
+              })}
+              <a className="btn btn-glow articles_cta" href="/blogs">
+                Find more articles &nbsp; <FontAwesomeIcon icon={faArrowRight} />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

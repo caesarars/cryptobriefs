@@ -2,12 +2,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import "./News.css";
 import { useRouter } from "next/navigation";
-import styles from "./NewsStyles";
 
+const formatDate = (dateValue) => {
+  if (!dateValue) return "Unknown date";
+  return new Date(dateValue).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
 const News = () => {
 
@@ -18,7 +23,7 @@ const News = () => {
     const [sortOrder, setSortOrder] = useState("newest"); // 📌 Sorting state (default: terbaru)
     const [selectedSource, setSelectedSource] = useState("All"); // Default: Semua berita
 
-    const navigate = useRouter()
+    const router = useRouter();
 
 
   useEffect(() => {
@@ -56,7 +61,7 @@ const News = () => {
       return (
         <>
           <div className="news-skeleton-title"></div>
-          <div style={styles.grid}>
+          <div className="news-grid">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="news-skeleton-card">
                 <div className="news-skeleton-image"></div>
@@ -73,61 +78,99 @@ const News = () => {
 
     if (isLoading) {
       return (
-        <div className="container pt-5 pb-3">
-          <LoadingSkeleton />
-        </div>
+        <section className="news_section_wrap">
+          <div className="container">
+            <div className="news_widget_card">
+              <div className="news_top_bar">
+                <div>
+                  <p className="news_eyebrow">Market Wire</p>
+                  <h2 className="space-title text-start mb-2 news_title">Newsletter</h2>
+                  <p className="news_subtitle">Headlines that matter across crypto markets.</p>
+                </div>
+              </div>
+              <LoadingSkeleton />
+            </div>
+          </div>
+        </section>
       );
     }
 
     if (!sortedNews || sortedNews.length === 0) {
       return (
-        <div className="container pt-5 pb-3">
-          <h2 className="pt-4 pb-3 space-title">Newsletter</h2>
-          <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
-            <p className="mb-0" style={{ color: "#2b2b2b" }}>
-              No headlines available right now.
-            </p>
-            <div className="mt-3">
-              <button onClick={() => navigate("/news")} className="btn btn-glow" style={{ borderRadius: 50 }}>
-                Browse news
-              </button>
+        <section className="news_section_wrap">
+          <div className="container">
+            <div className="news_widget_card">
+              <div className="news_top_bar">
+                <div>
+                  <p className="news_eyebrow">Market Wire</p>
+                  <h2 className="space-title text-start mb-2 news_title">Newsletter</h2>
+                  <p className="news_subtitle">Headlines that matter across crypto markets.</p>
+                </div>
+              </div>
+              <div className="p-4 rounded-4 news_empty_state">
+                <p className="mb-0 news_empty_text">
+                  No headlines available right now.
+                </p>
+                <div className="mt-3">
+                  <button onClick={() => router.push("/news")} className="btn btn-glow news_cta">
+                    Browse news
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       );
     }
 
     return (
-        <div className="container pt-5 pb-3">
-            <h2 className="pt-4 pb-3 space-title">Newsletter</h2>
-            <div style={styles.grid}>
+      <section className="news_section_wrap">
+        <div className="container">
+          <div className="news_widget_card">
+            <div className="news_top_bar">
+              <div>
+                <p className="news_eyebrow">Market Wire</p>
+                <h2 className="space-title text-start mb-2 news_title">Newsletter</h2>
+                <p className="news_subtitle">Headlines that matter across crypto markets.</p>
+              </div>
+              <div className="news_top_bar_right">
+                <p className="news_count_pill">{Math.min(visibleNews, sortedNews.length)} headlines</p>
+                <button onClick={() => router.push("/news")} className="btn btn-glow news_cta">
+                  Browse news
+                </button>
+              </div>
+            </div>
+
+            <div className="news-grid">
               {sortedNews.slice(0, visibleNews).map((item, index) => (
-                  <div key={index} style={styles.card}>
+                <div key={index} className="news-card-item">
                   <a href={item.link} target="_blank" rel="noopener noreferrer">
-                  <img
-                    loading="lazy"
+                    <img
+                      loading="lazy"
                       src={item.image || imageDefault}
                       alt={item.title}
-                      style={styles.image}
+                      className="news-card-image"
                       onError={(e) => {
-                        e.target.onerror = null; 
+                        e.target.onerror = null;
                         e.target.src = imageDefault;
                       }}
                     />
                   </a>
-                  <div style={styles.content}>
-                      <h3 style={styles.newsTitle}>{item.title}</h3>
-                      <p style={styles.date}>{new Date(item.published).toLocaleString()}</p>
+                  <div className="news-card-content">
+                    <h3 className="news-card-title">{item.title}</h3>
+                    <p className="news-card-date">{formatDate(item.published)}</p>
                   </div>
-                  </div>
+                </div>
               ))}
             </div>
 
-            <button onClick={() => navigate("/news")} className="btn-glow" style={styles.loadMore}>
+            <button onClick={() => router.push("/news")} className="btn btn-glow news_see_more">
               See More
             </button>
+          </div>
         </div>
-    )
+      </section>
+    );
 }
 
 export default News;
