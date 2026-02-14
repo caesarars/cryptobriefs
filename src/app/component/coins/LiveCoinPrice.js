@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
+
 // Format USD price
 function fmtUsd(n, { max = 2 } = {}) {
   if (n === null || n === undefined) return "–";
@@ -41,6 +43,21 @@ const BINANCE_SYMBOL_MAP = {
   // Coins not available on Binance will use fallback
 };
 
+// Map slug -> backend coinFilter (for /api/crypto-price)
+const COIN_FILTER_MAP = {
+  bitcoin: 'btc',
+  ethereum: 'eth',
+  binancecoin: 'bnb',
+  solana: 'sol',
+  ripple: 'xrp',
+  cardano: 'ada',
+  dogecoin: 'doge',
+  chainlink: 'link',
+  polkadot: 'dot',
+  litecoin: 'ltc',
+  // extend when needed
+};
+
 export default function LiveCoinPrice({
   coinSlug,
   initialPrice,
@@ -50,13 +67,35 @@ export default function LiveCoinPrice({
   const [price, setPrice] = useState(initialPrice);
   const [change24h, setChange24h] = useState(initialChange24h);
   const [isLive, setIsLive] = useState(false);
+  const [meta, setMeta] = useState({ source: null, stale: false, fetchedAt: null, provider: null });
+
+  const fetchFallbackPrice = async () => {
+    try {
+      const coinFilter = COIN_FILTER_MAP[coinSlug];
+      if (!coinFilter || !API_BASE) return;
+      const res = await fetch(`${API_BASE}/api/crypto-price?coinFilter=${coinFilter}`, { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data?.price !== undefined && data?.price !== null) {
+        setPrice(Number(data.price));
+      }
+      setMeta({
+        source: data?.source || null,
+        stale: Boolean(data?.stale),
+        fetchedAt: data?.fetchedAt || null,
+        provider: data?.provider || null,
+      });
+    } catch (err) {
+      // silent fallback
+    }
+  };
 
   useEffect(() => {
     const binanceSymbol = BINANCE_SYMBOL_MAP[coinSlug];
 
-    // If coin not available on Binance, keep initial values
+    // If coin not available on Binance, skip WS
     if (!binanceSymbol) {
-      console.log(`${coinSlug} not available on Binance, using CoinGecko data`);
+      setIsLive(false);
       return;
     }
 
@@ -131,6 +170,16 @@ export default function LiveCoinPrice({
     };
   }, [coinSlug]);
 
+  // Poll backend cache when WS not live or Binance not supported
+  useEffect(() => {
+    const binanceSymbol = BINANCE_SYMBOL_MAP[coinSlug];
+    if (binanceSymbol && isLive) return;
+
+    fetchFallbackPrice();
+    const interval = setInterval(fetchFallbackPrice, 15000);
+    return () => clearInterval(interval);
+  }, [coinSlug, isLive]);
+
   return (
     <div className="coin-price-section">
       <div className={`coin-price ${
@@ -145,6 +194,16 @@ export default function LiveCoinPrice({
           <span className="live-indicator" title="Live price from Binance">
             <span className="live-dot"></span>
           </span>
+        )}
+      </div>
+      <div className="coin-price-meta">
+        {meta?.fetchedAt && (
+          <span className={`price-meta-badge ${meta.stale ? 'stale' : 'fresh'}`}>
+            Updated {new Date(meta.fetchedAt).toLocaleTimeString()} {meta.stale ? '(stale)' : ''}
+          </span>
+        )}
+        {meta?.provider && (
+          <span className="price-meta-provider">Source: {meta.provider}</span>
         )}
       </div>
       <div className="coin-changes">

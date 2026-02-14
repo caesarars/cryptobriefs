@@ -127,6 +127,32 @@
   }
 }
 
+.coin-price-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 8px 0 14px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.price-meta-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+}
+
+.price-meta-badge.stale {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fecaca;
+}
+
+.price-meta-provider {
+  opacity: 0.9;
+}
+
 .coin-changes {
   display: flex;
   gap: 10px;
