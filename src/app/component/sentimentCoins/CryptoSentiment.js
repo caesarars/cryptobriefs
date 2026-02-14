@@ -76,12 +76,15 @@ export default function CryptoSentiment() {
     }, [coinFilter, period]);    
 
     useEffect(() => {
+        const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
+
         let ws;
-        let fallbackTimer;
         let cancelled = false;
         let hasPrice = false;
-        const coinGeckoId = getCoinSlug(coinFilter);
+        let pollInterval;
+
         const coinCapAsset = getCoinCapAsset(coinFilter);
+        const backendCoinFilter = String(coinFilter || "").toLowerCase(); // btc/eth/sol...
 
         const applyPrice = (value) => {
             const nextPrice = Number(value);
@@ -93,35 +96,41 @@ export default function CryptoSentiment() {
             return false;
         };
 
-        const fetchFallbackPrice = async () => {
+        // Prefer backend (Redis-cached) first
+        const fetchRedisPrice = async () => {
             try {
-                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinGeckoId}&vs_currencies=usd`);
+                if (!API_BASE) return;
+                const res = await fetch(`${API_BASE}/api/crypto-price?coinFilter=${backendCoinFilter}`, { cache: 'no-store' });
+                if (!res.ok) return;
                 const data = await res.json();
                 if (!cancelled) {
-                    applyPrice(data?.[coinGeckoId]?.usd);
+                    applyPrice(data?.price);
                 }
             } catch (error) {
-                console.error(`Fallback price fetch failed for ${coinFilter}:`, error);
+                console.error(`Redis/backend price fetch failed for ${coinFilter}:`, error);
             }
         };
 
         setCoinPrice(null);
+        fetchRedisPrice();
 
+        // Start CoinCap WS for live updates (optional enhancement)
         try {
             ws = new WebSocket(`wss://ws.coincap.io/prices?assets=${coinCapAsset}`);
         } catch (error) {
             console.error(`WebSocket init failed for ${coinFilter}:`, error);
-            fetchFallbackPrice();
-            return () => {};
+            // If WS cannot init, keep polling backend
+            pollInterval = setInterval(fetchRedisPrice, 15000);
+            return () => {
+                cancelled = true;
+                clearInterval(pollInterval);
+            };
         }
 
-        ws.onopen = () => {
-            fallbackTimer = setTimeout(() => {
-                if (!cancelled && !hasPrice) {
-                    fetchFallbackPrice();
-                }
-            }, 2500);
-        };
+        // If WS doesn't deliver quickly, poll backend (Redis) as safety net
+        pollInterval = setInterval(() => {
+            if (!hasPrice) fetchRedisPrice();
+        }, 15000);
 
         ws.onmessage = (event) => {
             try {
@@ -135,12 +144,12 @@ export default function CryptoSentiment() {
 
         ws.onerror = (error) => {
             console.error(`WebSocket error for ${coinFilter}:`, error);
-            fetchFallbackPrice();
+            fetchRedisPrice();
         };
 
         return () => {
             cancelled = true;
-            clearTimeout(fallbackTimer);
+            clearInterval(pollInterval);
             if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
                 ws.close();
             }
