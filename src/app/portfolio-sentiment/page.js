@@ -154,6 +154,22 @@ export default function PortfolioSentimentPage() {
           </p>
         </header>
 
+        <section className="portfolio_card portfolio_tutorial">
+          <h2 className="portfolio_card_title">What is this page?</h2>
+          <p className="portfolio_tutorial_text">
+            This page helps you measure daily sentiment for your crypto portfolio based on recent news. You enter coin symbols and weights,
+            then the system computes a personal score from 0-100 and shows which headlines drive your portfolio up or down.
+          </p>
+
+          <h3 className="portfolio_tutorial_subtitle">How to use</h3>
+          <ol className="portfolio_tutorial_steps">
+            <li>Add your portfolio coins and estimated weights.</li>
+            <li>Click "Create / Reset Portfolio" to save the portfolio.</li>
+            <li>Click "Update today" to calculate the latest sentiment snapshot.</li>
+            <li>Read score, delta, and top positive/negative drivers to understand market narrative impact.</li>
+          </ol>
+        </section>
+
         <section className="portfolio_card">
           <h2 className="portfolio_card_title">Portfolio Setup</h2>
 
@@ -167,7 +183,20 @@ export default function PortfolioSentimentPage() {
             {rows.map((r, idx) => (
               <div key={idx} className="portfolio_row">
                 <div>
-                  <label className="portfolio_mobile_label">Symbol</label>
+                  <label className="portfolio_mobile_label portfolio_mobile_label_with_help">
+                    Symbol
+                    <span className="portfolio_help" tabIndex={0}>
+                      ?
+                      <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
+                    </span>
+                  </label>
+                  <div className="portfolio_input_head">
+                    <span className="portfolio_input_head_text">Symbol</span>
+                    <span className="portfolio_help" tabIndex={0}>
+                      ?
+                      <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
+                    </span>
+                  </div>
                   <input
                     value={r.symbol}
                     onChange={(e) => {
@@ -181,7 +210,20 @@ export default function PortfolioSentimentPage() {
                 </div>
 
                 <div>
-                  <label className="portfolio_mobile_label">Weight (%)</label>
+                  <label className="portfolio_mobile_label portfolio_mobile_label_with_help">
+                    Weight (%)
+                    <span className="portfolio_help" tabIndex={0}>
+                      ?
+                      <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
+                    </span>
+                  </label>
+                  <div className="portfolio_input_head">
+                    <span className="portfolio_input_head_text">Weight (%)</span>
+                    <span className="portfolio_help" tabIndex={0}>
+                      ?
+                      <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
+                    </span>
+                  </div>
                   <input
                     type="number"
                     value={r.weight}
