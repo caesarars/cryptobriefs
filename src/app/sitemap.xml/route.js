@@ -3,9 +3,11 @@ export const revalidate = 3600; // 1 hour
 export async function GET() {
   const baseUrl = "https://cryptobriefs.net";
 
+  const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "").replace(/\/$/, "");
+
   let blogs = [];
   try {
-    const blogRes = await fetch("https://ces.dbrata.my.id/getAllBlog", {
+    const blogRes = await fetch(API_BASE ? `${API_BASE}/getAllBlog` : "https://ces.dbrata.my.id/getAllBlog", {
       // Allow caching so Next can statically optimize this route without warnings.
       next: { revalidate },
     });

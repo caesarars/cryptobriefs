@@ -114,6 +114,7 @@ const Navbar = () => {
   const primaryLinks = [
     ["/", "Home"],
     ["/brief", "Brief"],
+    ["/portfolio-sentiment", "Portfolio"],
     ["/subscribe", "Subscribe"],
     ["/blogs", "Blog"],
     ["/news", "News"],

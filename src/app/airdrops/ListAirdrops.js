@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AirdropsPage.css";
+import { api } from "../lib/backend";
 
 const ListAirdrops = () => {
     const [airdrops, setAirdrops] = useState([]);
@@ -58,7 +59,7 @@ const ListAirdrops = () => {
             setLoading(true);
             setError("");
             try {
-                const response = await axios.get('https://ces.dbrata.my.id/api/airdrops/list', {
+                const response = await axios.get(api('/api/airdrops/list'), {
                     params: {
                         page,
                         limit,

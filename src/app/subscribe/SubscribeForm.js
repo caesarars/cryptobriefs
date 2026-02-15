@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { trackEvent } from "../lib/analytics";
+import { api } from "../lib/backend";
 
 const SubscribeForm = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ const SubscribeForm = () => {
 
     try {
       const response = await fetch(
-        "https://ces.dbrata.my.id/api/newsletter/join",
+        api("/api/newsletter/join"),
         {
           method: "POST",
           headers: {

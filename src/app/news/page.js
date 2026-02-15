@@ -9,6 +9,7 @@ import FilterNews from "./FilterNews";
 import TrendingTopics from "../component/TrendingTopics";
 import Loading from "../component/loading/Loading";
 import Pagination from "../blogs/Pagination";
+import { api } from "../lib/backend";
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -59,7 +60,7 @@ const News = () => {
       };
       
       const queryParams = new URLSearchParams(query).toString();
-      const response = await fetch(`https://ces.dbrata.my.id/api/news/news?${queryParams}`);
+      const response = await fetch(api(`/api/news/news?${queryParams}`));
 
       if (!response.ok) {
           const errorData = await response.json();

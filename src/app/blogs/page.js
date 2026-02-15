@@ -7,6 +7,7 @@ import ListBlogs from "./ListBlogs";
 import Loading from "../component/loading/Loading";
 import Pagination from "./Pagination";
 import "./Blogs.css"
+import { api } from "../lib/backend";
 
 const Blogs = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +34,7 @@ const Blogs = () => {
 
     try {
       const response = await fetch(
-        `https://ces.dbrata.my.id/api/getBlog?${queryParams}`
+        api(`/api/getBlog?${queryParams}`)
       );
       const data = await response.json();
       setCurrentPage(data.page);

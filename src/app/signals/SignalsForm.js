@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { trackEvent } from "../lib/analytics";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE
-  ? `${process.env.NEXT_PUBLIC_API_BASE}/api/signals`
-  : "https://ces.dbrata.my.id/api/signals";
+import { api } from "../lib/backend";
+
+const API_BASE = api("/api/signals");
 
 const SignalsForm = () => {
   const [email, setEmail] = useState("");

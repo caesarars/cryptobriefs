@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./BriefIndex.module.css";
+import { api } from "../lib/backend";
 
 export default function BriefIndexPage() {
   const [data, setData] = useState(null);
@@ -14,7 +15,7 @@ export default function BriefIndexPage() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await fetch("https://ces.dbrata.my.id/api/briefs/getSummary");
+        const res = await fetch(api("/api/briefs/getSummary"));
         if (!res.ok) throw new Error("Failed to load brief");
         const json = await res.json();
         setData(json);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { api } from "../lib/backend";
 
 const TopicTag = ({ topic, onTopicClick }) => (
   <button 
@@ -19,7 +20,7 @@ const TrendingTopics = ({ onTopicSelect }) => {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const response = await fetch('https://ces.dbrata.my.id/api/news/trending');
+        const response = await fetch(api('/api/news/trending'));
         if (!response.ok) {
           throw new Error('Failed to fetch trending topics');
         }
