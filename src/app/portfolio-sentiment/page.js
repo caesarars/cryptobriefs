@@ -173,9 +173,21 @@ export default function PortfolioSentimentPage() {
         <section className="portfolio_card">
           <h2 className="portfolio_card_title">Portfolio Setup</h2>
 
-          <div className="portfolio_rows_header" aria-hidden="true">
-            <div>Symbol</div>
-            <div>Weight (%)</div>
+          <div className="portfolio_rows_header">
+            <div className="portfolio_header_cell">
+              Symbol
+              <span className="portfolio_help" tabIndex={0}>
+                ?
+                <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
+              </span>
+            </div>
+            <div className="portfolio_header_cell">
+              Weight (%)
+              <span className="portfolio_help" tabIndex={0}>
+                ?
+                <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
+              </span>
+            </div>
             <div />
           </div>
 
@@ -190,13 +202,6 @@ export default function PortfolioSentimentPage() {
                       <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
                     </span>
                   </label>
-                  <div className="portfolio_input_head">
-                    <span className="portfolio_input_head_text">Symbol</span>
-                    <span className="portfolio_help" tabIndex={0}>
-                      ?
-                      <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
-                    </span>
-                  </div>
                   <input
                     value={r.symbol}
                     onChange={(e) => {
@@ -217,13 +222,6 @@ export default function PortfolioSentimentPage() {
                       <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
                     </span>
                   </label>
-                  <div className="portfolio_input_head">
-                    <span className="portfolio_input_head_text">Weight (%)</span>
-                    <span className="portfolio_help" tabIndex={0}>
-                      ?
-                      <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
-                    </span>
-                  </div>
                   <input
                     type="number"
                     value={r.weight}

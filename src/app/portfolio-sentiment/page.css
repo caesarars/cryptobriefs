@@ -117,6 +117,12 @@
   letter-spacing: 0.03em;
 }
 
+.portfolio_header_cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .portfolio_rows_body {
   display: grid;
   gap: 10px;
@@ -136,21 +142,6 @@
 .portfolio_mobile_label_with_help {
   align-items: center;
   gap: 6px;
-}
-
-.portfolio_input_head {
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.portfolio_input_head_text {
-  color: #60708b;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
 }
 
 .portfolio_help {
@@ -444,10 +435,6 @@
     color: #687892;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-  }
-
-  .portfolio_input_head {
-    display: none;
   }
 
   .portfolio_remove_wrap {
