@@ -233,14 +233,14 @@ export default function PortfolioSentimentPage() {
     }
     if (rangeKey === "week") {
       return [
-        `/api/portfolios/${id}/sentiment/week`,
+        `/api/portfolios/${id}/sentiment/weekly`,
         `/api/portfolios/${id}/sentiment/weekly`,
         `/api/portfolios/${id}/sentiment?range=week`,
         `/api/portfolios/${id}/sentiment?window=7d`,
       ];
     }
     return [
-      `/api/portfolios/${id}/sentiment/month`,
+      `/api/portfolios/${id}/sentiment/monthly`,
       `/api/portfolios/${id}/sentiment/monthly`,
       `/api/portfolios/${id}/sentiment?range=month`,
       `/api/portfolios/${id}/sentiment?window=30d`,
