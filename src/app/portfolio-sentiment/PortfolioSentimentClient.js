@@ -74,8 +74,8 @@ const COIN_OPTIONS = [
 
 const RANGE_OPTIONS = [
   { key: "today", label: "Today", notes: "last 24h of backend news", emptyAction: "Update today" },
-  { key: "week", label: "Week", notes: "last 7 days of backend news", emptyAction: "Update today" },
-  { key: "month", label: "Month", notes: "last 30 days of backend news", emptyAction: "Update today" },
+  { key: "week", label: "Weekly", notes: "last 7 days of backend news", emptyAction: "Update today" },
+  { key: "month", label: "Monthly", notes: "last 30 days of backend news", emptyAction: "Update today" },
 ];
 
 const COIN_ICON_BY_SYMBOL = {
