@@ -1,6 +1,27 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { FaCoins } from "react-icons/fa";
+import aptImg from "@/app/assets/image/aptos-apt-logo.png";
+import avaxImg from "@/app/assets/image/avax.png";
+import bchImg from "@/app/assets/image/bitcoin-cash-bch-logo.png";
+import btcImg from "@/app/assets/image/bitcoin.png";
+import bnbImg from "@/app/assets/image/bnb.png";
+import adaImg from "@/app/assets/image/cardano-ada-logo.png";
+import linkImg from "@/app/assets/image/chainlink.png";
+import dogeImg from "@/app/assets/image/dogecoin.png";
+import ethImg from "@/app/assets/image/ethereum.png";
+import ltcImg from "@/app/assets/image/litecoin-ltc-logo.png";
+import nearImg from "@/app/assets/image/near-protocol-near-logo.png";
+import pepeImg from "@/app/assets/image/pepe-pepe-logo.png";
+import dotImg from "@/app/assets/image/polkadot.png";
+import shibImg from "@/app/assets/image/shiba.png";
+import solImg from "@/app/assets/image/solana.png";
+import xlmImg from "@/app/assets/image/stellar.png";
+import suiImg from "@/app/assets/image/sui.png";
+import trxImg from "@/app/assets/image/tron-trx-logo.png";
+import uniImg from "@/app/assets/image/uniswap-uni-logo.png";
+import xrpImg from "@/app/assets/image/xrp.png";
 import "./page.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
@@ -17,6 +38,65 @@ function getScoreTone(score) {
   if (score >= 67) return "positive";
   if (score <= 39) return "negative";
   return "neutral";
+}
+
+const COIN_OPTIONS = [
+  { symbol: "BTC", name: "Bitcoin" },
+  { symbol: "ETH", name: "Ethereum" },
+  { symbol: "SOL", name: "Solana" },
+  { symbol: "LINK", name: "Chainlink" },
+  { symbol: "BNB", name: "BNB" },
+  { symbol: "XRP", name: "XRP" },
+  { symbol: "ADA", name: "Cardano" },
+  { symbol: "DOGE", name: "Dogecoin" },
+  { symbol: "AVAX", name: "Avalanche" },
+  { symbol: "DOT", name: "Polkadot" },
+  { symbol: "MATIC", name: "Polygon" },
+  { symbol: "SUI", name: "Sui" },
+  { symbol: "TON", name: "Toncoin" },
+  { symbol: "TRX", name: "TRON" },
+  { symbol: "LTC", name: "Litecoin" },
+  { symbol: "BCH", name: "Bitcoin Cash" },
+  { symbol: "XLM", name: "Stellar" },
+  { symbol: "NEAR", name: "NEAR Protocol" },
+  { symbol: "APT", name: "Aptos" },
+  { symbol: "ATOM", name: "Cosmos" },
+  { symbol: "ARB", name: "Arbitrum" },
+  { symbol: "OP", name: "Optimism" },
+  { symbol: "UNI", name: "Uniswap" },
+  { symbol: "ETC", name: "Ethereum Classic" },
+  { symbol: "FIL", name: "Filecoin" },
+  { symbol: "HBAR", name: "Hedera" },
+  { symbol: "ICP", name: "Internet Computer" },
+  { symbol: "PEPE", name: "Pepe" },
+  { symbol: "SHIB", name: "Shiba Inu" },
+];
+
+const COIN_ICON_BY_SYMBOL = {
+  ADA: adaImg.src,
+  APT: aptImg.src,
+  AVAX: avaxImg.src,
+  BCH: bchImg.src,
+  BNB: bnbImg.src,
+  BTC: btcImg.src,
+  DOGE: dogeImg.src,
+  DOT: dotImg.src,
+  ETH: ethImg.src,
+  LINK: linkImg.src,
+  LTC: ltcImg.src,
+  NEAR: nearImg.src,
+  PEPE: pepeImg.src,
+  SHIB: shibImg.src,
+  SOL: solImg.src,
+  SUI: suiImg.src,
+  TRX: trxImg.src,
+  UNI: uniImg.src,
+  XLM: xlmImg.src,
+  XRP: xrpImg.src,
+};
+
+function getCoinIcon(symbol) {
+  return COIN_ICON_BY_SYMBOL[String(symbol || "").toUpperCase()] || null;
 }
 
 function normalizeHoldings(rows) {
@@ -36,6 +116,21 @@ function normalizeHoldings(rows) {
   return cleaned.map((r) => ({ ...r, weight: r.weight / total }));
 }
 
+function getWeightVisual(weight) {
+  const safe = clamp(Number(weight) || 0, 0, 100);
+  const hue = Math.round(205 + safe * 1.35);
+  const accentAlpha = 0.2 + safe / 400;
+  const bgAlpha = 0.08 + safe / 600;
+
+  return {
+    percent: Math.round(safe),
+    style: {
+      "--weight-accent": `hsla(${hue}, 85%, 48%, ${accentAlpha.toFixed(2)})`,
+      "--weight-bg": `hsla(${hue}, 90%, 55%, ${bgAlpha.toFixed(2)})`,
+    },
+  };
+}
+
 export default function PortfolioSentimentPage() {
   const [rows, setRows] = useState([
     { symbol: "BTC", weight: 40 },
@@ -49,6 +144,7 @@ export default function PortfolioSentimentPage() {
   const [status, setStatus] = useState("");
   const [today, setToday] = useState(null);
   const [error, setError] = useState(null);
+  const [openSymbolRow, setOpenSymbolRow] = useState(null);
 
   const holdings = useMemo(() => normalizeHoldings(rows), [rows]);
 
@@ -140,6 +236,17 @@ export default function PortfolioSentimentPage() {
   const safeScore = clamp(Number(today?.personalScore || 0), 0, 100);
   const scoreTone = getScoreTone(safeScore);
 
+  function getSymbolMatches(query) {
+    const q = String(query || "").trim().toUpperCase();
+    if (!q) return COIN_OPTIONS.slice(0, 12);
+    return COIN_OPTIONS.filter((opt) => opt.symbol.includes(q) || opt.name.toUpperCase().includes(q)).slice(0, 12);
+  }
+
+  function coinMeta(symbol) {
+    const clean = String(symbol || "").toUpperCase();
+    return COIN_OPTIONS.find((opt) => opt.symbol === clean);
+  }
+
   return (
     <section className="portfolio_page_wrap">
       <div className="portfolio_glow portfolio_glow_a" aria-hidden="true" />
@@ -192,8 +299,11 @@ export default function PortfolioSentimentPage() {
           </div>
 
           <div className="portfolio_rows_body">
-            {rows.map((r, idx) => (
-              <div key={idx} className="portfolio_row">
+            {rows.map((r, idx) => {
+              const weightVisual = getWeightVisual(r.weight);
+              const selectedCoinIcon = getCoinIcon(r.symbol);
+              return (
+                <div key={idx} className="portfolio_row">
                 <div>
                   <label className="portfolio_mobile_label portfolio_mobile_label_with_help">
                     Symbol
@@ -202,16 +312,60 @@ export default function PortfolioSentimentPage() {
                       <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
                     </span>
                   </label>
-                  <input
-                    value={r.symbol}
-                    onChange={(e) => {
-                      const next = [...rows];
-                      next[idx] = { ...next[idx], symbol: e.target.value };
-                      setRows(next);
-                    }}
-                    placeholder="BTC"
-                    className="portfolio_input"
-                  />
+                  <div className="portfolio_symbol_combo">
+                    <div className="portfolio_symbol_icon" aria-hidden="true">
+                      {selectedCoinIcon ? (
+                        <img src={selectedCoinIcon} alt={`${r.symbol} logo`} className="portfolio_symbol_coin_img" />
+                      ) : (
+                        coinMeta(r.symbol)?.symbol?.slice(0, 2) || <FaCoins size={11} />
+                      )}
+                    </div>
+                    <input
+                      value={r.symbol}
+                      onFocus={() => setOpenSymbolRow(idx)}
+                      onBlur={() => {
+                        setTimeout(() => setOpenSymbolRow((current) => (current === idx ? null : current)), 120);
+                      }}
+                      onChange={(e) => {
+                        const next = [...rows];
+                        next[idx] = { ...next[idx], symbol: e.target.value.toUpperCase() };
+                        setRows(next);
+                        setOpenSymbolRow(idx);
+                      }}
+                      placeholder="Search coin (BTC, ETH, SOL)"
+                      className="portfolio_input portfolio_symbol_input"
+                    />
+
+                    {openSymbolRow === idx ? (
+                      <div className="portfolio_symbol_menu">
+                        {getSymbolMatches(r.symbol).map((opt) => (
+                          <button
+                            key={opt.symbol}
+                            type="button"
+                            className="portfolio_symbol_option"
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              const next = [...rows];
+                              next[idx] = { ...next[idx], symbol: opt.symbol };
+                              setRows(next);
+                              setOpenSymbolRow(null);
+                            }}
+                          >
+                            <span className="portfolio_symbol_option_icon">
+                              {getCoinIcon(opt.symbol) ? (
+                                <img src={getCoinIcon(opt.symbol)} alt={`${opt.symbol} logo`} className="portfolio_symbol_coin_img" />
+                              ) : (
+                                opt.symbol.slice(0, 2)
+                              )}
+                            </span>
+                            <span className="portfolio_symbol_option_text">
+                              {opt.name} ({opt.symbol})
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
 
                 <div>
@@ -222,19 +376,22 @@ export default function PortfolioSentimentPage() {
                       <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
                     </span>
                   </label>
-                  <input
-                    type="number"
-                    value={r.weight}
-                    onChange={(e) => {
-                      const next = [...rows];
-                      next[idx] = { ...next[idx], weight: e.target.value === "" ? "" : Number(e.target.value) };
-                      setRows(next);
-                    }}
-                    placeholder="40"
-                    min={0}
-                    step={1}
-                    className="portfolio_input"
-                  />
+                  <div className="portfolio_weight_wrap" style={weightVisual.style}>
+                    <input
+                      type="number"
+                      value={r.weight}
+                      onChange={(e) => {
+                        const next = [...rows];
+                        next[idx] = { ...next[idx], weight: e.target.value === "" ? "" : Number(e.target.value) };
+                        setRows(next);
+                      }}
+                      placeholder="40"
+                      min={0}
+                      step={1}
+                      className="portfolio_input portfolio_weight_input"
+                    />
+                    <span className="portfolio_weight_badge">{weightVisual.percent}%</span>
+                  </div>
                 </div>
 
                 <div className="portfolio_remove_wrap">
@@ -242,8 +399,9 @@ export default function PortfolioSentimentPage() {
                     Remove
                   </button>
                 </div>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
 
           <div className="portfolio_actions">
