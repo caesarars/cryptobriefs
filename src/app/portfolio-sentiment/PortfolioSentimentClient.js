@@ -72,6 +72,12 @@ const COIN_OPTIONS = [
   { symbol: "SHIB", name: "Shiba Inu" },
 ];
 
+const RANGE_OPTIONS = [
+  { key: "today", label: "Today", notes: "last 24h of backend news", emptyAction: "Update today" },
+  { key: "week", label: "Week", notes: "last 7 days of backend news", emptyAction: "Update today" },
+  { key: "month", label: "Month", notes: "last 30 days of backend news", emptyAction: "Update today" },
+];
+
 const COIN_ICON_BY_SYMBOL = {
   ADA: adaImg.src,
   APT: aptImg.src,
@@ -142,9 +148,10 @@ export default function PortfolioSentimentPage() {
   const [portfolioId, setPortfolioId] = useState(null);
   const [editToken, setEditToken] = useState(null);
   const [status, setStatus] = useState("");
-  const [today, setToday] = useState(null);
+  const [sentiment, setSentiment] = useState(null);
   const [error, setError] = useState(null);
   const [openSymbolRow, setOpenSymbolRow] = useState(null);
+  const [selectedRange, setSelectedRange] = useState("today");
 
   const holdings = useMemo(() => normalizeHoldings(rows), [rows]);
 
@@ -213,28 +220,74 @@ export default function PortfolioSentimentPage() {
     }
 
     const data = await res.json();
-    setToday(data);
+    setSentiment(data);
+    if (selectedRange !== "today") {
+      await loadSentiment(selectedRange);
+    }
     setStatus("Updated.");
   }
 
-  async function loadToday() {
+  function getRangeCandidates(rangeKey, id) {
+    if (rangeKey === "today") {
+      return [`/api/portfolios/${id}/sentiment/today`];
+    }
+    if (rangeKey === "week") {
+      return [
+        `/api/portfolios/${id}/sentiment/week`,
+        `/api/portfolios/${id}/sentiment/weekly`,
+        `/api/portfolios/${id}/sentiment?range=week`,
+        `/api/portfolios/${id}/sentiment?window=7d`,
+      ];
+    }
+    return [
+      `/api/portfolios/${id}/sentiment/month`,
+      `/api/portfolios/${id}/sentiment/monthly`,
+      `/api/portfolios/${id}/sentiment?range=month`,
+      `/api/portfolios/${id}/sentiment?window=30d`,
+    ];
+  }
+
+  async function loadSentiment(rangeKey) {
     if (!portfolioId) return;
 
     setError(null);
-    const res = await fetch(apiUrl(`/api/portfolios/${portfolioId}/sentiment/today`), { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      setToday(data);
+    const candidates = getRangeCandidates(rangeKey, portfolioId);
+
+    for (const candidate of candidates) {
+      const res = await fetch(apiUrl(candidate), { cache: "no-store" });
+      if (!res.ok) continue;
+
+      const data = await res.json().catch(() => null);
+      if (data && (Number.isFinite(Number(data.personalScore)) || Array.isArray(data.perCoin))) {
+        setSentiment(data);
+        if (rangeKey !== "today") {
+          setStatus(`${rangeKey[0].toUpperCase() + rangeKey.slice(1)} view loaded.`);
+        }
+        return;
+      }
     }
+
+    if (rangeKey !== "today") {
+      const fallback = await fetch(apiUrl(`/api/portfolios/${portfolioId}/sentiment/today`), { cache: "no-store" });
+      if (fallback.ok) {
+        const fallbackData = await fallback.json();
+        setSentiment(fallbackData);
+        setStatus(`${rangeKey[0].toUpperCase() + rangeKey.slice(1)} data is not available yet. Showing Today.`);
+        return;
+      }
+    }
+
+    setSentiment(null);
   }
 
   useEffect(() => {
-    loadToday();
+    loadSentiment(selectedRange);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [portfolioId]);
+  }, [portfolioId, selectedRange]);
 
-  const safeScore = clamp(Number(today?.personalScore || 0), 0, 100);
+  const safeScore = clamp(Number(sentiment?.personalScore || 0), 0, 100);
   const scoreTone = getScoreTone(safeScore);
+  const activeRange = RANGE_OPTIONS.find((r) => r.key === selectedRange) || RANGE_OPTIONS[0];
 
   function getSymbolMatches(query) {
     const q = String(query || "").trim().toUpperCase();
@@ -285,14 +338,14 @@ export default function PortfolioSentimentPage() {
               Symbol
               <span className="portfolio_help" tabIndex={0}>
                 ?
-                <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
+                <span className="portfolio_help_tip">Coin ticker symbol, for example: BTC, ETH, SOL.</span>
               </span>
             </div>
             <div className="portfolio_header_cell">
               Weight (%)
               <span className="portfolio_help" tabIndex={0}>
                 ?
-                <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
+                <span className="portfolio_help_tip">Coin allocation in your portfolio. It does not need to total 100%; the system normalizes it.</span>
               </span>
             </div>
             <div />
@@ -309,7 +362,7 @@ export default function PortfolioSentimentPage() {
                     Symbol
                     <span className="portfolio_help" tabIndex={0}>
                       ?
-                      <span className="portfolio_help_tip">Ticker coin, contoh: BTC, ETH, SOL.</span>
+                      <span className="portfolio_help_tip">Coin ticker symbol, for example: BTC, ETH, SOL.</span>
                     </span>
                   </label>
                   <div className="portfolio_symbol_combo">
@@ -373,7 +426,7 @@ export default function PortfolioSentimentPage() {
                     Weight (%)
                     <span className="portfolio_help" tabIndex={0}>
                       ?
-                      <span className="portfolio_help_tip">Porsi coin di portofolio Anda. Tidak harus pas 100, sistem akan normalisasi.</span>
+                      <span className="portfolio_help_tip">Coin allocation in your portfolio. It does not need to total 100%; the system normalizes it.</span>
                     </span>
                   </label>
                   <div className="portfolio_weight_wrap" style={weightVisual.style}>
@@ -432,20 +485,38 @@ export default function PortfolioSentimentPage() {
         </section>
 
         <section className="portfolio_card">
-          <h2 className="portfolio_card_title">Today</h2>
+          <div className="portfolio_result_head">
+            <h2 className="portfolio_card_title">{activeRange.label}</h2>
+            <div className="portfolio_range_switch" role="tablist" aria-label="Sentiment range">
+              {RANGE_OPTIONS.map((range) => (
+                <button
+                  key={range.key}
+                  type="button"
+                  className={`portfolio_range_btn ${selectedRange === range.key ? "is_active" : ""}`}
+                  onClick={() => setSelectedRange(range.key)}
+                >
+                  {range.label}
+                </button>
+              ))}
+            </div>
+          </div>
 
-          {!today ? (
-            <div className="portfolio_empty">No data yet. Click "Update today".</div>
+          {!sentiment ? (
+            <div className="portfolio_empty">No data yet. Click "{activeRange.emptyAction}".</div>
           ) : (
             <>
               <div className="portfolio_score_row">
                 <div className={`portfolio_score_chip portfolio_score_${scoreTone}`}>{safeScore}/100</div>
                 <div className="portfolio_delta">
-                  Delta {today.deltaPersonal >= 0 ? "+" : ""}
-                  {today.deltaPersonal}
+                  Delta {sentiment.deltaPersonal >= 0 ? "+" : ""}
+                  {sentiment.deltaPersonal}
                 </div>
-                {today.alert?.personalShift ? <div className="portfolio_shift_badge">Significant shift</div> : null}
+                {sentiment.alert?.personalShift ? <div className="portfolio_shift_badge">Significant shift</div> : null}
               </div>
+              <p className="portfolio_delta_help">
+                Delta = score change versus the previous update. A <strong>+</strong> value means sentiment improved, while a{" "}
+                <strong>-</strong> value means sentiment weakened.
+              </p>
 
               <div className="portfolio_meter" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={safeScore}>
                 <div className="portfolio_meter_fill" style={{ width: `${safeScore}%` }} />
@@ -454,13 +525,28 @@ export default function PortfolioSentimentPage() {
               <div className="portfolio_breakdown">
                 <div className="portfolio_breakdown_head">Coin</div>
                 <div className="portfolio_breakdown_head">Score</div>
-                <div className="portfolio_breakdown_head">Delta</div>
+                <div className="portfolio_breakdown_head portfolio_breakdown_head_with_help">
+                  Delta
+                  <span className="portfolio_help" tabIndex={0}>
+                    ?
+                    <span className="portfolio_help_tip">Coin score change versus the previous update.</span>
+                  </span>
+                </div>
                 <div className="portfolio_breakdown_head">News</div>
 
-                {(today.perCoin || []).map((c) => (
+                {(sentiment.perCoin || []).map((c) => (
                   <div key={c.symbol} className="portfolio_breakdown_row">
-                    <div>
-                      {c.symbol} ({Math.round(c.weight * 100)}%)
+                    <div className="portfolio_breakdown_coin">
+                      <span className="portfolio_breakdown_coin_icon" aria-hidden="true">
+                        {getCoinIcon(c.symbol) ? (
+                          <img src={getCoinIcon(c.symbol)} alt={`${c.symbol} logo`} className="portfolio_symbol_coin_img" />
+                        ) : (
+                          c.symbol?.slice(0, 2)
+                        )}
+                      </span>
+                      <span>
+                        {c.symbol} ({Math.round(c.weight * 100)}%)
+                      </span>
                     </div>
                     <div>{c.coinScore}/100</div>
                     <div>
@@ -475,7 +561,7 @@ export default function PortfolioSentimentPage() {
               <div className="portfolio_drivers_grid">
                 <div className="portfolio_driver_card">
                   <h3>Top negative drivers</h3>
-                  {flattenTop(today.perCoin, "topNeg").slice(0, 5).map((a) => (
+                  {flattenTop(sentiment.perCoin, "topNeg").slice(0, 5).map((a) => (
                     <div key={a.link} className="portfolio_driver_item">
                       <a href={a.link} target="_blank" rel="noreferrer">
                         {a.title}
@@ -487,7 +573,7 @@ export default function PortfolioSentimentPage() {
 
                 <div className="portfolio_driver_card">
                   <h3>Top positive drivers</h3>
-                  {flattenTop(today.perCoin, "topPos").slice(0, 5).map((a) => (
+                  {flattenTop(sentiment.perCoin, "topPos").slice(0, 5).map((a) => (
                     <div key={a.link} className="portfolio_driver_item">
                       <a href={a.link} target="_blank" rel="noreferrer">
                         {a.title}
@@ -502,7 +588,7 @@ export default function PortfolioSentimentPage() {
         </section>
 
         <p className="portfolio_notes">
-          Notes: Score uses the last 24h of backend news (<code>news</code>). If coverage is low, scores shrink toward 50.
+          Notes: Score uses the {activeRange.notes} (<code>news</code>). If coverage is low, scores shrink toward 50.
         </p>
       </div>
     </section>
