@@ -20,7 +20,7 @@ export default function VerifyPage() {
       return
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/subscribe/verify?token=${token}`)
       .then((res) => res.json())
       .then((data) => {
         // Backend returns { message: '...' } on success
