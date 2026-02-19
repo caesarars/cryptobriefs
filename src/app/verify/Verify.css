@@ -1,0 +1,104 @@
+/* ── Verify page ─────────────────────────────────────────────────────────── */
+
+.verify-wrapper {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  background: #f9fafb;
+}
+
+.verify-card {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.verify-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ── Loading spinner (CSS only) ─────────────────────────────────────────── */
+
+.verify-spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: verify-spin 0.65s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes verify-spin {
+  to { transform: rotate(360deg); }
+}
+
+.verify-loading-text {
+  font-size: 0.9375rem;
+  color: #6b7280;
+}
+
+/* ── Icon / headline / body ─────────────────────────────────────────────── */
+
+.verify-icon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.verify-headline {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+.verify-body {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+/* ── CTA button ─────────────────────────────────────────────────────────── */
+
+.verify-cta-btn {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  background: #7c3aed;
+  color: #fff;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  transition: background 0.15s;
+}
+
+.verify-cta-btn:hover {
+  background: #6d28d9;
+  color: #fff;
+}
+
+/* ── Subtle text link ───────────────────────────────────────────────────── */
+
+.verify-text-link {
+  font-size: 0.875rem;
+  color: #7c3aed;
+  margin-top: 4px;
+}
+
+.verify-text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #7c3aed;
+}

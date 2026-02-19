@@ -1,0 +1,97 @@
+/* ── Unsubscribe page — neutral/gray tones, not a marketing page ─────────── */
+
+.unsub-wrapper {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  background: #f9fafb;
+}
+
+.unsub-card {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.unsub-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ── Loading spinner (CSS only) ─────────────────────────────────────────── */
+
+.unsub-spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #6b7280;
+  border-radius: 50%;
+  animation: unsub-spin 0.65s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes unsub-spin {
+  to { transform: rotate(360deg); }
+}
+
+.unsub-loading-text {
+  font-size: 0.9375rem;
+  color: #6b7280;
+}
+
+/* ── Icon / headline / body ─────────────────────────────────────────────── */
+
+.unsub-icon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.unsub-headline {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #374151;      /* gray, not purple — this is a goodbye page */
+  margin-bottom: 10px;
+}
+
+.unsub-body {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+/* ── Soft CTA (subtle, not pushy) ───────────────────────────────────────── */
+
+.unsub-soft-link {
+  font-size: 0.875rem;
+  color: #9ca3af;      /* gray — deliberately understated */
+  margin-top: 4px;
+}
+
+.unsub-soft-link:hover {
+  color: #6b7280;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Error text link ────────────────────────────────────────────────────── */
+
+.unsub-text-link {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.unsub-text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #374151;
+}

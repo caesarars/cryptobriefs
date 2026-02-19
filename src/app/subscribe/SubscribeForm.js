@@ -1,87 +1,121 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { trackEvent } from "../lib/analytics";
-import { api } from "../lib/backend";
+import { useState } from 'react'
 
-const SubscribeForm = () => {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle");
-  const [message, setMessage] = useState("");
+// Basic email format check — runs before the API call
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-  useEffect(() => {
-    trackEvent("view_subscribe");
-  }, []);
+// Map backend message text to a display colour variant
+function getVariant(msg) {
+  const lower = msg.toLowerCase()
+  if (
+    lower.includes('already subscribed') ||
+    lower.includes('please check your email to confirm')
+  ) return 'amber'
+  if (lower.includes('welcome back')) return 'green'
+  return 'red'
+}
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setStatus("loading");
-    setMessage("");
+export default function SubscribeForm() {
+  const [email,  setEmail]  = useState('')
+  const [status, setStatus] = useState('idle')   // idle | loading | success | error
+  const [message, setMessage] = useState('')
 
-    trackEvent("subscribe_submit", { placement: "subscribe_page" });
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    // Client-side validation before hitting the network
+    if (!EMAIL_RE.test(email)) {
+      setStatus('error')
+      setMessage('Please enter a valid email address.')
+      return
+    }
+
+    setStatus('loading')
+    setMessage('')
 
     try {
-      const response = await fetch(
-        api("/api/newsletter/join"),
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/subscribe`,
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ email }),
         }
-      );
+      )
 
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data?.message || "Subscription failed.");
+      const data = await res.json().catch(() => ({}))
+
+      if (res.ok) {
+        // Keep `email` in state so the success card can display it
+        setStatus('success')
+      } else {
+        setStatus('error')
+        setMessage(data?.message || 'Something went wrong. Please try again.')
       }
-
-      setStatus("success");
-      setMessage("You’re in. Check your inbox (and spam) for the next brief.");
-      setEmail("");
-      trackEvent("subscribe_success", { placement: "subscribe_page" });
-    } catch (error) {
-      setStatus("error");
-      setMessage(error.message || "Something went wrong. Please try again.");
-      trackEvent("subscribe_error", { placement: "subscribe_page" });
+    } catch {
+      setStatus('error')
+      setMessage('Something went wrong. Please try again.')
     }
-  };
+  }
 
+  // ── SUCCESS — hide the form, show confirmation card ──────────────────────
+  if (status === 'success') {
+    return (
+      <div className="sub-success-card">
+        <div className="sub-success-icon">✉️</div>
+        <p className="sub-success-headline">Check your inbox!</p>
+        <p className="sub-success-body">
+          We sent a confirmation link to <strong>{email}</strong>.
+          Click it to activate your subscription.
+        </p>
+        <p className="sub-success-note">Don&apos;t see it? Check your spam folder.</p>
+      </div>
+    )
+  }
+
+  const variant = message ? getVariant(message) : 'red'
+
+  // ── IDLE / LOADING / ERROR — show the form ───────────────────────────────
   return (
-    <form className="subscribe-form" onSubmit={handleSubmit}>
-      <label className="subscribe-field">
-        Email
+    <form onSubmit={handleSubmit}>
+      <div className="sub-input-wrap">
         <input
           type="email"
-          name="email"
-          placeholder="you@example.com"
-          required
-          className="subscribe-input"
+          className="sub-input"
+          placeholder="Enter your email address"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={status === 'loading'}
+          required
         />
-      </label>
-      <button
-        type="submit"
-        className="subscribe-button"
-        disabled={status === "loading"}
-      >
-        {status === "loading" ? "Submitting..." : "Join free"}
-      </button>
-      {message ? (
+
+        <button
+          type="submit"
+          className="sub-btn"
+          disabled={status === 'loading'}
+        >
+          {status === 'loading' ? (
+            <>
+              <span className="sub-spinner" aria-hidden="true" />
+              Subscribing...
+            </>
+          ) : (
+            'Subscribe for free →'
+          )}
+        </button>
+      </div>
+
+      {/* Inline feedback — colour reflects severity of the message */}
+      {message && (
         <p
-          role="status"
+          className={`sub-msg sub-msg-${variant}`}
+          role="alert"
           aria-live="polite"
-          className={
-            status === "success" ? "subscribe-message success" : "subscribe-message error"
-          }
         >
           {message}
         </p>
-      ) : null}
+      )}
     </form>
-  );
-};
-
-export default SubscribeForm;
+  )
+}

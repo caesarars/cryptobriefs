@@ -1,57 +1,63 @@
-import "./Subscribe.css";
-import SubscribeForm from "./SubscribeForm";
+// Server component — exports metadata; interactive logic lives in SubscribeForm
+
+import Link from 'next/link'
+import './Subscribe.css'
+import SubscribeForm from './SubscribeForm'
 
 export const metadata = {
-  title: "Subscribe | CryptoBriefs",
-  description: "Get the 60‑second crypto brief: sentiment + movers + one clear takeaway. Free. No spam.",
-};
+  title:       'Subscribe | CryptoBriefs',
+  description: 'Get the 60-second crypto brief: sentiment + movers + one clear takeaway. Free. No spam.',
+}
 
-const SubscribePage = () => {
+export default function SubscribePage() {
   return (
-    <div className="subscribe-page">
-      <div className="subscribe-shell">
-        <div className="subscribe-hero">
-          <p className="subscribe-label">CryptoBriefs Newsletter</p>
-          <h1 className="subscribe-title">Get the 60-second crypto brief</h1>
-          <p className="subscribe-subtitle">
-            Daily signal, without the noise. A focused market summary you can read in under a minute.
-          </p>
+    <div className="sub-wrapper">
+      <div className="sub-card">
 
-          <ul className="subscribe-benefits">
-            <li>
-              <span className="benefit-dot">01</span>
-              <span><strong>Sentiment snapshot</strong> for BTC and overall market mood.</span>
-            </li>
-            <li>
-              <span className="benefit-dot">02</span>
-              <span><strong>Top movers</strong> and the narrative behind the move.</span>
-            </li>
-            <li>
-              <span className="benefit-dot">03</span>
-              <span><strong>One clear takeaway</strong> to guide your next decision.</span>
-            </li>
-          </ul>
+        {/* ── Logo ────────────────────────────────────────────────────────── */}
+        <span className="sub-logo">CryptoBriefs</span>
 
-          <div className="subscribe-proof">
-            <span>Free forever</span>
-            <span>No spam</span>
-            <span>Unsubscribe anytime</span>
-          </div>
-        </div>
+        {/* ── Headline ────────────────────────────────────────────────────── */}
+        <h1 className="sub-headline">Understand crypto in 60 seconds a day.</h1>
+        <p className="sub-subheadline">
+          Sentiment, top movers, and one clear takeaway — delivered free to
+          your inbox every morning.
+        </p>
 
-        <div className="subscribe-card">
-          <p className="subscribe-form-title">Join the daily list</p>
-          <p className="subscribe-form-subtitle">
-            Start receiving your brief straight to your inbox.
-          </p>
-          <SubscribeForm />
-          <p className="subscribe-footnote">
-            By subscribing, you agree to receive CryptoBriefs updates.
-          </p>
-        </div>
+        {/* ── What you get (free tier preview) ────────────────────────────── */}
+        <ul className="sub-benefits">
+          <li className="sub-benefit-item">
+            <span className="sub-check">✓</span>
+            <span>
+              <strong>Daily brief</strong> — top stories, curated and summarized
+            </span>
+          </li>
+          <li className="sub-benefit-item">
+            <span className="sub-check">✓</span>
+            <span>
+              <strong>Market sentiment</strong> — bullish, bearish, or mixed
+            </span>
+          </li>
+          <li className="sub-benefit-item">
+            <span className="sub-check">✓</span>
+            <span>
+              <strong>Insight of the day</strong> — what it means for the market
+            </span>
+          </li>
+        </ul>
+
+        {/* ── Email form (client component — handles all interactive states) ─ */}
+        <SubscribeForm />
+
+        {/* ── Social proof ────────────────────────────────────────────────── */}
+        <p className="sub-proof">No spam. No hype. Unsubscribe anytime.</p>
+
+        {/* ── Link to brief ───────────────────────────────────────────────── */}
+        <Link href="/brief" className="sub-brief-link">
+          See what a brief looks like →
+        </Link>
+
       </div>
     </div>
-  );
-};
-
-export default SubscribePage;
+  )
+}
