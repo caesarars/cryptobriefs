@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+const API_BASE = `${process.env.NEXT_PUBLIC_API_URL}/api/subscribe`  || ""
 
 // Basic email format check — runs before the API call
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -36,7 +37,7 @@ export default function SubscribeForm() {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/subscribe`,
+        `${API_BASE}/subscribe`,
         {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
