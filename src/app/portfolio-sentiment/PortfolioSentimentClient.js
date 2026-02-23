@@ -40,6 +40,31 @@ function getScoreTone(score) {
   return "neutral";
 }
 
+function getToneLabel(tone) {
+  if (tone === "positive") return "Bullish";
+  if (tone === "negative") return "Bearish";
+  return "Neutral";
+}
+
+function getResultSummary(score, delta, hasShift) {
+  const tone = getScoreTone(score);
+  const toneLabel = getToneLabel(tone);
+  const safeDelta = Number(delta) || 0;
+
+  const movementText =
+    safeDelta > 0
+      ? `naik ${safeDelta} poin dibanding snapshot sebelumnya`
+      : safeDelta < 0
+      ? `turun ${Math.abs(safeDelta)} poin dibanding snapshot sebelumnya`
+      : "tidak berubah dari snapshot sebelumnya";
+
+  const shiftText = hasShift
+    ? "Ada perubahan besar di sentimen hari ini, jadi cek driver utama untuk lihat berita yang paling berpengaruh."
+    : "Perubahan masih relatif stabil, tetap pantau driver utama untuk konfirmasi arah sentimen.";
+
+  return `Result hari ini menunjukkan kondisi ${toneLabel} dengan skor ${score}/100. Nilai ini ${movementText}. ${shiftText}`;
+}
+
 const COIN_OPTIONS = [
   { symbol: "BTC", name: "Bitcoin" },
   { symbol: "ETH", name: "Ethereum" },
@@ -287,7 +312,11 @@ export default function PortfolioSentimentPage() {
 
   const safeScore = clamp(Number(sentiment?.personalScore || 0), 0, 100);
   const scoreTone = getScoreTone(safeScore);
+<<<<<<< Updated upstream
   const activeRange = RANGE_OPTIONS.find((r) => r.key === selectedRange) || RANGE_OPTIONS[0];
+=======
+  const resultSummary = getResultSummary(safeScore, today?.deltaPersonal, Boolean(today?.alert?.personalShift));
+>>>>>>> Stashed changes
 
   function getSymbolMatches(query) {
     const q = String(query || "").trim().toUpperCase();
@@ -520,6 +549,11 @@ export default function PortfolioSentimentPage() {
 
               <div className="portfolio_meter" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={safeScore}>
                 <div className="portfolio_meter_fill" style={{ width: `${safeScore}%` }} />
+              </div>
+
+              <div className="portfolio_result_explain">
+                <h3>Result explanation</h3>
+                <p>{resultSummary}</p>
               </div>
 
               <div className="portfolio_breakdown">

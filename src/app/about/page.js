@@ -2,7 +2,28 @@ import Link from "next/link";
 
 export const metadata = {
   title: "About | CryptoBriefs",
-  description: "What CryptoBriefs is and who it’s for.",
+  description: "CryptoBriefs delivers a 60-second daily crypto brief — sentiment, movers, and one clear takeaway. Built for busy people who want signal without the noise.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/about",
+  },
+  openGraph: {
+    title: "About | CryptoBriefs",
+    description: "CryptoBriefs delivers a 60-second daily crypto brief — sentiment, movers, and one clear takeaway.",
+    url: "https://cryptobriefs.net/about",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About | CryptoBriefs",
+    description: "CryptoBriefs delivers a 60-second daily crypto brief — sentiment, movers, and one clear takeaway.",
+    images: ["https://cryptobriefs.net/og-image.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function AboutPage() {
