@@ -312,7 +312,12 @@ export default function PortfolioSentimentPage() {
 
   const safeScore = clamp(Number(sentiment?.personalScore || 0), 0, 100);
   const scoreTone = getScoreTone(safeScore);
-  const resultSummary = getResultSummary(safeScore, today?.deltaPersonal, Boolean(today?.alert?.personalShift));
+  const activeRange = RANGE_OPTIONS.find((range) => range.key === selectedRange) || RANGE_OPTIONS[0];
+  const resultSummary = getResultSummary(
+    safeScore,
+    sentiment?.deltaPersonal,
+    Boolean(sentiment?.alert?.personalShift)
+  );
 
   function getSymbolMatches(query) {
     const q = String(query || "").trim().toUpperCase();
