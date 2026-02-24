@@ -53,16 +53,16 @@ function getResultSummary(score, delta, hasShift) {
 
   const movementText =
     safeDelta > 0
-      ? `naik ${safeDelta} poin dibanding snapshot sebelumnya`
+      ? `increased by ${safeDelta} points compared to the previous snapshot`
       : safeDelta < 0
-      ? `turun ${Math.abs(safeDelta)} poin dibanding snapshot sebelumnya`
-      : "tidak berubah dari snapshot sebelumnya";
+      ? `decreased by ${Math.abs(safeDelta)} points compared to the previous snapshot`
+      : "is unchanged from the previous snapshot";
 
   const shiftText = hasShift
-    ? "Ada perubahan besar di sentimen hari ini, jadi cek driver utama untuk lihat berita yang paling berpengaruh."
-    : "Perubahan masih relatif stabil, tetap pantau driver utama untuk konfirmasi arah sentimen.";
+    ? "There is a significant sentiment shift today, so review the top drivers to see which headlines had the biggest impact."
+    : "Sentiment remains relatively stable, but keep monitoring the top drivers to confirm direction.";
 
-  return `Result hari ini menunjukkan kondisi ${toneLabel} dengan skor ${score}/100. Nilai ini ${movementText}. ${shiftText}`;
+  return `Today's result shows a ${toneLabel} condition with a score of ${score}/100. This value ${movementText}. ${shiftText}`;
 }
 
 const COIN_OPTIONS = [

@@ -124,9 +124,23 @@ export default function BriefIndexClient() {
                   {market.map((coin) => (
                     <div key={coin.id} className={styles.marketItem}>
                       <div className={styles.marketItemTop}>
-                        <div>
-                          <div className={styles.marketSymbol}>{coin.symbol?.toUpperCase()}</div>
-                          <div className={styles.marketName}>{coin.name}</div>
+                        <div className={styles.marketIdentity}>
+                          {coin.image ? (
+                            <img
+                              src={coin.image}
+                              alt={`${coin.symbol?.toUpperCase()} icon`}
+                              className={styles.marketIcon}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className={styles.marketIconFallback}>
+                              {coin.symbol?.toUpperCase()?.slice(0, 1) || "C"}
+                            </div>
+                          )}
+                          <div>
+                            <div className={styles.marketSymbol}>{coin.symbol?.toUpperCase()}</div>
+                            <div className={styles.marketName}>{coin.name}</div>
+                          </div>
                         </div>
                         <div
                           className={
