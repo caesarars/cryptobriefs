@@ -5,11 +5,6 @@ import './Subscribe.css'
 import SubscribeForm from './SubscribeForm'
 
 export const metadata = {
-<<<<<<< Updated upstream
-  title:       'Subscribe | CryptoBriefs',
-  description: 'Get the 60-second crypto brief: sentiment + movers + one clear takeaway. Free. No spam.',
-}
-=======
   title: "Subscribe | CryptoBriefs",
   description: "Get the 60-second crypto brief: sentiment + movers + one clear takeaway. Free. No spam. Unsubscribe anytime.",
   alternates: {
@@ -34,7 +29,6 @@ export const metadata = {
     follow: true,
   },
 };
->>>>>>> Stashed changes
 
 export default function SubscribePage() {
   return (
