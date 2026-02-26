@@ -11,14 +11,14 @@ export const metadata = {
     description: "CryptoBriefs delivers a 60-second daily crypto brief — sentiment, movers, and one clear takeaway.",
     url: "https://cryptobriefs.net/about",
     siteName: "CryptoBriefs",
-    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "About | CryptoBriefs",
     description: "CryptoBriefs delivers a 60-second daily crypto brief — sentiment, movers, and one clear takeaway.",
-    images: ["https://cryptobriefs.net/og-image.svg"],
+    images: ["https://cryptobriefs.net/og-image.png"],
   },
   robots: {
     index: true,
@@ -73,3 +73,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

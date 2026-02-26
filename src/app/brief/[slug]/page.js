@@ -17,14 +17,14 @@ export async function generateMetadata({ params }) {
       description: `Read the ${title} — a concise daily crypto brief covering market sentiment, key movers, and what matters today.`,
       url: `https://cryptobriefs.net/brief/${slug}`,
       siteName: "CryptoBriefs",
-      images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs" }],
+      images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} | CryptoBriefs`,
       description: `Read the ${title} — a concise daily crypto brief covering market sentiment and key movers.`,
-      images: ["https://cryptobriefs.net/og-image.svg"],
+      images: ["https://cryptobriefs.net/og-image.png"],
     },
     robots: {
       index: true,

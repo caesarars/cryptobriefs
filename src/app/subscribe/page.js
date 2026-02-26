@@ -15,14 +15,14 @@ export const metadata = {
     description: "Get the 60-second crypto brief in your inbox: sentiment, movers, and one clear takeaway. Free. No spam.",
     url: "https://cryptobriefs.net/subscribe",
     siteName: "CryptoBriefs",
-    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs Newsletter" }],
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs Newsletter" }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Subscribe to CryptoBriefs — Daily Crypto Brief",
     description: "Get the 60-second crypto brief in your inbox: sentiment, movers, and one clear takeaway. Free. No spam.",
-    images: ["https://cryptobriefs.net/og-image.svg"],
+    images: ["https://cryptobriefs.net/og-image.png"],
   },
   robots: {
     index: true,
@@ -82,3 +82,4 @@ export default function SubscribePage() {
     </div>
   )
 }
+

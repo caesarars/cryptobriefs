@@ -1,7 +1,7 @@
 import PortfolioSentimentClient from "./PortfolioSentimentClient";
 
 const PAGE_URL = "https://cryptobriefs.net/portfolio-sentiment";
-const OG_IMAGE = "https://cryptobriefs.net/og-image.svg";
+const OG_IMAGE = "https://cryptobriefs.net/og-image.png";
 
 export const metadata = {
   title: "Portfolio Sentiment Tracker",
@@ -71,3 +71,4 @@ export default function PortfolioSentimentPage() {
     </>
   );
 }
+

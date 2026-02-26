@@ -9,7 +9,7 @@ export const metadata = {
     description: "Privacy policy for CryptoBriefs. Learn how we collect, use, and protect your information.",
     url: "https://cryptobriefs.net/privacy",
     siteName: "CryptoBriefs",
-    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
     type: "website",
   },
   robots: {
@@ -80,3 +80,4 @@ export default function PrivacyPage() {
     </div>
   );
 }
+

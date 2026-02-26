@@ -9,7 +9,7 @@ export const metadata = {
     description: "Terms of service for CryptoBriefs. Content is for informational purposes only and not financial advice.",
     url: "https://cryptobriefs.net/terms",
     siteName: "CryptoBriefs",
-    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
     type: "website",
   },
   robots: {
@@ -58,3 +58,4 @@ export default function TermsPage() {
     </div>
   );
 }
+
