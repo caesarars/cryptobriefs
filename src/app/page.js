@@ -20,7 +20,7 @@ export const metadata = {
     siteName: "CryptoBriefs",
     images: [
       {
-        url: "https://cryptobriefs.net/og-image.svg",
+        url: "https://cryptobriefs.net/og-image.png",
         width: 1200,
         height: 630,
         alt: "CryptoBriefs",
