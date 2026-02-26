@@ -5,9 +5,30 @@ import './Subscribe.css'
 import SubscribeForm from './SubscribeForm'
 
 export const metadata = {
-  title:       'Subscribe | CryptoBriefs',
-  description: 'Get the 60-second crypto brief: sentiment + movers + one clear takeaway. Free. No spam.',
-}
+  title: "Subscribe | CryptoBriefs",
+  description: "Get the 60-second crypto brief: sentiment + movers + one clear takeaway. Free. No spam. Unsubscribe anytime.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/subscribe",
+  },
+  openGraph: {
+    title: "Subscribe to CryptoBriefs — Daily Crypto Brief",
+    description: "Get the 60-second crypto brief in your inbox: sentiment, movers, and one clear takeaway. Free. No spam.",
+    url: "https://cryptobriefs.net/subscribe",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs Newsletter" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Subscribe to CryptoBriefs — Daily Crypto Brief",
+    description: "Get the 60-second crypto brief in your inbox: sentiment, movers, and one clear takeaway. Free. No spam.",
+    images: ["https://cryptobriefs.net/og-image.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function SubscribePage() {
   return (

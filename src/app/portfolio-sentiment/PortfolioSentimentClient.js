@@ -40,6 +40,31 @@ function getScoreTone(score) {
   return "neutral";
 }
 
+function getToneLabel(tone) {
+  if (tone === "positive") return "Bullish";
+  if (tone === "negative") return "Bearish";
+  return "Neutral";
+}
+
+function getResultSummary(score, delta, hasShift) {
+  const tone = getScoreTone(score);
+  const toneLabel = getToneLabel(tone);
+  const safeDelta = Number(delta) || 0;
+
+  const movementText =
+    safeDelta > 0
+      ? `increased by ${safeDelta} points compared to the previous snapshot`
+      : safeDelta < 0
+      ? `decreased by ${Math.abs(safeDelta)} points compared to the previous snapshot`
+      : "is unchanged from the previous snapshot";
+
+  const shiftText = hasShift
+    ? "There is a significant sentiment shift today, so review the top drivers to see which headlines had the biggest impact."
+    : "Sentiment remains relatively stable, but keep monitoring the top drivers to confirm direction.";
+
+  return `Today's result shows a ${toneLabel} condition with a score of ${score}/100. This value ${movementText}. ${shiftText}`;
+}
+
 const COIN_OPTIONS = [
   { symbol: "BTC", name: "Bitcoin" },
   { symbol: "ETH", name: "Ethereum" },
@@ -287,7 +312,12 @@ export default function PortfolioSentimentPage() {
 
   const safeScore = clamp(Number(sentiment?.personalScore || 0), 0, 100);
   const scoreTone = getScoreTone(safeScore);
-  const activeRange = RANGE_OPTIONS.find((r) => r.key === selectedRange) || RANGE_OPTIONS[0];
+  const activeRange = RANGE_OPTIONS.find((range) => range.key === selectedRange) || RANGE_OPTIONS[0];
+  const resultSummary = getResultSummary(
+    safeScore,
+    sentiment?.deltaPersonal,
+    Boolean(sentiment?.alert?.personalShift)
+  );
 
   function getSymbolMatches(query) {
     const q = String(query || "").trim().toUpperCase();
@@ -520,6 +550,11 @@ export default function PortfolioSentimentPage() {
 
               <div className="portfolio_meter" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={safeScore}>
                 <div className="portfolio_meter_fill" style={{ width: `${safeScore}%` }} />
+              </div>
+
+              <div className="portfolio_result_explain">
+                <h3>Result explanation</h3>
+                <p>{resultSummary}</p>
               </div>
 
               <div className="portfolio_breakdown">

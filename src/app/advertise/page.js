@@ -2,7 +2,28 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Advertise | CryptoBriefs",
-  description: "Sponsor CryptoBriefs newsletter placements and reach crypto readers.",
+  description: "Sponsor CryptoBriefs newsletter placements and reach engaged crypto readers. Newsletter sponsorships, sponsored articles, and banner placements available.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/advertise",
+  },
+  openGraph: {
+    title: "Advertise | CryptoBriefs",
+    description: "Reach engaged crypto readers through CryptoBriefs newsletter sponsorships and banner placements.",
+    url: "https://cryptobriefs.net/advertise",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.svg", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Advertise | CryptoBriefs",
+    description: "Reach engaged crypto readers through CryptoBriefs newsletter sponsorships and banner placements.",
+    images: ["https://cryptobriefs.net/og-image.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function AdvertisePage() {

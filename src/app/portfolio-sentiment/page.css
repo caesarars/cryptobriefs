@@ -508,6 +508,30 @@
   box-shadow: 0 0 18px rgba(124, 58, 237, 0.45);
 }
 
+.portfolio_result_explain {
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid #e8ebf7;
+  background: linear-gradient(135deg, #f7f3ff 0%, #fcfbff 100%);
+  padding: 0.85rem 0.95rem;
+}
+
+.portfolio_result_explain h3 {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #5b34b8;
+}
+
+.portfolio_result_explain p {
+  margin: 0.45rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #374764;
+}
+
 .portfolio_breakdown {
   margin-top: 14px;
   display: grid;
