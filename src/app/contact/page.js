@@ -1,39 +1,32 @@
-"use client";
+import ContactClient from "./ContactClient";
 
-import "./Contact.css";
+export const metadata = {
+  title: "Contact | CryptoBriefs",
+  description: "Get in touch with CryptoBriefs. Questions, feedback, partnerships, or issue reports — reach us at admin@cryptobriefs.net.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/contact",
+  },
+  openGraph: {
+    title: "Contact | CryptoBriefs",
+    description: "Get in touch with CryptoBriefs. Questions, feedback, or partnerships — we'd love to hear from you.",
+    url: "https://cryptobriefs.net/contact",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact | CryptoBriefs",
+    description: "Get in touch with CryptoBriefs. Questions, feedback, or partnerships.",
+    images: ["https://cryptobriefs.net/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
-const EMAIL = "admin@cryptobriefs.net";
-
-export default function Contact() {
-  return (
-    <div className="container my-5 py-5">
-      <div className="contactShell">
-        <header className="contactHeader">
-          <p className="contactEyebrow">Get in touch</p>
-          <h1 className="contactTitle">Contact CryptoBriefs</h1>
-          <p className="contactSubtitle">
-            Questions, feedback, partnerships—send us an email and we’ll reply as soon as we can.
-          </p>
-        </header>
-
-        <section className="contactCard" aria-label="Contact email">
-          <div className="contactCardTop">
-            <div>
-              <div className="contactCardLabel">Email</div>
-              <a className="contactEmail" href={`mailto:${EMAIL}`}>
-                {EMAIL}
-              </a>
-            </div>
-            <a className="contactCta" href={`mailto:${EMAIL}`}>
-              Email us
-            </a>
-          </div>
-
-          <div className="contactNote">
-            Tip: include the coin/ticker, timeframe, and a link/screenshot if you’re reporting an issue.
-          </div>
-        </section>
-      </div>
-    </div>
-  );
+export default function ContactPage() {
+  return <ContactClient />;
 }
+

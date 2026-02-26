@@ -1,6 +1,21 @@
 export const metadata = {
   title: "Disclosure | CryptoBriefs",
-  description: "Affiliate and sponsorship disclosure for CryptoBriefs.",
+  description: "Affiliate and sponsorship disclosure for CryptoBriefs. We disclose all affiliate links and sponsored content clearly.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/disclosure",
+  },
+  openGraph: {
+    title: "Disclosure | CryptoBriefs",
+    description: "Affiliate and sponsorship disclosure for CryptoBriefs. We disclose all affiliate links and sponsored content clearly.",
+    url: "https://cryptobriefs.net/disclosure",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    type: "website",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function DisclosurePage() {
@@ -31,3 +46,4 @@ export default function DisclosurePage() {
     </div>
   );
 }
+

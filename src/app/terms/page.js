@@ -1,6 +1,21 @@
 export const metadata = {
   title: "Terms of Service | CryptoBriefs",
-  description: "Terms of service for CryptoBriefs.",
+  description: "Terms of service for CryptoBriefs. By using cryptobriefs.net you agree to these terms. Content is for informational purposes only and not financial advice.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/terms",
+  },
+  openGraph: {
+    title: "Terms of Service | CryptoBriefs",
+    description: "Terms of service for CryptoBriefs. Content is for informational purposes only and not financial advice.",
+    url: "https://cryptobriefs.net/terms",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    type: "website",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function TermsPage() {
@@ -43,3 +58,4 @@ export default function TermsPage() {
     </div>
   );
 }
+

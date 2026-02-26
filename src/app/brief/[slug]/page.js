@@ -1,60 +1,38 @@
-"use client";
+import BriefSlugClient from "./BriefSlugClient";
 
-import React, { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import "./briefs.css"; // Buat file ini untuk styling
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const title = slug
+    ? slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    : "Daily Crypto Brief";
 
-export default function BriefsPage() {
-  const [summary, setSummary] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [titles, setTitles] = useState([]);
+  return {
+    title: `${title} | CryptoBriefs`,
+    description: `Read the ${title} — a concise daily crypto brief covering market sentiment, key movers, and what matters today.`,
+    alternates: {
+      canonical: `https://cryptobriefs.net/brief/${slug}`,
+    },
+    openGraph: {
+      title: `${title} | CryptoBriefs`,
+      description: `Read the ${title} — a concise daily crypto brief covering market sentiment, key movers, and what matters today.`,
+      url: `https://cryptobriefs.net/brief/${slug}`,
+      siteName: "CryptoBriefs",
+      images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | CryptoBriefs`,
+      description: `Read the ${title} — a concise daily crypto brief covering market sentiment and key movers.`,
+      images: ["https://cryptobriefs.net/og-image.png"],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
-  useEffect(() => {
-    async function fetchSummary() {
-      try {
-        const res = await fetch("http://localhost:5005/api/briefs/getSummary");
-        const data = await res.json();
-
-        if (res.ok) {
-          setSummary(data.summary || "");
-          setTitles(data.titles || []);
-        } else {
-          console.error("Error fetching summary:", data.error);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchSummary();
-  }, []);
-
-  return (
-    <div className="briefs-container">
-      <h1 className="briefs-title"></h1>
-
-      {loading ? (
-        <p>Loading summary...</p>
-      ) : (
-        <>
-          <div className="briefs-summary">
-            <ReactMarkdown>{summary}</ReactMarkdown>
-          </div>
-            <p dangerouslySetInnerHTML={{ __html: summary }}/>
-          {titles.length > 0 && (
-            <div className="briefs-titles">
-              <h2>🧠 Article Titles</h2>
-              <ul>
-                {titles.map((title, index) => (
-                  <li key={index}>{title}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
+export default function BriefSlugPage() {
+  return <BriefSlugClient />;
 }

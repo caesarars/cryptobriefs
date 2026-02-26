@@ -32,10 +32,16 @@ export const metadata = {
   openGraph: {
     title: "CryptoBriefs",
     description: "Daily crypto brief + news sentiment. Fast signal without the noise.",
-    url: "https://cryptobriefs.net",
+    url: "https://www.cryptobriefs.net",
     siteName: "CryptoBriefs",
     images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CryptoBriefs",
+    description: "Daily crypto brief + news sentiment. Fast signal without the noise.",
+    images: ["https://www.cryptobriefs.net/og-image.png"],
   },
 };
 

@@ -1,6 +1,21 @@
 export const metadata = {
   title: "Privacy Policy | CryptoBriefs",
-  description: "Privacy policy for CryptoBriefs.",
+  description: "Privacy policy for CryptoBriefs. Learn how we collect, use, and protect your information when you use cryptobriefs.net.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy | CryptoBriefs",
+    description: "Privacy policy for CryptoBriefs. Learn how we collect, use, and protect your information.",
+    url: "https://cryptobriefs.net/privacy",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    type: "website",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function PrivacyPage() {
@@ -65,3 +80,4 @@ export default function PrivacyPage() {
     </div>
   );
 }
+

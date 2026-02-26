@@ -3,7 +3,28 @@ import SignalsForm from "./SignalsForm";
 
 export const metadata = {
   title: "Signal Alerts | CryptoBriefs",
-  description: "Manage your CryptoBriefs signal alerts, watchlist, and notification settings.",
+  description: "Manage your CryptoBriefs signal alerts, watchlist, and notification settings. Set score thresholds and get notified on key market moves.",
+  alternates: {
+    canonical: "https://cryptobriefs.net/signals",
+  },
+  openGraph: {
+    title: "Signal Alerts | CryptoBriefs",
+    description: "Manage your crypto signal alerts, watchlist, and notification settings on CryptoBriefs.",
+    url: "https://cryptobriefs.net/signals",
+    siteName: "CryptoBriefs",
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs Signal Alerts" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Signal Alerts | CryptoBriefs",
+    description: "Manage your crypto signal alerts, watchlist, and notification settings on CryptoBriefs.",
+    images: ["https://cryptobriefs.net/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const SignalsPage = () => {
@@ -32,3 +53,4 @@ const SignalsPage = () => {
 };
 
 export default SignalsPage;
+
