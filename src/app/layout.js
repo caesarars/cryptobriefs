@@ -34,7 +34,7 @@ export const metadata = {
     description: "Daily crypto brief + news sentiment. Fast signal without the noise.",
     url: "https://www.cryptobriefs.net",
     siteName: "CryptoBriefs",
-    images: [{ url: "https://www.cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
     type: "website",
   },
   twitter: {
