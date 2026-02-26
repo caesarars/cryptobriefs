@@ -81,6 +81,7 @@ export default function RootLayout({ children }) {
           name="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1"
           content="03b6e3310bf81d6f20cedfb004aca9bb874c0bc1"
         />
+        <meta property="og:logo" content="/favicon.png" />
       </head>
       <body suppressHydrationWarning={true} className="layout-body">
         <Navbar />

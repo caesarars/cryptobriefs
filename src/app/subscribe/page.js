@@ -28,7 +28,11 @@ export const metadata = {
     index: true,
     follow: true,
   },
-};
+
+
+  other: {
+    "og:logo": "/favicon.png",
+  }};
 
 export default function SubscribePage() {
   return (

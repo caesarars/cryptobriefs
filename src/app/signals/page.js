@@ -25,7 +25,11 @@ export const metadata = {
     index: true,
     follow: true,
   },
-};
+
+
+  other: {
+    "og:logo": "/favicon.png",
+  }};
 
 const SignalsPage = () => {
   return (

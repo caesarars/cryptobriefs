@@ -30,6 +30,9 @@ export async function generateMetadata({ params }) {
       index: true,
       follow: true,
     },
+    other: {
+      "og:logo": "/favicon.png",
+    },
   };
 }
 

@@ -74,6 +74,9 @@ export async function generateMetadata({ params }) {
     title: `${name} price, chart & key stats`,
     description: `Live ${name} price (USD), interactive chart, market stats, and key information. Not financial advice.`,
     alternates: { canonical: `https://cryptobriefs.net/${slug}` },
+    other: {
+      "og:logo": "/favicon.png",
+    },
   };
 }
 

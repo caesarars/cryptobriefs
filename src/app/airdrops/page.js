@@ -29,6 +29,9 @@ export async function generateMetadata() {
     alternates: {
       canonical: "https://cryptobriefs.net/airdrops",
     },
+    other: {
+      "og:logo": "/favicon.png",
+    },
   }
 }
 

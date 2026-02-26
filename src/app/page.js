@@ -36,7 +36,11 @@ export const metadata = {
   alternates: {
     canonical: "https://cryptobriefs.net",
   },
-};
+
+
+  other: {
+    "og:logo": "/favicon.png",
+  }};
 
 export default function Home() {
   return (

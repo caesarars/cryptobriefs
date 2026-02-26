@@ -16,7 +16,11 @@ export const metadata = {
     index: false,
     follow: true,
   },
-};
+
+
+  other: {
+    "og:logo": "/favicon.png",
+  }};
 
 export default function TermsPage() {
   return (

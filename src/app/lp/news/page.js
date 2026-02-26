@@ -2,7 +2,11 @@ export const metadata = {
   title: "Crypto news sentiment — fast signal | CryptoBriefs",
   description: "Scan crypto news sentiment and market mood quickly. Filter by coin and timeframe. Not financial advice.",
   alternates: { canonical: "https://cryptobriefs.net/lp/news" },
-};
+
+
+  other: {
+    "og:logo": "/favicon.png",
+  }};
 
 export default function NewsLanding() {
   return (

@@ -4,7 +4,11 @@ export const metadata = {
   title: "Get the 60-second crypto brief | CryptoBriefs",
   description: "Daily signal without the noise: sentiment snapshot, top movers, and one clear takeaway. Free. Unsubscribe anytime.",
   alternates: { canonical: "https://cryptobriefs.net/lp/brief" },
-};
+
+
+  other: {
+    "og:logo": "/favicon.png",
+  }};
 
 export default function BriefLanding() {
   return (

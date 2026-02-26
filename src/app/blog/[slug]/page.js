@@ -15,6 +15,9 @@ export async function generateMetadata({params}) {
     return {
       title: 'Blog Not Found | CryptoBriefs',
       description: 'This blog post could not be found.',
+      other: {
+        "og:logo": "/favicon.png",
+      },
     };
   }
   blog.formattedDate = new Date(blog.created_at).toUTCString();
@@ -73,6 +76,9 @@ export async function generateMetadata({params}) {
       title: `${cleanTitle} | CryptoBriefs`,
       description: cleanContent.slice(0, 100),
       images: [blog.imageUrl || '/default-og-image.jpg'],
+    },
+    other: {
+      "og:logo": "/favicon.png",
     },
   };
 }
