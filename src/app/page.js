@@ -28,6 +28,12 @@ export const metadata = {
     ],
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "CryptoBriefs - Latest Crypto News, Insights, and Trends",
+    description: "Daily crypto brief + news sentiment. Fast signal without the noise.",
+    images: ["https://cryptobriefs.net/og-image.png"],
+  },
   robots: {
     index: true,
     follow: true,
