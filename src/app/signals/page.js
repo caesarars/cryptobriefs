@@ -1,5 +1,6 @@
 import "./Signals.css";
 import SignalsForm from "./SignalsForm";
+import AffiliateBar from "@/app/component/AffiliateBar";
 
 export const metadata = {
   title: "Signal Alerts | CryptoBriefs",
@@ -42,6 +43,27 @@ const SignalsPage = () => {
         <p className="signals-footnote">
           You can unsubscribe anytime. Alerts are sent to your email.
         </p>
+
+        {/* Affiliate CTAs — act on your signals */}
+        <div className="signals-affiliate-row">
+          <AffiliateBar
+            href="https://partner.bybit.com/b/aff_13915_123677"
+            badge="⚡"
+            title="Act on your signals instantly"
+            sub="Trade crypto with low fees on Bybit"
+            cta="Trade on Bybit →"
+            theme="orange"
+          />
+          <AffiliateBar
+            href="https://www.tradingview.com/"
+            badge="📊"
+            title="Chart your signals on TradingView"
+            sub="Professional-grade charts trusted by 50M+ traders"
+            cta="Try TradingView →"
+            theme="blue"
+            disclaimer="Partner link"
+          />
+        </div>
       </div>
     </div>
   );

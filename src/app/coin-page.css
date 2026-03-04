@@ -299,6 +299,116 @@
   color: #22c55e;
 }
 
+/* ── Affiliate Trade CTA (inside hero) ─────────────────────────────────── */
+.coin-trade-cta-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.coin-trade-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #f7a600, #ff6b35);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(247, 166, 0, 0.35);
+  white-space: nowrap;
+}
+
+.coin-trade-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(247, 166, 0, 0.5);
+  color: #fff;
+}
+
+.coin-trade-disclaimer {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Affiliate Strip Banner (between sections) ──────────────────────────── */
+.coin-affiliate-strip {
+  background: linear-gradient(135deg, #1a0533 0%, #2d0a52 50%, #1a0533 100%);
+  border-top: 1px solid rgba(247, 166, 0, 0.2);
+  border-bottom: 1px solid rgba(247, 166, 0, 0.2);
+  padding: 20px 0;
+}
+
+.coin-affiliate-strip-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.coin-affiliate-strip-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.coin-affiliate-strip-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.coin-affiliate-strip-sub {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.coin-affiliate-strip-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #f7a600, #ff6b35);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(247, 166, 0, 0.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.coin-affiliate-strip-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(247, 166, 0, 0.5);
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .coin-affiliate-strip-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coin-affiliate-strip-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .coin-trade-cta-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coin-trade-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 /* Bottom Section - White/Light Background */
 .coin-bottom-section {
   background: #ffffff;

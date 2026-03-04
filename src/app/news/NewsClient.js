@@ -10,6 +10,7 @@ import TrendingTopics from "../component/TrendingTopics";
 import Loading from "../component/loading/Loading";
 import Pagination from "../blogs/Pagination";
 import { api } from "../lib/backend";
+import AffiliateBar from "../component/AffiliateBar";
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -118,6 +119,19 @@ return (
             Scan headlines, filter by coin and sentiment, and keep tabs on what matters
             most in the market today.
           </p>
+
+          {/* Affiliate CTA — trade on today's news */}
+          <div className="news-affiliate-wrap">
+            <AffiliateBar
+              href="https://www.binance.com/en/activity/referral-entry"
+              badge="🔥"
+              title="Trade on today's news"
+              sub="350+ pairs, low fees, deep liquidity on Binance"
+              cta="Trade on Binance →"
+              theme="orange"
+              disclaimer="Partner link · Not financial advice"
+            />
+          </div>
         </div>
       </div>
     </section>

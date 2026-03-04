@@ -23,6 +23,7 @@ import trxImg from "@/app/assets/image/tron-trx-logo.png";
 import uniImg from "@/app/assets/image/uniswap-uni-logo.png";
 import xrpImg from "@/app/assets/image/xrp.png";
 import "./page.css";
+import AffiliateBar from "@/app/component/AffiliateBar";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
 
@@ -625,6 +626,28 @@ export default function PortfolioSentimentPage() {
         <p className="portfolio_notes">
           Notes: Score uses the {activeRange.notes} (<code>news</code>). If coverage is low, scores shrink toward 50.
         </p>
+
+        {/* Affiliate CTAs — portfolio-relevant tools */}
+        <div className="portfolio_affiliate_row">
+          <AffiliateBar
+            href="https://koinly.io/"
+            badge="🧾"
+            title="Calculate your crypto taxes automatically"
+            sub="Koinly supports 700+ exchanges, wallets & blockchains"
+            cta="Try Koinly Free →"
+            theme="green"
+            disclaimer="Partner link · Not financial advice"
+          />
+          <AffiliateBar
+            href="https://shop.ledger.com/"
+            badge="🔒"
+            title="Secure your portfolio with a hardware wallet"
+            sub="Ledger keeps your crypto safe from hacks & phishing"
+            cta="Get a Ledger →"
+            theme="gold"
+            disclaimer="Partner link"
+          />
+        </div>
       </div>
     </section>
   );

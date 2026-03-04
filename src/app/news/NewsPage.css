@@ -373,3 +373,8 @@
     padding: 10px;
   }
 }
+
+/* ── Affiliate bar in news hero ──────────────────────────────────────────── */
+.news-affiliate-wrap {
+  margin-top: 20px;
+}

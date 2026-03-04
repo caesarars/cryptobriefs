@@ -175,6 +175,19 @@ export default async function CoinPage({ params }) {
               initialChange24h={change24h}
               initialChange7d={change7d}
             />
+
+            {/* Affiliate Trade CTA */}
+            <div className="coin-trade-cta-wrapper">
+              <a
+                href="https://partner.bybit.com/b/aff_13915_123677"
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="coin-trade-btn"
+              >
+                Trade {symbol} on Bybit →
+              </a>
+              <span className="coin-trade-disclaimer">Affiliate link · Not financial advice</span>
+            </div>
           </div>
 
           {/* Chart + Stats Grid */}
@@ -246,6 +259,26 @@ export default async function CoinPage({ params }) {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Affiliate Strip Banner */}
+      <div className="coin-affiliate-strip">
+        <div className="coin-container">
+          <div className="coin-affiliate-strip-inner">
+            <div className="coin-affiliate-strip-text">
+              <span className="coin-affiliate-strip-title">Ready to trade {name}?</span>
+              <span className="coin-affiliate-strip-sub">Get up to $30,000 in bonuses on Bybit</span>
+            </div>
+            <a
+              href="https://partner.bybit.com/b/aff_13915_123677"
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="coin-affiliate-strip-btn"
+            >
+              Start Trading →
+            </a>
           </div>
         </div>
       </div>

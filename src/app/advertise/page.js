@@ -1,88 +1,244 @@
-import Link from "next/link";
+import "./advertise.css";
+import AdvertiseForm from "./AdvertiseForm";
 
 export const metadata = {
   title: "Advertise | CryptoBriefs",
-  description: "Sponsor CryptoBriefs newsletter placements and reach engaged crypto readers. Newsletter sponsorships, sponsored articles, and banner placements available.",
-  alternates: {
-    canonical: "https://cryptobriefs.net/advertise",
-  },
+  description:
+    "Sponsor CryptoBriefs newsletter and website. Reach engaged crypto readers with newsletter sponsorships, sponsored articles, and banner placements.",
+  alternates: { canonical: "https://cryptobriefs.net/advertise" },
   openGraph: {
-    title: "Advertise | CryptoBriefs",
-    description: "Reach engaged crypto readers through CryptoBriefs newsletter sponsorships and banner placements.",
+    title: "Advertise on CryptoBriefs",
+    description:
+      "Reach engaged crypto readers through newsletter sponsorships, sponsored articles, and banner placements on CryptoBriefs.",
     url: "https://cryptobriefs.net/advertise",
     siteName: "CryptoBriefs",
-    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630, alt: "CryptoBriefs" }],
+    images: [{ url: "https://cryptobriefs.net/og-image.png", width: 1200, height: 630 }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Advertise | CryptoBriefs",
-    description: "Reach engaged crypto readers through CryptoBriefs newsletter sponsorships and banner placements.",
+    title: "Advertise on CryptoBriefs",
+    description: "Reach engaged crypto readers. Newsletter, articles, banner placements.",
     images: ["https://cryptobriefs.net/og-image.png"],
   },
-  robots: {
-    index: true,
-    follow: true,
+  robots: { index: true, follow: true },
+  other: { "og:logo": "/favicon.png" },
+};
+
+/* ── Availability config — update these as slots sell ─────────────────── */
+const PACKAGES = [
+  {
+    icon: "📧",
+    name: "Newsletter Sponsorship",
+    price: "$50",
+    per: "/week",
+    desc: "One dedicated sponsor slot in the daily crypto brief. Early-adopter pricing — rates rise as the list grows.",
+    avail: "open",   // "open" | "limited" | "sold"
+    availLabel: "Available",
+    featured: false,
+    features: [
+      "1 exclusive slot per send",
+      "Your logo + 2–3 sentences + link",
+      "Sent to our growing subscriber list",
+      "7-day minimum commitment",
+      "Plain-text & HTML formats",
+    ],
+    cta: "Newsletter Sponsorship — $50/week",
   },
+  {
+    icon: "✍️",
+    name: "Sponsored Article",
+    price: "$350",
+    per: "/article",
+    desc: "Educational long-form content published on the CryptoBriefs blog with clear disclosure.",
+    avail: "open",
+    availLabel: "Available",
+    featured: true,
+    features: [
+      "800–1,200 word deep-dive",
+      "Published on blog + newsletter mention",
+      "Permanent do-follow backlink",
+      "\"Sponsored\" badge — 100% transparent",
+      "Social promotion included",
+    ],
+    cta: "Sponsored Article — $350/article",
+  },
+  {
+    icon: "🖼️",
+    name: "Website Banner",
+    price: "$150",
+    per: "/week",
+    desc: "Banner placement across homepage and article pages. Limited to 2 active slots.",
+    avail: "open",
+    availLabel: "Available",
+    featured: false,
+    features: [
+      "Homepage + article page placements",
+      "728×90 or 300×250 formats",
+      "Max 2 concurrent advertisers",
+      "No popups, no auto-play",
+      "7-day minimum",
+    ],
+    cta: "Website Banner — $150/week",
+  },
+  {
+    icon: "🪙",
+    name: "Coin Page Sponsor",
+    price: "$100",
+    per: "/week",
+    desc: "Your banner on a specific coin detail page (e.g. /bitcoin, /ethereum). Highly targeted.",
+    avail: "open",
+    availLabel: "Available",
+    featured: false,
+    features: [
+      "Target any 1 of 25+ coin pages",
+      "High-intent audience (active traders)",
+      "Logo + tagline + CTA link",
+      "No competing ads on same page",
+      "7-day minimum",
+    ],
+    cta: "Coin Page Sponsor — $100/week",
+  },
+];
 
-
-  other: {
-    "og:logo": "/favicon.png",
-  }};
-
-export default function AdvertisePage() {
+function AvailBadge({ status, label }) {
+  const cls =
+    status === "open"
+      ? "adv-card__avail--open"
+      : status === "limited"
+      ? "adv-card__avail--limited"
+      : "adv-card__avail--sold";
   return (
-    <div className="container py-5">
-      <h1 className="space-title">Advertise on CryptoBriefs</h1>
-      <p className="mt-3" style={{ maxWidth: 820, color: "#4b4b4b" }}>
-        Want to sponsor a placement in the CryptoBriefs newsletter or website?
-        We keep it simple: clear formats, transparent expectations, and no scammy offers.
-      </p>
-
-      <div className="row g-3 mt-2">
-        <div className="col-12 col-md-4">
-          <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
-            <div className="fw-bold">Newsletter sponsorship</div>
-            <div className="mt-2" style={{ color: "#4b4b4b" }}>
-              One sponsor slot in the daily/weekly brief.
-            </div>
-          </div>
-        </div>
-        <div className="col-12 col-md-4">
-          <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
-            <div className="fw-bold">Sponsored article</div>
-            <div className="mt-2" style={{ color: "#4b4b4b" }}>
-              Educational content with clear disclosure.
-            </div>
-          </div>
-        </div>
-        <div className="col-12 col-md-4">
-          <div className="p-4 rounded-4" style={{ background: "#f6f2fb" }}>
-            <div className="fw-bold">Banner placements</div>
-            <div className="mt-2" style={{ color: "#4b4b4b" }}>
-              Limited banner ads (no popups).
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-4 p-4 rounded-4" style={{ background: "#0b0b0f", color: "#fff" }}>
-        <div className="fw-bold" style={{ fontSize: "1.1rem" }}>
-          Contact
-        </div>
-        <div className="mt-2" style={{ opacity: 0.9 }}>
-          Email: <a href="mailto:admin@cryptobriefs.net">admin@cryptobriefs.net</a>
-        </div>
-        <div className="mt-3 d-flex gap-2 flex-wrap">
-          <Link className="btn btn-glow" href="/subscribe">Subscribe</Link>
-          <Link className="btn btn-outline-light" style={{ borderRadius: 50 }} href="/">Home</Link>
-        </div>
-      </div>
-
-      <p className="mt-4" style={{ color: "#6b7280" }}>
-        We do not accept misleading promotions. All sponsorships are disclosed.
-      </p>
-    </div>
+    <span className={`adv-card__avail ${cls}`}>
+      <span className="adv-card__dot" />
+      {label}
+    </span>
   );
 }
 
+export default function AdvertisePage() {
+  return (
+    <>
+      {/* ── Hero ────────────────────────────────────────────────────────── */}
+      <section className="adv-hero">
+        <div className="container">
+          <p className="adv-hero__eyebrow">Sponsorships & Advertising</p>
+          <h1 className="adv-hero__title">
+            Reach <span>engaged crypto readers</span> who actually trade
+          </h1>
+          <p className="adv-hero__sub">
+            CryptoBriefs is a growing crypto analytics platform publishing daily market
+            signals, sentiment analysis, and live coin data. Get in early — rates are
+            low now and will rise as the audience scales.
+          </p>
+          <a href="#inquiry" className="adv-hero__cta">
+            Get in touch →
+          </a>
+        </div>
+      </section>
+
+      {/* ── Stats bar ───────────────────────────────────────────────────── */}
+      <div className="adv-stats">
+        <div className="container">
+          <div className="adv-stats__grid">
+            <div className="adv-stat">
+              <span className="adv-stat__num"><span>25+</span></span>
+              <span className="adv-stat__label">Coin detail pages indexed</span>
+            </div>
+            <div className="adv-stat">
+              <span className="adv-stat__num"><span>Daily</span></span>
+              <span className="adv-stat__label">Market brief published</span>
+            </div>
+            <div className="adv-stat">
+              <span className="adv-stat__num"><span>Early</span></span>
+              <span className="adv-stat__label">Low rates, growing fast</span>
+            </div>
+            <div className="adv-stat">
+              <span className="adv-stat__num"><span>100%</span></span>
+              <span className="adv-stat__label">Disclosed sponsorships</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Packages ────────────────────────────────────────────────────── */}
+      <section className="adv-packages">
+        <div className="container">
+          <h2 className="adv-section-title">Sponsorship Packages</h2>
+          <p className="adv-section-sub">
+            Transparent pricing. No hidden fees. Availability updates in real time.
+          </p>
+
+          <div className="adv-cards">
+            {PACKAGES.map((pkg) => (
+              <div
+                key={pkg.name}
+                className={`adv-card${pkg.featured ? " adv-card--featured" : ""}`}
+              >
+                {pkg.featured && (
+                  <span className="adv-card__popular">Most popular</span>
+                )}
+
+                <div className="adv-card__icon">{pkg.icon}</div>
+                <div className="adv-card__name">{pkg.name}</div>
+                <div className="adv-card__price">
+                  {pkg.price}
+                  <sub>{pkg.per}</sub>
+                </div>
+                <div className="adv-card__desc">{pkg.desc}</div>
+
+                <AvailBadge status={pkg.avail} label={pkg.availLabel} />
+
+                <ul className="adv-card__features">
+                  {pkg.features.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
+
+                {pkg.avail === "sold" ? (
+                  <span className="adv-card__btn adv-card__btn--disabled">
+                    Currently sold out
+                  </span>
+                ) : (
+                  <a
+                    href="#inquiry"
+                    className={`adv-card__btn ${pkg.featured ? "adv-card__btn--primary" : "adv-card__btn--outline"}`}
+                    data-package={pkg.cta}
+                  >
+                    Inquire →
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Intake form ─────────────────────────────────────────────────── */}
+      <section className="adv-form-section" id="inquiry">
+        <div className="adv-form-wrap">
+          <h2 className="adv-section-title" style={{ textAlign: "center", marginBottom: 8 }}>
+            Send an inquiry
+          </h2>
+          <p className="adv-section-sub" style={{ marginBottom: 32 }}>
+            Fill in the form below and we&apos;ll reply within 24 hours.
+          </p>
+          <AdvertiseForm />
+        </div>
+      </section>
+
+      {/* ── Policy note ─────────────────────────────────────────────────── */}
+      <div className="adv-policy">
+        <div className="adv-policy__inner">
+          We do not accept misleading promotions, unverified projects, or anything we
+          wouldn&apos;t recommend to our readers. All sponsorships are clearly disclosed.
+          Questions? Email{" "}
+          <a href="mailto:admin@cryptobriefs.net" style={{ color: "#a78bfa" }}>
+            admin@cryptobriefs.net
+          </a>
+          .
+        </div>
+      </div>
+    </>
+  );
+}

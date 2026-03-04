@@ -275,3 +275,11 @@
     align-items: flex-start;
   }
 }
+
+/* ── Affiliate row on signals page ──────────────────────────────────────── */
+.signals-affiliate-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}

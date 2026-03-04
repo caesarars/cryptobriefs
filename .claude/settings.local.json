@@ -4,7 +4,10 @@
       "Bash(wc:*)",
       "Bash(ls:*)",
       "Bash(xargs:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(/Users/caesararssetya/cryptobriefs/src/app/signals/Signals.css:*)",
+      "Bash(/Users/caesararssetya/cryptobriefs/src/app/portfolio-sentiment/page.css:*)",
+      "Bash(/Users/caesararssetya/cryptobriefs/src/app/news/NewsPage.css:*)"
     ]
   }
 }
