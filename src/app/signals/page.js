@@ -21,15 +21,7 @@ export const metadata = {
     description: "Manage your crypto signal alerts, watchlist, and notification settings on CryptoBriefs.",
     images: ["https://cryptobriefs.net/og-image.png"],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
-
-
-  other: {
-    "og:logo": "/favicon.png",
-  }};
+};
 
 const SignalsPage = () => {
   return (
@@ -43,7 +35,6 @@ const SignalsPage = () => {
               Customize your watchlist, score threshold, and cooldown.
             </p>
           </div>
-          <div className="signals-badge">Premium Signal UI</div>
         </div>
 
         <SignalsForm />
@@ -57,4 +48,3 @@ const SignalsPage = () => {
 };
 
 export default SignalsPage;
-

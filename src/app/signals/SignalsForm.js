@@ -2,10 +2,26 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { trackEvent } from "../lib/analytics";
-
 import { api } from "../lib/backend";
 
 const API_BASE = api("/api/signals");
+
+const SCORE_META = [
+  { min: 7, bg: "rgba(56,176,94,0.15)", color: "#15803d", label: "High" },
+  { min: 4, bg: "rgba(244,188,22,0.15)", color: "#92400e", label: "Mid" },
+  { min: 0, bg: "rgba(255,79,79,0.12)", color: "#b91c1c", label: "Low" },
+];
+
+function getScoreMeta(score) {
+  return SCORE_META.find((c) => score >= c.min) ?? SCORE_META[2];
+}
+
+function formatTime(ts) {
+  if (!ts) return null;
+  const d = new Date(ts);
+  if (isNaN(d)) return null;
+  return d.toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" });
+}
 
 const SignalsForm = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +32,8 @@ const SignalsForm = () => {
   const [message, setMessage] = useState("");
   const [latestSignals, setLatestSignals] = useState([]);
   const [alerts, setAlerts] = useState([]);
+  const [prefLoading, setPrefLoading] = useState(false);
+  const [alertsLoading, setAlertsLoading] = useState(false);
 
   const watchlistArray = useMemo(() => {
     return watchlist
@@ -74,7 +92,13 @@ const SignalsForm = () => {
   };
 
   const handleLoadPreferences = async () => {
-    if (!email) return;
+    if (!email) {
+      setStatus("error");
+      setMessage("Please enter your email first.");
+      return;
+    }
+    setPrefLoading(true);
+    setMessage("");
     try {
       const response = await fetch(`${API_BASE}/preferences?email=${encodeURIComponent(email)}`);
       if (!response.ok) throw new Error();
@@ -90,17 +114,28 @@ const SignalsForm = () => {
     } catch {
       setStatus("error");
       setMessage("Could not load preferences. Make sure you are subscribed.");
+    } finally {
+      setPrefLoading(false);
     }
   };
 
   const handleLoadAlerts = async () => {
-    if (!email) return;
+    if (!email) {
+      setStatus("error");
+      setMessage("Please enter your email first.");
+      return;
+    }
+    setAlertsLoading(true);
     try {
       const response = await fetch(`${API_BASE}/alerts?email=${encodeURIComponent(email)}&limit=10`);
+      if (!response.ok) throw new Error();
       const data = await response.json();
       setAlerts(data.data || []);
     } catch {
-      // ignore
+      setStatus("error");
+      setMessage("Could not load alerts. Make sure you are subscribed.");
+    } finally {
+      setAlertsLoading(false);
     }
   };
 
@@ -121,7 +156,8 @@ const SignalsForm = () => {
         </label>
 
         <label className="signals-field">
-          Watchlist (comma separated)
+          Watchlist
+          <span className="signals-field-hint">Comma-separated coin symbols, e.g. BTC,ETH,SOL</span>
           <input
             type="text"
             name="watchlist"
@@ -134,25 +170,27 @@ const SignalsForm = () => {
 
         <div className="signals-grid">
           <label className="signals-field">
-            Min Score
+            Min Score (1–10)
+            <span className="signals-field-hint">Alert threshold — higher means stronger signals only</span>
             <input
               type="number"
               min="1"
               max="10"
               className="signals-input"
               value={minScore}
-              onChange={(event) => setMinScore(event.target.value)}
+              onChange={(event) => setMinScore(Number(event.target.value))}
             />
           </label>
           <label className="signals-field">
             Cooldown (hours)
+            <span className="signals-field-hint">Minimum gap between alerts for the same coin</span>
             <input
               type="number"
               min="1"
               max="48"
               className="signals-input"
               value={cooldownHours}
-              onChange={(event) => setCooldownHours(event.target.value)}
+              onChange={(event) => setCooldownHours(Number(event.target.value))}
             />
           </label>
         </div>
@@ -161,16 +199,29 @@ const SignalsForm = () => {
           <button type="submit" className="signals-button" disabled={status === "loading"}>
             {status === "loading" ? "Saving..." : "Save preferences"}
           </button>
-          <button type="button" className="signals-button ghost" onClick={handleLoadPreferences}>
-            Load preferences
+          <button
+            type="button"
+            className="signals-button ghost"
+            onClick={handleLoadPreferences}
+            disabled={prefLoading}
+          >
+            {prefLoading ? "Loading..." : "Load preferences"}
           </button>
-          <button type="button" className="signals-button ghost" onClick={handleLoadAlerts}>
-            View my alerts
+          <button
+            type="button"
+            className="signals-button ghost"
+            onClick={handleLoadAlerts}
+            disabled={alertsLoading}
+          >
+            {alertsLoading ? "Loading..." : "View my alerts"}
           </button>
         </div>
 
         {message ? (
-          <p className={status === "success" ? "signals-message success" : "signals-message error"}>
+          <p
+            role="alert"
+            className={status === "success" ? "signals-message success" : "signals-message error"}
+          >
             {message}
           </p>
         ) : null}
@@ -179,20 +230,40 @@ const SignalsForm = () => {
       <div className="signals-section glass">
         <div className="signals-section-header">
           <h2>Latest Signals</h2>
-          <span className="signals-chip">Live</span>
+          <div className="signals-section-header-actions">
+            <button
+              className="signals-refresh"
+              onClick={fetchLatestSignals}
+              aria-label="Refresh signals"
+              type="button"
+            >
+              ↻
+            </button>
+            <span className="signals-chip">Live</span>
+          </div>
         </div>
         {latestSignals.length === 0 ? (
           <p className="signals-muted">No signals yet.</p>
         ) : (
           <ul className="signals-list">
-            {latestSignals.map((signal) => (
-              <li key={signal._id}>
-                <strong>{signal.symbol}</strong> — score {signal.score}
-                <div className="signals-reasons">
-                  {(signal.reasons || []).slice(0, 3).join(" • ")}
-                </div>
-              </li>
-            ))}
+            {latestSignals.map((signal, index) => {
+              const { bg, color, label } = getScoreMeta(signal.score);
+              const time = formatTime(signal.triggeredAt ?? signal.createdAt);
+              return (
+                <li key={signal._id ?? index}>
+                  <div className="signals-list-row">
+                    <strong>{signal.symbol}</strong>
+                    <span className="signals-score-badge" style={{ background: bg, color }}>
+                      Score {signal.score} · {label}
+                    </span>
+                    {time ? <span className="signals-time">{time}</span> : null}
+                  </div>
+                  <div className="signals-reasons">
+                    {(signal.reasons || []).slice(0, 3).join(" • ")}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
@@ -203,17 +274,27 @@ const SignalsForm = () => {
           <span className="signals-chip muted">History</span>
         </div>
         {alerts.length === 0 ? (
-          <p className="signals-muted">No alerts yet. Enter email and click “View my alerts”.</p>
+          <p className="signals-muted">No alerts yet. Enter email and click "View my alerts".</p>
         ) : (
           <ul className="signals-list">
-            {alerts.map((alert) => (
-              <li key={alert._id}>
-                <strong>{alert.symbol}</strong> — score {alert.score}
-                <div className="signals-reasons">
-                  {(alert.reasons || []).slice(0, 3).join(" • ")}
-                </div>
-              </li>
-            ))}
+            {alerts.map((alert, index) => {
+              const { bg, color, label } = getScoreMeta(alert.score);
+              const time = formatTime(alert.triggeredAt ?? alert.createdAt);
+              return (
+                <li key={alert._id ?? index}>
+                  <div className="signals-list-row">
+                    <strong>{alert.symbol}</strong>
+                    <span className="signals-score-badge" style={{ background: bg, color }}>
+                      Score {alert.score} · {label}
+                    </span>
+                    {time ? <span className="signals-time">{time}</span> : null}
+                  </div>
+                  <div className="signals-reasons">
+                    {(alert.reasons || []).slice(0, 3).join(" • ")}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

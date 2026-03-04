@@ -55,18 +55,6 @@
   max-width: 520px;
 }
 
-.signals-badge {
-  align-self: center;
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--glass-highlight);
-  color: var(--accent);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  background: rgba(108, 92, 231, 0.08);
-}
-
 .glass {
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(108, 92, 231, 0.12);
@@ -84,9 +72,17 @@
 .signals-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   font-size: 14px;
-  color: #e6e9f4;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.signals-field-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 4px;
 }
 
 .signals-input {
@@ -128,15 +124,27 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.signals-button:hover {
+.signals-button:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 12px 24px rgba(108, 92, 231, 0.2);
+}
+
+.signals-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .signals-button.ghost {
   background: transparent;
   border: 1px solid rgba(108, 92, 231, 0.3);
-  color: #5b6275;
+  color: var(--muted);
+}
+
+.signals-button.ghost:hover:not(:disabled) {
+  background: rgba(108, 92, 231, 0.06);
+  border-color: rgba(108, 92, 231, 0.5);
+  color: var(--accent);
 }
 
 .signals-message {
@@ -167,6 +175,29 @@
   margin-bottom: 12px;
 }
 
+.signals-section-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.signals-refresh {
+  background: transparent;
+  border: 1px solid rgba(108, 92, 231, 0.25);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.signals-refresh:hover {
+  color: var(--accent);
+  border-color: rgba(108, 92, 231, 0.5);
+}
+
 .signals-chip {
   background: rgba(108, 92, 231, 0.12);
   color: var(--accent);
@@ -195,6 +226,26 @@
   border-radius: 12px;
   padding: 12px 14px;
   border: 1px solid rgba(108, 92, 231, 0.12);
+}
+
+.signals-list-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.signals-score-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.signals-time {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: auto;
 }
 
 .signals-reasons {

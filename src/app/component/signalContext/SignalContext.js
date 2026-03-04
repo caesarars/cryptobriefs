@@ -4,22 +4,28 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import './SignalContext.css';
 
+const INSIGHT_API = process.env.NEXT_PUBLIC_INSIGHT_API ?? 'https://ces.dbrata.my.id';
+
 export default function SignalContext() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     let alive = true;
+    setLoading(true);
+    setError(false);
 
     async function run() {
-      setLoading(true);
       try {
-        const res = await fetch('https://ces.dbrata.my.id/api/briefs/insight?coin=BTC&period=today');
+        const res = await fetch(`${INSIGHT_API}/api/briefs/insight?coin=BTC&period=today`);
         const json = await res.json();
         if (!alive) return;
         setData(json);
       } catch {
-        // ignore
+        if (!alive) return;
+        setError(true);
       } finally {
         if (alive) setLoading(false);
       }
@@ -29,7 +35,7 @@ export default function SignalContext() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [refreshKey]);
 
   const bullish = data?.sentimentCounts?.bullish ?? 0;
   const bearish = data?.sentimentCounts?.bearish ?? 0;
@@ -50,6 +56,14 @@ export default function SignalContext() {
             <p className="signal-sub">Sentiment + movers + why it matters (today)</p>
           </div>
           <div className="signal-actions">
+            <button
+              className="signal-refresh-btn"
+              onClick={() => setRefreshKey((k) => k + 1)}
+              aria-label="Refresh signal data"
+              type="button"
+            >
+              ↻
+            </button>
             <Link className="btn btn-glow" href="/brief">Read brief</Link>
             <Link className="btn btn-outline-dark signal-btn-ghost" href="/subscribe">Join newsletter</Link>
           </div>
@@ -65,6 +79,17 @@ export default function SignalContext() {
                 <span className="signal-skeleton-line signal-skeleton-line-sm" />
               </div>
             ))}
+          </div>
+        ) : error ? (
+          <div className="signal-error">
+            <p className="signal-error-text">Could not load market data.</p>
+            <button
+              className="signal-error-retry"
+              onClick={() => setRefreshKey((k) => k + 1)}
+              type="button"
+            >
+              Try again
+            </button>
           </div>
         ) : (
           <div className="signal-grid">
