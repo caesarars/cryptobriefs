@@ -69,6 +69,18 @@
   color: #fff;
 }
 
+.aff-bar--green .aff-bar__title {
+  color: #0f172a;
+}
+
+.aff-bar--green .aff-bar__sub {
+  color: #334155;
+}
+
+.aff-bar--green .aff-bar__disclaimer {
+  color: #475569;
+}
+
 /* ── Theme: gold (Ledger, hardware wallets) ──────────────────────────────── */
 .aff-bar--gold {
   background: linear-gradient(135deg, rgba(180, 130, 30, 0.08) 0%, rgba(120, 90, 10, 0.05) 100%);

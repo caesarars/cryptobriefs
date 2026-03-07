@@ -630,7 +630,7 @@ export default function PortfolioSentimentPage() {
         {/* Affiliate CTAs — portfolio-relevant tools */}
         <div className="portfolio_affiliate_row">
           <AffiliateBar
-            href="https://koinly.io/"
+            href="https://koinly.io/?via=B73B7177&utm_source=affiliate"
             badge="🧾"
             title="Calculate your crypto taxes automatically"
             sub="Koinly supports 700+ exchanges, wallets & blockchains"
@@ -639,7 +639,7 @@ export default function PortfolioSentimentPage() {
             disclaimer="Partner link · Not financial advice"
           />
           <AffiliateBar
-            href="https://shop.ledger.com/"
+            href="https://shop.ledger.com/?r=1720fb6f39c7"
             badge="🔒"
             title="Secure your portfolio with a hardware wallet"
             sub="Ledger keeps your crypto safe from hacks & phishing"
