@@ -98,6 +98,18 @@
   color: #fff;
 }
 
+.aff-bar--gold .aff-bar__title {
+  color: #1f2937;
+}
+
+.aff-bar--gold .aff-bar__sub {
+  color: #4b5563;
+}
+
+.aff-bar--gold .aff-bar__disclaimer {
+  color: #6b7280;
+}
+
 /* ── Internals ───────────────────────────────────────────────────────────── */
 .aff-bar__badge {
   width: 46px;
