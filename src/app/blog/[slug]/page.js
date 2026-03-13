@@ -10,6 +10,9 @@ import ReadingProgress from "./ReadingProgress";
 
 const stripMarkdown = (text = "") =>
   text
+    .replace(/\*+/, "")
+    .replace(/\\n/g, "\n")
+    .replace(/\\r/g, "\r")
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
     .replace(/`{1,3}([^`]+)`{1,3}/g, "$1")
@@ -17,6 +20,7 @@ const stripMarkdown = (text = "") =>
     .replace(/^\s*>\s?/gm, "")
     .replace(/^\s*[-*+]\s+/gm, "")
     .replace(/^\s*\d+\.\s+/gm, "")
+    .replace(/^\s*[*+-]\s+/, "")
     .replace(/(\*\*|__)(.*?)\1/g, "$2")
     .replace(/(\*|_)(.*?)\1/g, "$2")
     .replace(/~~(.*?)~~/g, "$1")
