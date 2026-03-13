@@ -8,6 +8,23 @@ import ReactMarkdown from "react-markdown";
 import StructuredData from "./StructuredData";
 import ReadingProgress from "./ReadingProgress";  
 
+const stripMarkdown = (text = "") =>
+  text
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/`{1,3}([^`]+)`{1,3}/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^\s*>\s?/gm, "")
+    .replace(/^\s*[-*+]\s+/gm, "")
+    .replace(/^\s*\d+\.\s+/gm, "")
+    .replace(/(\*\*|__)(.*?)\1/g, "$2")
+    .replace(/(\*|_)(.*?)\1/g, "$2")
+    .replace(/~~(.*?)~~/g, "$1")
+    .replace(/<[^>]*>/g, "")
+    .replace(/\r?\n+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 export async function generateMetadata({params}) {
   const slug = params.slug;
   const blog = await getBlog(slug);
@@ -133,7 +150,7 @@ const BlogDetail = async (props) => {
   const plainTextContent = isJSON
     ? contentSections.map((section) => section.text).join(" ") || ""
     : blog.content;
-  const cleanText = plainTextContent.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  const cleanText = stripMarkdown(plainTextContent);
   const wordCount = plainTextContent
     .replace(/<[^>]*>/g, "")
     .replace(/[^\w\s]/g, " ")
